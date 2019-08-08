@@ -2,13 +2,15 @@
 /* Draw into this object. You can either draw into a pixmap or set the array values directly
  */
 
-class signFrame
+#include <QImage>
+
+class Frame
 {
 public:
-    signFrame(/* args */);
-    ~signFrame();
+    Frame(/* args */) {};
+    ~Frame() {};
 
-    void convertImageToByteArray();
+    void convertImageToByteArray() {};
 
 private:
     QImage image;
