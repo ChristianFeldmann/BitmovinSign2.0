@@ -2,10 +2,13 @@
 #include <QApplication>
 
 #include "helpers/frame.h"
+#include "helpers/debugger_widget.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+    debugger_widget debugger;
+    debugger.show();
 
     //auto animation = selectNewAnimation();
     while (true)
@@ -19,4 +22,5 @@ int main(int argc, char *argv[])
         // sleep()
     }
     
+    return app.exec();
 }
