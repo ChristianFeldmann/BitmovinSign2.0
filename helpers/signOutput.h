@@ -8,7 +8,7 @@ public:
     signOutput();
     ~signOutput();
 
-    void pushData()
+    void pushData();
 
 private:
 };
