@@ -6,8 +6,8 @@ CONFIG += c++11
 
 HEADERS += animations/animationInterface.h
 HEADERS += effects/effectInterface.h
-HEADERS += helpers/signDrawer.h
-HEADERS += helpers/signOutput.h
+HEADERS += helpers/frame.h
+HEADERS += helpers/output.h
 
 SOURCES += bitmovinSign.cpp
 
