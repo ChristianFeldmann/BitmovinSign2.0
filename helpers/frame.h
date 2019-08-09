@@ -9,9 +9,9 @@
 struct Led
 {
     /* data */
-    char red;
-    char green;
-    char blue;
+    unsigned char red;
+    unsigned char green;
+    unsigned char blue;
 };
 
 

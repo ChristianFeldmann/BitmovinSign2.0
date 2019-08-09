@@ -14,8 +14,11 @@ public:
     Output();
     ~Output() {};
 
-    void pushData(Frame &f) {};
+    void pushData(Frame &f);
 
 private:
+    ws2811_t ledstring;
+
+    bool initialized{false};
 };
 
