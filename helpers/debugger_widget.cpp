@@ -4,6 +4,9 @@ debugger_widget::debugger_widget(QWidget *parent): QWidget(parent)
 {
    this->setGeometry(1000, 1000, 1000, 1000);
    this->setWindowTitle("Points");
+   QPalette pal = palette();
+   pal.setColor(QPalette::Window, Qt::black);
+   this->setPalette(pal);
    this->show();
 }
 

@@ -5,7 +5,7 @@
 #include "../animations/animationInterface.h"
 #include "debugger_widget.h"
 
-class player : public QObject
+class Player : public QObject
 {
     Q_OBJECT
 
@@ -17,8 +17,8 @@ private:
     virtual void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE; // Overloaded from QObject. Called when the timer fires.
 
 public:
-    player(QObject *parent = nullptr);
-    ~player(){};
+    Player(QObject *parent = nullptr);
+    ~Player(){};
 
     void set_animation(animationInterface *animation);
     void set_debugger(debugger_widget *debugger);

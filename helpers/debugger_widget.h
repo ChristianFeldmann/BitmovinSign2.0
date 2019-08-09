@@ -25,7 +25,7 @@ protected:
     std::vector<int> leds_partR = {42, 41, 8, 24, 24, 8}; 
 
     void paintEvent(QPaintEvent *event) override;
-    void draw_dots_line(QPainter *qp, QPointF start, QPointF end, int num_of_dots, int counter);
+    void draw_dots_line(QPainter *qp, QPointF start, QPointF end, int num_of_dots, int &counter);
     void draw_lines_from_points(QPainter *qp, std::vector<QPointF> point_list, std::vector<int> led_list, int factor, int &counter);
     void draw_points(QPainter *qp);
     Frame frame;

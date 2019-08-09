@@ -7,6 +7,8 @@
 #include "helpers/frame.h"
 #include "output/output.h"
 #include "helpers/debugger_widget.h"
+#include "helpers/player.h"
+#include "animations/animation1.h"
 
 int main(int argc, char *argv[])
 {
@@ -16,7 +18,11 @@ int main(int argc, char *argv[])
     
     Output o;
     debugger_widget debugger;
-    debugger.show();
+    Player player;
+    animation1 anim1;
+
+    player.set_debugger(&debugger);
+    player.set_animation(&anim1);
 
     //auto animation = selectNewAnimation();
     // while (true)
@@ -29,6 +35,7 @@ int main(int argc, char *argv[])
 
     //     // sleep()
     // }
+    debugger.show();
     
     return app.exec();
 }

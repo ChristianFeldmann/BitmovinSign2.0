@@ -20,4 +20,8 @@ void animation1::render_frame(Frame &frame)
     }
 
     this->counter++;
+    if (this->counter > 489)
+    {
+        this->counter = 0;
+    }
 }
