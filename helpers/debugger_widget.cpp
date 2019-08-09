@@ -13,7 +13,6 @@ debugger_widget::debugger_widget(QWidget *parent): QWidget(parent)
 void debugger_widget::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
-    painter.begin(this);
     this->draw_points(&painter);
     painter.end();
 }
