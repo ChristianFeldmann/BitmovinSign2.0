@@ -1,15 +1,18 @@
 #pragma once
 
+#pragma once
 /* The actual output which pushes the data to the sign
  */
 
-#include "frame.h"
+#include "../helpers/frame.h"
 
-class signOutput
+#include "ws2811.h"
+
+class Output
 {
 public:
-    signOutput();
-    ~signOutput();
+    Output();
+    ~Output() {};
 
     void pushData(Frame &f) {};
 
