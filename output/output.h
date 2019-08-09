@@ -5,6 +5,8 @@
 
 #include "../helpers/frame.h"
 
+#include "ws2811.h"
+
 class Output
 {
 public:
@@ -14,5 +16,6 @@ public:
     void pushData(Frame &f) {};
 
 private:
+    ws2811_t ledstring;
 };
 
