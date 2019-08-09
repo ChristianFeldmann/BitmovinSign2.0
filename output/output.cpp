@@ -7,6 +7,7 @@
 
 Output::Output()
 {
+#ifdef __arm__
     ledstring.freq = WS2811_TARGET_FREQ;
     ledstring.dmanum = 10;
     ledstring.render_wait_time = 0;
@@ -26,18 +27,24 @@ Output::Output()
         qDebug() << "ws2811_init failed: " << ws2811_get_return_t_str(ret);
         return;
     }
+#endif
 
     initialized = true;
 }
 
 Output::~Output()
 {
+#ifdef __arm__
     ws2811_fini(&this->ledstring);
+#endif
 }
 
 void Output::pushData(Frame &f)
 {
+    if (!initialized)
+        return;
     // qDebug() << "Rendering...";
+#ifdef __arm__
     
     // Convert from frame data to ws2811 data format
     for (int i = 0; i < 489; i++)
@@ -55,4 +62,5 @@ void Output::pushData(Frame &f)
     {
         qDebug() << "render failed: " << ws2811_get_return_t_str(ret);
     }
+#endif
 }
