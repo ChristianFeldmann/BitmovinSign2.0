@@ -9,7 +9,9 @@ HEADERS += effects/effectInterface.h
 HEADERS += helpers/frame.h
 HEADERS += helpers/output.h
 HEADERS += helpers/debugger_widget.h
+HEADERS += helpers/player.h
 
 SOURCES += bitmovinSign.cpp
 SOURCES += helpers/debugger_widget.cpp
+SOURCES += helpers/player.cpp
 

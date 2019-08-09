@@ -5,16 +5,24 @@
 
 #include <QImage>
 
+struct Led
+{
+    /* data */
+    char red;
+    char green;
+    char blue;
+};
+
+
 class Frame
 {
 public:
     Frame(/* args */) {};
     ~Frame() {};
+    std::vector<Led> led;
 
     void convertImageToByteArray() {};
 
 private:
     QImage image;
-    char led[1000];
 };
-

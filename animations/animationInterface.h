@@ -8,6 +8,5 @@ public:
     animationInterface();
     ~animationInterface();
 
-    void draw(Frame &f) = 0;
-
+    virtual void render_frame(Frame &f) = 0;
 };
