@@ -1,3 +1,4 @@
+#pragma once
 
 #include "../helpers/frame.h"
 

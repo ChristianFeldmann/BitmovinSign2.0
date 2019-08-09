@@ -1,3 +1,4 @@
+#pragma once
 
 #pragma once
 /* The actual output which pushes the data to the sign
