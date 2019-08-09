@@ -16,12 +16,13 @@ int main(int argc, char *argv[])
     
     qDebug() << "Hello from the Bitmovin Sign";
     
-    Output o;
+    Output output;
     debugger_widget debugger;
     Player player;
     animation1 anim1;
 
     player.set_debugger(&debugger);
+    player.set_output(&output);
     player.set_animation(&anim1);
 
     //auto animation = selectNewAnimation();
