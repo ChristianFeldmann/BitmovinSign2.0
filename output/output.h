@@ -16,6 +16,5 @@ public:
     void pushData(Frame &f) {};
 
 private:
-    ws2811_t ledstring;
 };
 
