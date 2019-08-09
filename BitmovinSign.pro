@@ -17,6 +17,7 @@ HEADERS += output/dma.h
 HEADERS += output/pcm.h
 HEADERS += helpers/debugger_widget.h
 HEADERS += helpers/player.h
+HEADERS += animations/animation1.h
 
 SOURCES += bitmovinSign.cpp
 SOURCES += output/output.cpp
@@ -28,4 +29,5 @@ SOURCES += output/dma.c
 SOURCES += output/pcm.c
 SOURCES += helpers/debugger_widget.cpp
 SOURCES += helpers/player.cpp
+SOURCES += animations/animation1.cpp
 

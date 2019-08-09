@@ -1,0 +1,10 @@
+animationType: matrix
+matrixParam: left 
+colorStep: 30
+animationSpeed: 30
+animationWidth: 1
+colors:
+3
+255 0 0
+0 255 0
+255 0 0
