@@ -4,6 +4,8 @@
 
 #include <QImage>
 
+#define TOTAL_LEDS 489
+
 struct Led
 {
     /* data */
@@ -16,7 +18,7 @@ struct Led
 class Frame
 {
 public:
-    Frame(/* args */) {};
+    Frame(/* args */) {led = std::vector<Led>(TOTAL_LEDS);};
     ~Frame() {};
     std::vector<Led> led;
 
