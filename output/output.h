@@ -12,7 +12,7 @@ class Output
 {
 public:
     Output();
-    ~Output();
+    ~Output() {};
 
     void pushData(Frame &f) {};
 
