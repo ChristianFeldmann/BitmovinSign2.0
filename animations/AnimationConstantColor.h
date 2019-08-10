@@ -7,11 +7,11 @@ class AnimationConstantColor: public AnimationInterface
 {
 public:
     AnimationConstantColor();
-    AnimationConstantColor(Led &color);
+    AnimationConstantColor(LedColor &color);
     
     void render_frame(Frame &frame) override;
 
 private:
-    Led color;
+    LedColor color;
 };
 

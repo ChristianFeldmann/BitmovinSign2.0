@@ -9,6 +9,8 @@ Player::Player(QObject *parent):QObject(parent)
 
 void Player::timerEvent(QTimerEvent *event)
 {
+    Q_UNUSED(event);
+    
     Frame frame;
     if (this->animation != nullptr)
         this->animation->render_frame(frame);

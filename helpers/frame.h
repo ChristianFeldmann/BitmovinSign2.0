@@ -3,31 +3,32 @@
  */
 
 #include <QImage>
+#include <QColor>
 
 #define TOTAL_LEDS 489
 
-struct Led
+struct LedColor
 {
-    Led() {};
-    Led(unsigned char red, unsigned char green, unsigned char blue) :
+    LedColor() {};
+    LedColor(unsigned char red, unsigned char green, unsigned char blue) :
         red(red), green(green), blue(blue) {}
+    QColor getQColor() { return QColor(red, green, blue); }
 
     /* data */
     unsigned char red {0};
     unsigned char green {0};
     unsigned char blue {0};
+
+    static LedColor black;
 };
 
-
-class Frame
+struct Frame
 {
-public:
-    Frame(/* args */) {led = std::vector<Led>(TOTAL_LEDS);};
+    Frame(/* args */) {ledData = std::vector<LedColor>(TOTAL_LEDS);};
     ~Frame() {};
-    std::vector<Led> led;
 
     void convertImageToByteArray() {};
 
-private:
     QImage image;
+    std::vector<LedColor> ledData;
 };

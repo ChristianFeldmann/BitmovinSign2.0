@@ -2,10 +2,10 @@
 
 AnimationRunningDot::AnimationRunningDot()
 {
-    color = Led(30, 171, 226);
+    color = LedColor(30, 171, 226);
 }
 
-AnimationRunningDot::AnimationRunningDot(Led &color)
+AnimationRunningDot::AnimationRunningDot(LedColor &color)
 {
     this->color = color;
 }
@@ -16,11 +16,11 @@ void AnimationRunningDot::render_frame(Frame &frame)
     {
         if (this->counter == i)
         {
-            frame.led[i] = this->color;
+            frame.ledData[i] = this->color;
         }
         else
         {
-            frame.led[i] = Led();
+            frame.ledData[i] = LedColor::black;
         }
     }
 
