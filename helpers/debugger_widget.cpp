@@ -50,10 +50,10 @@ void debugger_widget::draw_points(QPainter *qp)
     int factor = std::min(this->size().width(), this->size().height());
     int led_counter = 0;
 
-    this->draw_lines_from_points(qp, this->points_base, this->leds_base, factor, led_counter);
-    this->draw_lines_from_points(qp, this->points_partL, this->leds_partL, factor, led_counter);
-    this->draw_lines_from_points(qp, this->points_partM, this->leds_partM, factor, led_counter);
-    this->draw_lines_from_points(qp, this->points_partR, this->leds_partR, factor, led_counter);
+    this->draw_lines_from_points(qp, this->frame.points_base, this->frame.leds_base, factor, led_counter);
+    this->draw_lines_from_points(qp, this->frame.points_partL, this->frame.leds_partL, factor, led_counter);
+    this->draw_lines_from_points(qp, this->frame.points_partM, this->frame.leds_partM, factor, led_counter);
+    this->draw_lines_from_points(qp, this->frame.points_partR, this->frame.leds_partR, factor, led_counter);
 }
 
 void debugger_widget::draw(Frame &f)
