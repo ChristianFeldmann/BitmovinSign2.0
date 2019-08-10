@@ -5,12 +5,12 @@
 
 #include "frame.h"
 
-class debugger_widget : public QWidget
+class DebuggerWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    debugger_widget(QWidget *parent = nullptr);
+    DebuggerWidget(QWidget *parent = nullptr);
     void draw(Frame &frame);
     
 

@@ -1,8 +1,10 @@
-#include "player.h"
+#include "Player.h"
 
 Player::Player(QObject *parent):QObject(parent)
 {
     this->timer.start(20, Qt::PreciseTimer, this);
+
+    animation = animationHandler.getNextAnimation();
 }
 
 void Player::timerEvent(QTimerEvent *event)
@@ -16,17 +18,12 @@ void Player::timerEvent(QTimerEvent *event)
         this->output->pushData(frame);
 }
 
-void Player::set_animation(animationInterface *animation)
-{
-    this->animation = animation;
-}
-
 void Player::set_output(Output *output)
 {
     this->output = output;
 }
 
-void Player::set_debugger(debugger_widget *debugger)
+void Player::set_debugger(DebuggerWidget *debugger)
 {
     this->debugger = debugger;
 }
