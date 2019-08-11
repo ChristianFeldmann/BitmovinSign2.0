@@ -26,8 +26,10 @@ struct LedColor
 
 struct Frame
 {
-    Frame(/* args */) {ledData = std::vector<LedColor>(NR_LED_TOTAL);};
+    Frame();
     ~Frame() {};
+
+    unsigned int setRangeOfLedToColor(unsigned int startIdx, unsigned int nrLed, LedColor color);
 
     void convertImageToByteArray() {};
 

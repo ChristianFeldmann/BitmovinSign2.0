@@ -21,6 +21,7 @@ HEADERS += animations/AnimationHandler.h
 HEADERS += animations/AnimationHighlightRotation.h
 HEADERS += animations/AnimationRunningDot.h
 HEADERS += animations/AnimationConstantColor.h
+HEADERS += animations/AnimationUllas.h
 
 SOURCES += bitmovinSign.cpp
 SOURCES += output/Output.cpp
@@ -37,6 +38,7 @@ SOURCES += animations/AnimationHandler.cpp
 SOURCES += animations/AnimationHighlightRotation.cpp
 SOURCES += animations/AnimationRunningDot.cpp
 SOURCES += animations/AnimationConstantColor.cpp
+SOURCES += animations/AnimationUllas.cpp
 
 macx {
 
