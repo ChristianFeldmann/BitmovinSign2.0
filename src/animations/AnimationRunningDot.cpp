@@ -3,6 +3,7 @@
 AnimationRunningDot::AnimationRunningDot()
 {
     color = QColor(30, 171, 226);
+    color = Qt::red;
 }
 
 AnimationRunningDot::AnimationRunningDot(QColor &color)
@@ -10,17 +11,17 @@ AnimationRunningDot::AnimationRunningDot(QColor &color)
     this->color = color;
 }
 
-void AnimationRunningDot::renderFrame(Frame &frame)
+bool AnimationRunningDot::renderFrame(Frame &frame)
 {
     for (unsigned i = 0; i < NR_LED_TOTAL; i++)
     {
         if (this->counter == i)
         {
-            frame.ledData[i] = this->color;
+            frame.push_back(this->color);
         }
         else
         {
-            frame.ledData[i] = Qt::black;
+            frame.push_back(Qt::white);
         }
     }
 
@@ -28,5 +29,8 @@ void AnimationRunningDot::renderFrame(Frame &frame)
     if (this->counter > 489)
     {
         this->counter = 0;
+        return false;
     }
+
+    return true;
 }

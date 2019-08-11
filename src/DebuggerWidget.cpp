@@ -20,15 +20,18 @@ void DebuggerWidget::paintEvent(QPaintEvent *event)
 
 void DebuggerWidget::draw_dots_line(QPainter *qp, QPointF start, QPointF end, int num_of_dots, int &counter)
 {
-    for(int i = 0; i < num_of_dots; i++)
+    for(unsigned i = 0; i < num_of_dots; i++)
     {
-        float s = float(i + 1) / (num_of_dots + 1);
-        int x = start.x() + (end.x() - start.x()) * s;
-        int y = start.y() + (end.y() - start.y()) * s;
-        qp->setPen(this->frame.ledData[counter]);
-        qp->setBrush(this->frame.ledData[counter]);
-        qp->drawEllipse(x, y, 5, 5);
-        counter++;
+        if (i < this->frame.size())
+        {
+            float s = float(i + 1) / (num_of_dots + 1);
+            int x = start.x() + (end.x() - start.x()) * s;
+            int y = start.y() + (end.y() - start.y()) * s;
+            qp->setPen(this->frame[counter]);
+            qp->setBrush(this->frame[counter]);
+            qp->drawEllipse(x, y, 5, 5);
+            counter++;
+        }
     }
 }
 
@@ -57,6 +60,6 @@ void DebuggerWidget::draw_points(QPainter *qp)
 
 void DebuggerWidget::draw(Frame &f)
 {
-    this->frame.ledData = f.ledData;
+    this->frame = f;
     this->update();
 }

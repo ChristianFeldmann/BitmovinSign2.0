@@ -3,11 +3,15 @@
 #include <QDebug>
 
 #include <iostream>
+#include <memory>
 
-#include <Frame.h>
+#include <Constants.h>
 #include <Output.h>
 #include <DebuggerWidget.h>
 #include <Player.h>
+#include <animations/AnimationConstantColor.h>
+#include <animations/AnimationHighlightRotation.h>
+#include <animations/AnimationRunningDot.h>
 
 int main(int argc, char *argv[])
 {
@@ -17,7 +21,11 @@ int main(int argc, char *argv[])
     
     Output output;
     DebuggerWidget debugger;
-    Player player;
+    AnimationList animationList({std::make_shared<AnimationHighlightRotation>()
+                                ,std::make_shared<AnimationRunningDot>()
+                                ,std::make_shared<AnimationConstantColor>()
+                                });
+    Player player(animationList);
 
     player.set_debugger(&debugger);
     player.set_output(&output);

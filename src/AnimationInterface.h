@@ -1,11 +1,11 @@
 #pragma once
 
-#include <Frame.h>
+#include <Constants.h>
 
 class AnimationInterface
 {
 public:
-    virtual void renderFrame(Frame &f) = 0;
-
     virtual ~AnimationInterface() = default;
+
+    virtual bool renderFrame(Frame &f) = 0;
 };

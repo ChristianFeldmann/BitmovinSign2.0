@@ -1,14 +1,15 @@
 #pragma once
 
 #include <AnimationInterface.h>
-#include <Frame.h>
+#include <Constants.h>
 
 class AnimationRunningDot: public AnimationInterface
 {
 public:
     AnimationRunningDot();
     AnimationRunningDot(QColor &color);
-    void renderFrame(Frame &frame) override;
+    
+    bool renderFrame(Frame &frame) override;
 
 private:
     unsigned counter {0};

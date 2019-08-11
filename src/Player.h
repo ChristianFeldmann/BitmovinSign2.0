@@ -3,9 +3,9 @@
 #include <QBasicTimer>
 
 #include <AnimationInterface.h>
-#include <AnimationHandler.h>
 #include <Output.h>
 #include <DebuggerWidget.h>
+#include <Constants.h>
 
 #include <memory>
 
@@ -14,7 +14,7 @@ class Player : public QObject
     Q_OBJECT
 
 public:
-    Player(QObject *parent = nullptr);
+    Player(AnimationList animationList, QObject *parent = nullptr);
     ~Player(){};
 
     Player(const Player&) = delete;
@@ -29,6 +29,6 @@ private:
     DebuggerWidget *debugger;
     virtual void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE; // Overloaded from QObject. Called when the timer fires.
 
-    std::vector<std::unique_ptr<AnimationInterface>> animationStack;
-    AnimationHandler animationHandler;
+    AnimationList animationList;
+    unsigned currentAnimation{0};
 };

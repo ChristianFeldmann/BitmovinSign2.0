@@ -1,7 +1,7 @@
 #pragma once
 
 #include <AnimationInterface.h>
-#include <Frame.h>
+#include <Constants.h>
 
 class AnimationConstantColor: public AnimationInterface
 {
@@ -9,7 +9,7 @@ public:
     AnimationConstantColor();
     AnimationConstantColor(QColor &color);
     
-    void renderFrame(Frame &frame) override;
+    bool renderFrame(Frame &frame) override;
 
 private:
     QColor color;

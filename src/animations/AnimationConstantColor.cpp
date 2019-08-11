@@ -2,7 +2,7 @@
 
 AnimationConstantColor::AnimationConstantColor()
 {
-    color = BitmovinBlue;
+    color = Qt::green;
 }
 
 AnimationConstantColor::AnimationConstantColor(QColor &color)
@@ -10,10 +10,12 @@ AnimationConstantColor::AnimationConstantColor(QColor &color)
     this->color = color;
 }
 
-void AnimationConstantColor::renderFrame(Frame &frame)
+bool AnimationConstantColor::renderFrame(Frame &frame)
 {
     for (unsigned i = 0; i < NR_LED_TOTAL; i++)
     {
-        frame.ledData[i] = this->color;
+        frame.push_back(this->color);
     }
+
+    return false;
 }

@@ -1,10 +1,11 @@
-#include <Player.h>
+#include "Player.h"
 
-Player::Player(QObject *parent):QObject(parent)
+#include <Constants.h>
+
+Player::Player(AnimationList animationList, QObject *parent):QObject(parent)
+, animationList(animationList)
 {
     this->timer.start(20, Qt::PreciseTimer, this);
-
-    animationHandler.createNextAnimationStack(animationStack);
 }
 
 void Player::timerEvent(QTimerEvent *event)
@@ -12,10 +13,17 @@ void Player::timerEvent(QTimerEvent *event)
     Q_UNUSED(event);
 
     Frame frame;
-    for (auto &animation : this->animationStack)
+
+    if (currentAnimation > animationList.size())
     {
-        animation->renderFrame(frame);
+        return;
     }
+
+    if (!animationList[currentAnimation]->renderFrame(frame))
+    {
+        currentAnimation = (currentAnimation + 1) % animationList.size(); 
+    }
+
     if (this->debugger != nullptr)
     {
         this->debugger->draw(frame);

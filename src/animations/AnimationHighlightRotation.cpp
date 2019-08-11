@@ -2,7 +2,7 @@
 
 AnimationHighlightRotation::AnimationHighlightRotation()
 {
-    color = BitmovinBlue;
+    color = BITMOVIN_BLUE;
 }
 
 AnimationHighlightRotation::AnimationHighlightRotation(QColor &color)
@@ -10,8 +10,13 @@ AnimationHighlightRotation::AnimationHighlightRotation(QColor &color)
     this->color = color;
 }
 
-void AnimationHighlightRotation::renderFrame(Frame &frame)
+bool AnimationHighlightRotation::renderFrame(Frame &frame)
 {
+    for (unsigned i = 0; i < NR_LED_TOTAL; i++)
+    {
+        frame.push_back(Qt::white);
+    }
+
     auto setLeds = [&](unsigned int ledStartOffset, unsigned int nrLed, unsigned int shift, const unsigned int lengths[], int lengthsSize)
     {
         unsigned int idx = shift;
@@ -22,7 +27,7 @@ void AnimationHighlightRotation::renderFrame(Frame &frame)
                 if (i % 2 == 0)
                 {
                     assert(ledStartOffset + idx < NR_LED_TOTAL);
-                    frame.ledData[ledStartOffset + idx] = Qt::white;
+                    frame[ledStartOffset + idx] = this->color;
                 }
                 idx++;
                 idx = idx % nrLed;
@@ -49,17 +54,29 @@ void AnimationHighlightRotation::renderFrame(Frame &frame)
     if (++this->rotationCounters[0] >= NR_LED_BACKGROUND)
     {
         this->rotationCounters[0] = 0;
+        this->counter++;
     }
     if (++this->rotationCounters[1] >= NR_LED_PART_LEFT)
     {
         this->rotationCounters[1] = 0;
+        this->counter++;
     }
     if (++this->rotationCounters[2] >= NR_LED_PART_MIDDLE)
     {
         this->rotationCounters[2] = 0;
+        this->counter++;
     }
     if (++this->rotationCounters[3] >= NR_LED_PART_RIGHT)
     {
         this->rotationCounters[3] = 0;
+        this->counter++;
     }
+
+    if (this->counter >= 4)
+    {
+        this->counter = 0;
+        return false;
+    }
+
+    return true;
 }

@@ -2,7 +2,7 @@
 /* The actual output which pushes the data to the sign
  */
 
-#include <Frame.h>
+#include <Constants.h>
 
 #ifdef __arm__
 #include <ws2811/ws2811.h>

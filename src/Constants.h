@@ -1,6 +1,9 @@
 #pragma once
 
 #include <vector>
+#include <QColor>
+
+class AnimationInterface;
 
 const unsigned NR_LED_TOTAL = 489;
 const unsigned NR_LED_BACKGROUND = 206;
@@ -17,4 +20,7 @@ const std::vector<int> LED_PARTS_PART_LEFT = {14, 14, 2, 7, 7, 2};
 const std::vector<int> LED_PARTS_PART_MIDDLE = {26, 26, 5, 14, 14, 5};
 const std::vector<int> LED_PARTS_PART_RIGHT = {42, 41, 8, 24, 24, 8};
 
-const QColor BitmovinBlue = QColor(30, 171, 226);
+const QColor BITMOVIN_BLUE = QColor(30, 171, 226);
+
+using Frame = std::vector<QColor>;
+using AnimationList = std::vector<std::shared_ptr<AnimationInterface>>;
