@@ -4,11 +4,10 @@
 
 #include <iostream>
 
-#include "helpers/frame.h"
-#include "output/output.h"
-#include "helpers/debugger_widget.h"
-#include "helpers/player.h"
-#include "animations/animation1.h"
+#include "helpers/Frame.h"
+#include "output/Output.h"
+#include "helpers/DebuggerWidget.h"
+#include "helpers/Player.h"
 
 int main(int argc, char *argv[])
 {
@@ -17,25 +16,12 @@ int main(int argc, char *argv[])
     qDebug() << "Hello from the Bitmovin Sign";
     
     Output output;
-    debugger_widget debugger;
+    DebuggerWidget debugger;
     Player player;
-    animation1 anim1;
 
     player.set_debugger(&debugger);
     player.set_output(&output);
-    player.set_animation(&anim1);
 
-    //auto animation = selectNewAnimation();
-    // while (true)
-    // {
-    //     Frame f;
-
-    //     //animation.draw(f);
-    //     //debugger.show(f);
-    //     //output.show(f);
-
-    //     // sleep()
-    // }
     debugger.show();
     
     return app.exec();

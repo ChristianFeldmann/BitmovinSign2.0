@@ -2,28 +2,34 @@
 
 #include <QBasicTimer>
 
-#include "../animations/animationInterface.h"
+#include "../animations/AnimationInterface.h"
+#include "../animations/AnimationHandler.h"
 #include "../output/output.h"
-#include "debugger_widget.h"
+#include "DebuggerWidget.h"
+
+#include <memory>
 
 class Player : public QObject
 {
     Q_OBJECT
 
-private:
-    /* data */
-    QBasicTimer timer;
-    animationInterface *animation{nullptr};
-    Output *output{nullptr};
-    debugger_widget *debugger;
-    virtual void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE; // Overloaded from QObject. Called when the timer fires.
-
 public:
     Player(QObject *parent = nullptr);
     ~Player(){};
 
-    void set_animation(animationInterface *animation);
+    Player(const Player&) = delete;
+    Player& operator =(const Player&) = delete;
+
     void set_output(Output *output);
-    void set_debugger(debugger_widget *debugger);
+    void set_debugger(DebuggerWidget *debugger);
+
+private:
+    QBasicTimer timer;
+    Output *output{nullptr};
+    DebuggerWidget *debugger;
+    virtual void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE; // Overloaded from QObject. Called when the timer fires.
+
+    std::vector<std::unique_ptr<AnimationInterface>> animationStack;
+    AnimationHandler animationHandler;
 };
 

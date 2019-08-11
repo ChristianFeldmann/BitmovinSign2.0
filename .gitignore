@@ -30,3 +30,19 @@
 *.exe
 *.out
 *.app
+
+# Build directories
+debug/
+release/
+
+# Generated Makefiles
+Makefile
+Makefile.Debug
+Makefile.Release
+
+# Temporary files
+.qmake.stash
+
+# Vscode settings
+settings.json
+launch.json

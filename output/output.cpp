@@ -50,9 +50,9 @@ void Output::pushData(Frame &f)
     for (int i = 0; i < 489; i++)
     {
         ws2811_led_t v = 0;
-        v += ((f.led[i].green) << 16);
-        v += ((f.led[i].red) << 8);
-        v += (f.led[i].blue);
+        v += ((f.ledData[i].green) << 16);
+        v += ((f.ledData[i].red) << 8);
+        v += (f.ledData[i].blue);
 
         ledstring.channel[0].leds[i] = v;
     }

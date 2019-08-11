@@ -1,6 +1,6 @@
-#include "debugger_widget.h"
+#include "DebuggerWidget.h"
 
-debugger_widget::debugger_widget(QWidget *parent): QWidget(parent)
+DebuggerWidget::DebuggerWidget(QWidget *parent): QWidget(parent)
 {
    this->setGeometry(1000, 1000, 1000, 1000);
    this->setWindowTitle("Points");
@@ -10,33 +10,32 @@ debugger_widget::debugger_widget(QWidget *parent): QWidget(parent)
    this->show();
 }
 
-void debugger_widget::paintEvent(QPaintEvent *event)
+void DebuggerWidget::paintEvent(QPaintEvent *event)
 {
+    Q_UNUSED(event);
     QPainter painter(this);
     this->draw_points(&painter);
     painter.end();
 }
 
-void debugger_widget::draw_dots_line(QPainter *qp, QPointF start, QPointF end, int num_of_dots, int &counter)
+void DebuggerWidget::draw_dots_line(QPainter *qp, QPointF start, QPointF end, int num_of_dots, int &counter)
 {
     for(int i = 0; i < num_of_dots; i++)
     {
         float s = float(i + 1) / (num_of_dots + 1);
         int x = start.x() + (end.x() - start.x()) * s;
         int y = start.y() + (end.y() - start.y()) * s;
-        qp->setPen(QColor(this->frame.led[counter].red, this->frame.led[counter].green, this->frame.led[counter].blue));
-        qp->setBrush(QColor(this->frame.led[counter].red, this->frame.led[counter].green, this->frame.led[counter].blue));
-        // qp->setPen(Qt::red);
-        // qp->setBrush(Qt::red);
+        qp->setPen(this->frame.ledData[counter].getQColor());
+        qp->setBrush(this->frame.ledData[counter].getQColor());
         qp->drawEllipse(x, y, 5, 5);
         counter++;
     }
 }
 
-void debugger_widget::draw_lines_from_points(QPainter *qp, std::vector<QPointF> point_list, std::vector<int> led_list, int factor, int &counter)
+void DebuggerWidget::draw_lines_from_points(QPainter *qp, std::vector<QPointF> point_list, std::vector<int> led_list, int factor, int &counter)
 {
-    int num_of_lines = point_list.size();
-    for (int i = 0; i < num_of_lines; i++)
+    auto num_of_lines = point_list.size();
+    for (size_t i = 0; i < num_of_lines; i++)
     {
         QPointF start = point_list[i];
         QPointF end = point_list[(i+1) % num_of_lines];
@@ -45,7 +44,7 @@ void debugger_widget::draw_lines_from_points(QPainter *qp, std::vector<QPointF> 
     }
 }
 
-void debugger_widget::draw_points(QPainter *qp)
+void DebuggerWidget::draw_points(QPainter *qp)
 {
     int factor = std::min(this->size().width(), this->size().height());
     int led_counter = 0;
@@ -56,8 +55,8 @@ void debugger_widget::draw_points(QPainter *qp)
     this->draw_lines_from_points(qp, this->points_partR, this->leds_partR, factor, led_counter);
 }
 
-void debugger_widget::draw(Frame &f)
+void DebuggerWidget::draw(Frame &f)
 {
-    this->frame.led = f.led;
+    this->frame.ledData = f.ledData;
     this->update();
 }
