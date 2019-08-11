@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../helpers/frame.h"
+#include "frame.h"
 
 class AnimationInterface
 {

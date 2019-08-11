@@ -1,74 +1,75 @@
 QT += widgets
 
-TARGET = BitmovinSign
+TARGET = bin/BitmovinSign
 TEMPLATE = app
 CONFIG += c++11
 
-HEADERS += output/Output.h
-HEADERS += output/pwm.h
-HEADERS += output/rpihw.h
-HEADERS += output/mailbox.h
-HEADERS += output/clk.h
-HEADERS += output/gpio.h
-HEADERS += output/dma.h
-HEADERS += output/pcm.h
-HEADERS += helpers/DebuggerWidget.h
-HEADERS += helpers/definitions.h
-HEADERS += helpers/Frame.h
-HEADERS += helpers/Player.h
-HEADERS += animations/AnimationInterface.h
-HEADERS += animations/AnimationHandler.h
-HEADERS += animations/AnimationHighlightRotation.h
-HEADERS += animations/AnimationRunningDot.h
-HEADERS += animations/AnimationConstantColor.h
 
-SOURCES += bitmovinSign.cpp
-SOURCES += output/Output.cpp
-SOURCES += output/pwm.c
-SOURCES += output/ws2811.c
-SOURCES += output/rpihw.c
-SOURCES += output/mailbox.c
-SOURCES += output/dma.c
-SOURCES += output/pcm.c
-SOURCES += helpers/DebuggerWidget.cpp
-SOURCES += helpers/Player.cpp
-SOURCES += animations/AnimationHandler.cpp
-SOURCES += animations/AnimationHighlightRotation.cpp
-SOURCES += animations/AnimationRunningDot.cpp
-SOURCES += animations/AnimationConstantColor.cpp
+HEADERS += lib/ws2811/pwm.h
+HEADERS += lib/ws2811/rpihw.h
+HEADERS += lib/ws2811/mailbox.h
+HEADERS += lib/ws2811/clk.h
+HEADERS += lib/ws2811/gpio.h
+HEADERS += lib/ws2811/dma.h
+HEADERS += lib/ws2811/pcm.h
+HEADERS += src/Output.h
+HEADERS += src/DebuggerWidget.h
+HEADERS += src/definitions.h
+HEADERS += src/Frame.h
+HEADERS += src/Player.h
+HEADERS += src/AnimationInterface.h
+HEADERS += src/AnimationHandler.h
+HEADERS += src/animations/AnimationHighlightRotation.h
+HEADERS += src/animations/AnimationRunningDot.h
+HEADERS += src/animations/AnimationConstantColor.h
+
+SOURCES += src/bitmovinSign.cpp
+SOURCES += src/Output.cpp
+SOURCES += lib/ws2811/pwm.c
+SOURCES += lib/ws2811/ws2811.c
+SOURCES += lib/ws2811/rpihw.c
+SOURCES += lib/ws2811/mailbox.c
+SOURCES += lib/ws2811/dma.c
+SOURCES += lib/ws2811/pcm.c
+SOURCES += src/DebuggerWidget.cpp
+SOURCES += src/Player.cpp
+SOURCES += src/AnimationHandler.cpp
+SOURCES += src/animations/AnimationHighlightRotation.cpp
+SOURCES += src/animations/AnimationRunningDot.cpp
+SOURCES += src/animations/AnimationConstantColor.cpp
 
 macx {
 
-HEADERS -= output/pwm.h
-HEADERS -= output/rpihw.h
-HEADERS -= output/mailbox.h
-HEADERS -= output/clk.h
-HEADERS -= output/gpio.h
-HEADERS -= output/dma.h
-HEADERS -= output/pcm.h
+HEADERS -= lib/ws2811/pwm.h
+HEADERS -= lib/ws2811/rpihw.h
+HEADERS -= lib/ws2811/mailbox.h
+HEADERS -= lib/ws2811/clk.h
+HEADERS -= lib/ws2811/gpio.h
+HEADERS -= lib/ws2811/dma.h
+HEADERS -= lib/ws2811/pcm.h
 
-SOURCES -= output/pwm.c
-SOURCES -= output/ws2811.c
-SOURCES -= output/rpihw.c
-SOURCES -= output/mailbox.c
-SOURCES -= output/dma.c
-SOURCES -= output/pcm.c
+SOURCES -= lib/ws2811/pwm.c
+SOURCES -= lib/ws2811/ws2811.c
+SOURCES -= lib/ws2811/rpihw.c
+SOURCES -= lib/ws2811/mailbox.c
+SOURCES -= lib/ws2811/dma.c
+SOURCES -= lib/ws2811/pcm.c
 }
 
 win32 {
 
-HEADERS -= output/pwm.h
-HEADERS -= output/rpihw.h
-HEADERS -= output/mailbox.h
-HEADERS -= output/clk.h
-HEADERS -= output/gpio.h
-HEADERS -= output/dma.h
-HEADERS -= output/pcm.h
+HEADERS -= lib/ws2811/pwm.h
+HEADERS -= lib/ws2811/rpihw.h
+HEADERS -= lib/ws2811/mailbox.h
+HEADERS -= lib/ws2811/clk.h
+HEADERS -= lib/ws2811/gpio.h
+HEADERS -= lib/ws2811/dma.h
+HEADERS -= lib/ws2811/pcm.h
 
-SOURCES -= output/pwm.c
-SOURCES -= output/ws2811.c
-SOURCES -= output/rpihw.c
-SOURCES -= output/mailbox.c
-SOURCES -= output/dma.c
-SOURCES -= output/pcm.c
+SOURCES -= lib/ws2811/pwm.c
+SOURCES -= lib/ws2811/ws2811.c
+SOURCES -= lib/ws2811/rpihw.c
+SOURCES -= lib/ws2811/mailbox.c
+SOURCES -= lib/ws2811/dma.c
+SOURCES -= lib/ws2811/pcm.c
 }

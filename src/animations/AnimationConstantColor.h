@@ -1,7 +1,7 @@
 #pragma once
 
-#include "AnimationInterface.h"
-#include "../helpers/frame.h"
+#include "../AnimationInterface.h"
+#include "../frame.h"
 
 class AnimationConstantColor: public AnimationInterface
 {

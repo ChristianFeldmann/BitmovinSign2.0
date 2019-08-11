@@ -2,9 +2,9 @@
 
 #include <QBasicTimer>
 
-#include "../animations/AnimationInterface.h"
-#include "../animations/AnimationHandler.h"
-#include "../output/output.h"
+#include "AnimationInterface.h"
+#include "AnimationHandler.h"
+#include "output.h"
 #include "DebuggerWidget.h"
 
 #include <memory>

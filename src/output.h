@@ -2,10 +2,10 @@
 /* The actual output which pushes the data to the sign
  */
 
-#include "../helpers/frame.h"
+#include "frame.h"
 
 #ifdef __arm__
-#include "ws2811.h"
+#include "lib/ws2811/ws2811.h"
 #endif
 
 class Output
