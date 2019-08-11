@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QBasicTimer>
+#include <QTimer>
 
 #include "../animations/AnimationInterface.h"
 #include "../animations/AnimationHandler.h"
@@ -23,13 +24,19 @@ public:
     void set_output(Output *output);
     void set_debugger(DebuggerWidget *debugger);
 
+private slots:
+    void changeAnimationTimer();
+
 private:
-    QBasicTimer timer;
+    QBasicTimer frameTimer;
     Output *output{nullptr};
     DebuggerWidget *debugger;
     virtual void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE; // Overloaded from QObject. Called when the timer fires.
 
     std::vector<std::unique_ptr<AnimationInterface>> animationStack;
     AnimationHandler animationHandler;
+
+    QTimer animationChangeTimer;
+    unsigned int animationIndex{ 0 };
 };
 

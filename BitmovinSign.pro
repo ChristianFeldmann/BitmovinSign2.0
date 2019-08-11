@@ -19,8 +19,12 @@ HEADERS += helpers/Player.h
 HEADERS += animations/AnimationInterface.h
 HEADERS += animations/AnimationHandler.h
 HEADERS += animations/AnimationHighlightRotation.h
+HEADERS += animations/AnimationHighlightSparkling.h
 HEADERS += animations/AnimationRunningDot.h
 HEADERS += animations/AnimationConstantColor.h
+HEADERS += animations/AnimationUllas.h
+HEADERS += animations/AnimationSegmentsFlashing.h
+HEADERS += animations/AnimationRainbow.h
 
 SOURCES += bitmovinSign.cpp
 SOURCES += output/Output.cpp
@@ -35,8 +39,12 @@ SOURCES += helpers/Frame.cpp
 SOURCES += helpers/Player.cpp
 SOURCES += animations/AnimationHandler.cpp
 SOURCES += animations/AnimationHighlightRotation.cpp
+SOURCES += animations/AnimationHighlightSparkling.cpp
 SOURCES += animations/AnimationRunningDot.cpp
 SOURCES += animations/AnimationConstantColor.cpp
+SOURCES += animations/AnimationUllas.cpp
+SOURCES += animations/AnimationSegmentsFlashing.cpp
+SOURCES += animations/AnimationRainbow.cpp
 
 macx {
 

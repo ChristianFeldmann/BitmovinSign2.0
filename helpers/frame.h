@@ -14,6 +14,8 @@ struct LedColor
         red(red), green(green), blue(blue) {}
     QColor getQColor() { return QColor(red, green, blue); }
 
+    static LedColor interpolateColors(LedColor &a, LedColor &b, double ratio);
+
     /* data */
     unsigned char red {0};
     unsigned char green {0};
@@ -26,8 +28,10 @@ struct LedColor
 
 struct Frame
 {
-    Frame(/* args */) {ledData = std::vector<LedColor>(NR_LED_TOTAL);};
+    Frame();
     ~Frame() {};
+
+    unsigned int setRangeOfLedToColor(unsigned int startIdx, unsigned int nrLed, LedColor color);
 
     void convertImageToByteArray() {};
 
