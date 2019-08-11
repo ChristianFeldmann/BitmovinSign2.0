@@ -133,22 +133,32 @@ void animation1::instagram_color(Frame &frame)
         this->set_num_of_leds(frame, count, frame.leds_base[5], 255, 150, 0);
     }
 
-    if (this->counter % 33 < 11)
+    if (this->counter % 55 < 11)
     {
         this->set_num_of_leds(frame, count, std::accumulate(frame.leds_partL.begin(), frame.leds_partL.end(), 0), 0, 150, 255);
         this->set_num_of_leds(frame, count, std::accumulate(frame.leds_partM.begin(), frame.leds_partM.end(), 0), 0, 0, 0);
         this->set_num_of_leds(frame, count, std::accumulate(frame.leds_partR.begin(), frame.leds_partR.end(), 0), 0, 0, 0);
         
-    } else if (this->counter % 33 < 22)
+    } else if (this->counter % 55 < 22)
     {
-        this->set_num_of_leds(frame, count, std::accumulate(frame.leds_partL.begin(), frame.leds_partL.end(), 0), 0, 0, 0);
+        this->set_num_of_leds(frame, count, std::accumulate(frame.leds_partL.begin(), frame.leds_partL.end(), 0), 0, 150, 255);
         this->set_num_of_leds(frame, count, std::accumulate(frame.leds_partM.begin(), frame.leds_partM.end(), 0), 0, 150, 255);
         this->set_num_of_leds(frame, count, std::accumulate(frame.leds_partR.begin(), frame.leds_partR.end(), 0), 0, 0, 0);
-    } else if (this->counter % 33 < 33)
+    } else if (this->counter % 55 < 33)
+    {
+        this->set_num_of_leds(frame, count, std::accumulate(frame.leds_partL.begin(), frame.leds_partL.end(), 0), 0, 150, 255);
+        this->set_num_of_leds(frame, count, std::accumulate(frame.leds_partM.begin(), frame.leds_partM.end(), 0), 0, 150, 255);
+        this->set_num_of_leds(frame, count, std::accumulate(frame.leds_partR.begin(), frame.leds_partR.end(), 0), 0, 150, 255);
+    } else if (this->counter % 55 < 44)
+    {
+        this->set_num_of_leds(frame, count, std::accumulate(frame.leds_partL.begin(), frame.leds_partL.end(), 0), 0, 150, 255);
+        this->set_num_of_leds(frame, count, std::accumulate(frame.leds_partM.begin(), frame.leds_partM.end(), 0), 0, 150, 255);
+        this->set_num_of_leds(frame, count, std::accumulate(frame.leds_partR.begin(), frame.leds_partR.end(), 0), 0, 150, 255);
+    } else if (this->counter % 55 < 55)
     {
         this->set_num_of_leds(frame, count, std::accumulate(frame.leds_partL.begin(), frame.leds_partL.end(), 0), 0, 0, 0);
         this->set_num_of_leds(frame, count, std::accumulate(frame.leds_partM.begin(), frame.leds_partM.end(), 0), 0, 0, 0);
-        this->set_num_of_leds(frame, count, std::accumulate(frame.leds_partR.begin(), frame.leds_partR.end(), 0), 0, 150, 255);
+        this->set_num_of_leds(frame, count, std::accumulate(frame.leds_partR.begin(), frame.leds_partR.end(), 0), 0, 0, 0);
     }
 
     this->counter++;
