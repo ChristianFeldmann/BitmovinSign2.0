@@ -103,7 +103,7 @@ bool AnimationUllas::renderFrame(Frame &frame)
     }
 
     this->counter++;
-    if (this->counter > 500)
+    if (this->counter > 250)
     {
         this->counter = 0;
         return false;

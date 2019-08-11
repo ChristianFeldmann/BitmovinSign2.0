@@ -19,7 +19,7 @@ bool AnimationHighlightSparkling::renderFrame(Frame &frame)
 
     frame = getBlackFrame();
 
-    if (this->counter > offset)
+    if (this->offsetCounter > offset)
     {
         // Add a new spark
         Spark s;
@@ -30,8 +30,9 @@ bool AnimationHighlightSparkling::renderFrame(Frame &frame)
 
         s.position = dist(mt);
         this->sparks.push_back(s);
-        this->counter = 0;
+        this->offsetCounter = 0;
     }
+    this->offsetCounter++;
     this->counter++;
 
     // Render sparks
@@ -54,7 +55,13 @@ bool AnimationHighlightSparkling::renderFrame(Frame &frame)
                                      [](Spark s) {return s.counter >=100;}),
                        this->sparks.end());
 
-    return false;
+    if (this->counter > 250)
+    {
+        this->counter = 0;
+        return false; 
+    }
+
+    return true;
 }
 
 unsigned AnimationHighlightSparkling::getRelativeIndexWrap(unsigned int idx, int offset)

@@ -22,5 +22,6 @@ private:
 
     QColor sparkColor;
     unsigned int counter{0};
+    unsigned int offsetCounter{0};
 };
 

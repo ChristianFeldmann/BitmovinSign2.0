@@ -26,8 +26,8 @@ int main(int argc, char *argv[])
     Output output;
     DebuggerWidget debugger;
     AnimationList animationList({std::make_shared<AnimationHighlightRotation>()
-                                ,std::make_shared<AnimationRunningDot>()
-                                ,std::make_shared<AnimationConstantColor>()
+                                //,std::make_shared<AnimationRunningDot>()
+                                //,std::make_shared<AnimationConstantColor>()
                                 ,std::make_shared<AnimationHighlightSparkling>()
                                 ,std::make_shared<AnimationRainbow>()
                                 ,std::make_shared<AnimationSegmentsFlashing>()
