@@ -4,6 +4,9 @@ TARGET = bin/BitmovinSign
 TEMPLATE = app
 CONFIG += c++11
 
+INCLUDEPATH += $$PWD/lib
+INCLUDEPATH += $$PWD/src
+
 HEADERS += $$files(lib/*.h, true)
 HEADERS += $$files(src/*.h, true)
 

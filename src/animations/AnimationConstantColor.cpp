@@ -12,7 +12,7 @@ AnimationConstantColor::AnimationConstantColor(QColor &color)
 
 void AnimationConstantColor::renderFrame(Frame &frame)
 {
-    for (int i = 0; i < NR_LED_TOTAL; i++)
+    for (unsigned i = 0; i < NR_LED_TOTAL; i++)
     {
         frame.ledData[i] = this->color;
     }

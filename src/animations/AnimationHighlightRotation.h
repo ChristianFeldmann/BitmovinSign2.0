@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../AnimationInterface.h"
-#include "../Frame.h"
+#include <AnimationInterface.h>
+#include <Frame.h>
 
 class AnimationHighlightRotation: public AnimationInterface
 {

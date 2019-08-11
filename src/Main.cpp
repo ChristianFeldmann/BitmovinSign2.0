@@ -4,10 +4,10 @@
 
 #include <iostream>
 
-#include "Frame.h"
-#include "Output.h"
-#include "DebuggerWidget.h"
-#include "Player.h"
+#include <Frame.h>
+#include <Output.h>
+#include <DebuggerWidget.h>
+#include <Player.h>
 
 int main(int argc, char *argv[])
 {

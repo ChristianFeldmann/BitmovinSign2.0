@@ -3,7 +3,7 @@
 #include <QPainter>
 #include <QPointF>
 
-#include "Frame.h"
+#include <Frame.h>
 
 class DebuggerWidget : public QWidget
 {

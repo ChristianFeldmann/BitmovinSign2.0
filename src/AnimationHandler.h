@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AnimationInterface.h"
+#include <AnimationInterface.h>
 
 #include <memory>
 

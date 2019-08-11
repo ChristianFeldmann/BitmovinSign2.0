@@ -5,7 +5,7 @@
 #include <QImage>
 #include <QColor>
 
-#include "Definitions.h"
+#include <Constants.h>
 
 struct Frame
 {
