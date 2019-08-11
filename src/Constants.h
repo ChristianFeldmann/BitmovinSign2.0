@@ -25,7 +25,7 @@ const std::vector<int> LED_PARTS_PART_LEFT = {14, 14, 2, 7, 7, 2};
 const std::vector<int> LED_PARTS_PART_MIDDLE = {26, 26, 5, 14, 14, 5};
 const std::vector<int> LED_PARTS_PART_RIGHT = {42, 41, 8, 24, 24, 8};
 
-const std::vector<int> NR_LED_LIST = {42, 41, 8, 24, 24, 8};
+const std::vector<int> NR_LED_LIST = {NR_LED_BACKGROUND, NR_LED_PART_LEFT, NR_LED_PART_MIDDLE, NR_LED_PART_RIGHT};
 
 const std::vector<int> OFFSET_LIST = {0, OFFSET_PART_LEFT, OFFSET_PART_MIDDLE, OFFSET_PART_RIGHT};
 
