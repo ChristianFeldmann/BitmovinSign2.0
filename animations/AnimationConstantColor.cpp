@@ -2,10 +2,10 @@
 
 AnimationConstantColor::AnimationConstantColor()
 {
-    color = LedColor::bitmovinBlue;
+    color = BitmovinBlue;
 }
 
-AnimationConstantColor::AnimationConstantColor(LedColor &color)
+AnimationConstantColor::AnimationConstantColor(QColor &color)
 {
     this->color = color;
 }

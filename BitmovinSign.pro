@@ -31,7 +31,6 @@ SOURCES += output/mailbox.c
 SOURCES += output/dma.c
 SOURCES += output/pcm.c
 SOURCES += helpers/DebuggerWidget.cpp
-SOURCES += helpers/Frame.cpp
 SOURCES += helpers/Player.cpp
 SOURCES += animations/AnimationHandler.cpp
 SOURCES += animations/AnimationHighlightRotation.cpp

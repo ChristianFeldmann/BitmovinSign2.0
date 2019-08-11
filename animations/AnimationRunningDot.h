@@ -7,11 +7,11 @@ class AnimationRunningDot: public AnimationInterface
 {
 public:
     AnimationRunningDot();
-    AnimationRunningDot(LedColor &color);
+    AnimationRunningDot(QColor &color);
     void renderFrame(Frame &frame) override;
 
 private:
     int counter {0};
-    LedColor color;
+    QColor color;
 };
 

@@ -2,10 +2,10 @@
 
 AnimationRunningDot::AnimationRunningDot()
 {
-    color = LedColor(30, 171, 226);
+    color = QColor(30, 171, 226);
 }
 
-AnimationRunningDot::AnimationRunningDot(LedColor &color)
+AnimationRunningDot::AnimationRunningDot(QColor &color)
 {
     this->color = color;
 }
@@ -20,7 +20,7 @@ void AnimationRunningDot::renderFrame(Frame &frame)
         }
         else
         {
-            frame.ledData[i] = LedColor::black;
+            frame.ledData[i] = Qt::black;
         }
     }
 

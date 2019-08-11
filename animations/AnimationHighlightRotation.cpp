@@ -2,10 +2,10 @@
 
 AnimationHighlightRotation::AnimationHighlightRotation()
 {
-    color = LedColor::white;
+    color = BitmovinBlue;
 }
 
-AnimationHighlightRotation::AnimationHighlightRotation(LedColor &color)
+AnimationHighlightRotation::AnimationHighlightRotation(QColor &color)
 {
     this->color = color;
 }
@@ -22,7 +22,7 @@ void AnimationHighlightRotation::renderFrame(Frame &frame)
                 if (i % 2 == 0)
                 {
                     assert(ledStartOffset + idx < NR_LED_TOTAL);
-                    frame.ledData[ledStartOffset + idx] = LedColor::white;
+                    frame.ledData[ledStartOffset + idx] = Qt::white;
                 }
                 idx++;
                 idx = idx % nrLed;

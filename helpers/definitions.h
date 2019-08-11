@@ -1,4 +1,4 @@
-#pragma once
+    #pragma once
 
 #define NR_LED_TOTAL 489
 #define NR_LED_BACKGROUND 206
@@ -14,3 +14,5 @@
 #define LED_PARTS_PART_LEFT {14, 14, 2, 7, 7, 2}
 #define LED_PARTS_PART_MIDDLE {26, 26, 5, 14, 14, 5}
 #define LED_PARTS_PART_RIGHT {42, 41, 8, 24, 24, 8}
+
+const QColor BitmovinBlue = QColor(30, 171, 226);

@@ -25,8 +25,8 @@ void DebuggerWidget::draw_dots_line(QPainter *qp, QPointF start, QPointF end, in
         float s = float(i + 1) / (num_of_dots + 1);
         int x = start.x() + (end.x() - start.x()) * s;
         int y = start.y() + (end.y() - start.y()) * s;
-        qp->setPen(this->frame.ledData[counter].getQColor());
-        qp->setBrush(this->frame.ledData[counter].getQColor());
+        qp->setPen(this->frame.ledData[counter]);
+        qp->setBrush(this->frame.ledData[counter]);
         qp->drawEllipse(x, y, 5, 5);
         counter++;
     }
