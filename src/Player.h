@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QBasicTimer>
+#include <QTimer>
 
 #include <AnimationInterface.h>
 #include <Output.h>

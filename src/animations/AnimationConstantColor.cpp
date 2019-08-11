@@ -2,7 +2,7 @@
 
 AnimationConstantColor::AnimationConstantColor()
 {
-    color = Qt::green;
+    color = BITMOVIN_BLUE;
 }
 
 AnimationConstantColor::AnimationConstantColor(QColor &color)

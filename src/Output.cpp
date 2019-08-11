@@ -62,5 +62,7 @@ void Output::pushData(Frame &f)
     {
         qDebug() << "render failed: " << ws2811_get_return_t_str(ret);
     }
+#else
+    Q_UNUSED(f);
 #endif
 }
