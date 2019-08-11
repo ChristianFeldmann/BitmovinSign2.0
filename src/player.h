@@ -4,7 +4,7 @@
 
 #include "AnimationInterface.h"
 #include "AnimationHandler.h"
-#include "output.h"
+#include "Output.h"
 #include "DebuggerWidget.h"
 
 #include <memory>

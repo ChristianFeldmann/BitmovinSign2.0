@@ -1,5 +1,5 @@
 
-#include "output.h"
+#include "Output.h"
 
 #include <QDebug>
 
