@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
                                 //,std::make_shared<AnimationConstantColor>()
                                 ,std::make_shared<AnimationHighlightSparkling>()
                                 ,std::make_shared<AnimationRainbow>()
-                                ,std::make_shared<AnimationSegmentsFlashing>()
+                                ,std::make_shared<AnimationSegmentsFlashing>(BITMOVIN_BLUE, 20, 40)
                                 ,std::make_shared<AnimationUllas>()
                                 });
     Player player(animationList);

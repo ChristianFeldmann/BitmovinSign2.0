@@ -5,7 +5,7 @@ AnimationSegmentsFlashing::AnimationSegmentsFlashing()
     color = BITMOVIN_BLUE;
 }
 
-AnimationSegmentsFlashing::AnimationSegmentsFlashing(QColor &color, unsigned int timeOffsetBetweenSegments, unsigned int timeToWaitFullColor)
+AnimationSegmentsFlashing::AnimationSegmentsFlashing(const QColor &color, unsigned int timeOffsetBetweenSegments, unsigned int timeToWaitFullColor)
 {
     this->color = color;
     this->timeOffsetBetweenSegments = timeOffsetBetweenSegments;

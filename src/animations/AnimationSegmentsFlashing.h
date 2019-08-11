@@ -7,7 +7,7 @@ class AnimationSegmentsFlashing : public AnimationInterface
 {
 public:
     AnimationSegmentsFlashing();
-    AnimationSegmentsFlashing(QColor &color, unsigned int timeOffsetBetweenSegments=20, unsigned int timeToWaitFullColor = 0);
+    AnimationSegmentsFlashing(const QColor &color, unsigned int timeOffsetBetweenSegments=20, unsigned int timeToWaitFullColor = 0);
     
     bool renderFrame(Frame &frame) override;
 
