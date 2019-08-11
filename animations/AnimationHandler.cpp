@@ -9,28 +9,28 @@
 #include "AnimationSegmentsFlashing.h"
 #include "AnimationRainbow.h"
 
-void AnimationHandler::createNextAnimationStack(std::vector<std::unique_ptr<AnimationInterface>> &animationList)
+void AnimationHandler::createNextAnimationStack(std::vector<std::unique_ptr<AnimationInterface>> &animationList, unsigned int animationIndex)
 {
     animationList.clear();
-    if (false)
+    if (animationIndex == 0)
     {
         animationList.push_back(std::unique_ptr<AnimationInterface>(new AnimationConstantColor()));
         animationList.push_back(std::unique_ptr<AnimationInterface>(new AnimationHighlightRotation()));
     }
-    if (false)
+    else if (animationIndex == 1)
     {
         animationList.push_back(std::unique_ptr<AnimationInterface>(new AnimationConstantColor()));
         animationList.push_back(std::unique_ptr<AnimationInterface>(new AnimationHighlightSparkling()));
     }
-    if (false)
+    else if (animationIndex == 2)
     {
         animationList.push_back(std::unique_ptr<AnimationInterface>(new AnimationSegmentsFlashing(LedColor::bitmovinBlue, 20, 40)));
     }
-    if (true)
+    else if (animationIndex == 3)
     {
         animationList.push_back(std::unique_ptr<AnimationInterface>(new AnimationRainbow()));
     }
-    if (false)
+    else if (animationIndex == 4)
     {
         animationList.push_back(std::unique_ptr<AnimationInterface>(new AnimationUllas()));
     }

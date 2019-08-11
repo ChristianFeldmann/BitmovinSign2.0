@@ -2,9 +2,21 @@
 
 Player::Player(QObject *parent):QObject(parent)
 {
-    this->timer.start(20, Qt::PreciseTimer, this);
+    this->frameTimer.start(20, Qt::PreciseTimer, this);
+    this->animationChangeTimer.start(5000);
 
     animationHandler.createNextAnimationStack(animationStack);
+    this->connect(&this->animationChangeTimer, &QTimer::timeout, this, &Player::changeAnimationTimer);
+}
+
+void Player::changeAnimationTimer()
+{
+    this->animationIndex++;
+    if (this->animationIndex >= 5)
+    {
+        this->animationIndex = 0;
+    }
+    animationHandler.createNextAnimationStack(animationStack, this->animationIndex);
 }
 
 void Player::timerEvent(QTimerEvent *event)
