@@ -15,4 +15,3 @@ private:
 
     QColor color;
 };
-

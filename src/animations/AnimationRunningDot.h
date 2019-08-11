@@ -14,4 +14,3 @@ private:
     unsigned counter {0};
     QColor color;
 };
-

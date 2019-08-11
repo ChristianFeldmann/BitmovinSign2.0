@@ -32,4 +32,3 @@ private:
     std::vector<std::unique_ptr<AnimationInterface>> animationStack;
     AnimationHandler animationHandler;
 };
-

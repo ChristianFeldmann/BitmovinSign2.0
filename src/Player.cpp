@@ -35,4 +35,3 @@ void Player::set_debugger(DebuggerWidget *debugger)
 {
     this->debugger = debugger;
 }
-

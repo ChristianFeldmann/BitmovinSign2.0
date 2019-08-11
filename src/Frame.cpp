@@ -15,3 +15,4 @@ struct Frame
     QImage image;
     std::vector<QColor> ledData;
 };
+
