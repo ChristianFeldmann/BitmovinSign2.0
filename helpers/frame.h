@@ -14,6 +14,8 @@ struct LedColor
         red(red), green(green), blue(blue) {}
     QColor getQColor() { return QColor(red, green, blue); }
 
+    static LedColor interpolateColors(LedColor &a, LedColor &b, double ratio);
+
     /* data */
     unsigned char red {0};
     unsigned char green {0};
