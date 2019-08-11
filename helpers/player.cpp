@@ -4,20 +4,26 @@ Player::Player(QObject *parent):QObject(parent)
 {
     this->timer.start(20, Qt::PreciseTimer, this);
 
-    animation = animationHandler.getNextAnimation();
+    animationHandler.createNextAnimationStack(animationStack);
 }
 
 void Player::timerEvent(QTimerEvent *event)
 {
     Q_UNUSED(event);
-    
+
     Frame frame;
-    if (this->animation != nullptr)
-        this->animation->render_frame(frame);
+    for (auto &animation : this->animationStack)
+    {
+        animation->renderFrame(frame);
+    }
     if (this->debugger != nullptr)
+    {
         this->debugger->draw(frame);
+    }
     if (this->output != nullptr)
+    {
         this->output->pushData(frame);
+    }
 }
 
 void Player::set_output(Output *output)

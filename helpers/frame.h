@@ -5,7 +5,7 @@
 #include <QImage>
 #include <QColor>
 
-#define TOTAL_LEDS 489
+#include "definitions.h"
 
 struct LedColor
 {
@@ -20,11 +20,13 @@ struct LedColor
     unsigned char blue {0};
 
     static LedColor black;
+    static LedColor white;
+    static LedColor bitmovinBlue;
 };
 
 struct Frame
 {
-    Frame(/* args */) {ledData = std::vector<LedColor>(TOTAL_LEDS);};
+    Frame(/* args */) {ledData = std::vector<LedColor>(NR_LED_TOTAL);};
     ~Frame() {};
 
     void convertImageToByteArray() {};

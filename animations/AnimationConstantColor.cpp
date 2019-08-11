@@ -2,7 +2,7 @@
 
 AnimationConstantColor::AnimationConstantColor()
 {
-    color = LedColor(30, 171, 226);
+    color = LedColor::bitmovinBlue;
 }
 
 AnimationConstantColor::AnimationConstantColor(LedColor &color)
@@ -10,9 +10,9 @@ AnimationConstantColor::AnimationConstantColor(LedColor &color)
     this->color = color;
 }
 
-void AnimationConstantColor::render_frame(Frame &frame)
+void AnimationConstantColor::renderFrame(Frame &frame)
 {
-    for (int i = 0; i < TOTAL_LEDS; i++)
+    for (int i = 0; i < NR_LED_TOTAL; i++)
     {
         frame.ledData[i] = this->color;
     }

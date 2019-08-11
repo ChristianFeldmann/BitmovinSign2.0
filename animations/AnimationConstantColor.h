@@ -9,7 +9,7 @@ public:
     AnimationConstantColor();
     AnimationConstantColor(LedColor &color);
     
-    void render_frame(Frame &frame) override;
+    void renderFrame(Frame &frame) override;
 
 private:
     LedColor color;

@@ -4,7 +4,6 @@ TARGET = BitmovinSign
 TEMPLATE = app
 CONFIG += c++11
 
-HEADERS += effects/EffectInterface.h
 HEADERS += output/Output.h
 HEADERS += output/pwm.h
 HEADERS += output/rpihw.h
@@ -14,10 +13,12 @@ HEADERS += output/gpio.h
 HEADERS += output/dma.h
 HEADERS += output/pcm.h
 HEADERS += helpers/DebuggerWidget.h
+HEADERS += helpers/definitions.h
 HEADERS += helpers/Frame.h
 HEADERS += helpers/Player.h
 HEADERS += animations/AnimationInterface.h
 HEADERS += animations/AnimationHandler.h
+HEADERS += animations/AnimationHighlightRotation.h
 HEADERS += animations/AnimationRunningDot.h
 HEADERS += animations/AnimationConstantColor.h
 
@@ -33,6 +34,7 @@ SOURCES += helpers/DebuggerWidget.cpp
 SOURCES += helpers/Frame.cpp
 SOURCES += helpers/Player.cpp
 SOURCES += animations/AnimationHandler.cpp
+SOURCES += animations/AnimationHighlightRotation.cpp
 SOURCES += animations/AnimationRunningDot.cpp
 SOURCES += animations/AnimationConstantColor.cpp
 

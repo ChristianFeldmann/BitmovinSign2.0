@@ -10,9 +10,9 @@ AnimationRunningDot::AnimationRunningDot(LedColor &color)
     this->color = color;
 }
 
-void AnimationRunningDot::render_frame(Frame &frame)
+void AnimationRunningDot::renderFrame(Frame &frame)
 {
-    for (int i = 0; i < TOTAL_LEDS; i++)
+    for (int i = 0; i < NR_LED_TOTAL; i++)
     {
         if (this->counter == i)
         {

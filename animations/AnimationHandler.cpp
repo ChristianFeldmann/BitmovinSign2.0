@@ -1,11 +1,13 @@
 #include "AnimationHandler.h"
 
 // Include all used animations here:
-#include "animationConstantColor.h"
-#include "animationRunningDot.h"
+#include "AnimationConstantColor.h"
+#include "AnimationHighlightRotation.h"
+#include "AnimationRunningDot.h"
 
-std::unique_ptr<AnimationInterface> AnimationHandler::getNextAnimation()
+void AnimationHandler::createNextAnimationStack(std::vector<std::unique_ptr<AnimationInterface>> &animationList)
 {
-    std::unique_ptr<AnimationInterface> animation(new AnimationConstantColor());
-    return animation;
+    animationList.clear();
+    animationList.push_back(std::unique_ptr<AnimationInterface>(new AnimationConstantColor()));
+    animationList.push_back(std::unique_ptr<AnimationInterface>(new AnimationHighlightRotation()));
 }

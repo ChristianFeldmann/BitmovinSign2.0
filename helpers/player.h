@@ -17,6 +17,9 @@ public:
     Player(QObject *parent = nullptr);
     ~Player(){};
 
+    Player(const Player&) = delete;
+    Player& operator =(const Player&) = delete;
+
     void set_output(Output *output);
     void set_debugger(DebuggerWidget *debugger);
 
@@ -26,7 +29,7 @@ private:
     DebuggerWidget *debugger;
     virtual void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE; // Overloaded from QObject. Called when the timer fires.
 
-    std::unique_ptr<AnimationInterface> animation;
+    std::vector<std::unique_ptr<AnimationInterface>> animationStack;
     AnimationHandler animationHandler;
 };
 

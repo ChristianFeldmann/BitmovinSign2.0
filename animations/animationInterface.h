@@ -5,5 +5,5 @@
 class AnimationInterface
 {
 public:
-    virtual void render_frame(Frame &f) = 0;
+    virtual void renderFrame(Frame &f) = 0;
 };

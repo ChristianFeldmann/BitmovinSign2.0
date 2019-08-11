@@ -8,7 +8,7 @@ class AnimationRunningDot: public AnimationInterface
 public:
     AnimationRunningDot();
     AnimationRunningDot(LedColor &color);
-    void render_frame(Frame &frame) override;
+    void renderFrame(Frame &frame) override;
 
 private:
     int counter {0};

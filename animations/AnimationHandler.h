@@ -9,5 +9,5 @@ class AnimationHandler
 public:
     AnimationHandler() = default;
 
-    std::unique_ptr<AnimationInterface> getNextAnimation();
+    void createNextAnimationStack(std::vector<std::unique_ptr<AnimationInterface>> &animationList);
 };
