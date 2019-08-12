@@ -51,6 +51,10 @@ bool AnimationMatrixFire::renderMatrix()
 {
     this->counter++;
 
+    std::random_device rd;
+    std::mt19937 mt(rd());
+    std::uniform_real_distribution<double> randomNr(0, 3);
+
     for(unsigned i = 0 ; i < matrixSize; ++i) 
     {
         for (unsigned j = 4; j < matrixSize; ++j) 
@@ -61,10 +65,6 @@ bool AnimationMatrixFire::renderMatrix()
             }
             else
             {
-                std::random_device rd;
-                std::mt19937 mt(rd());
-                std::uniform_real_distribution<double> randomNr(0, 3);
-
                 unsigned randNumber = unsigned(randomNr(mt));
 
                 fireMatrix[i][j - 1 - (randNumber & 1)] = fireMatrix[i][j] - (randNumber & 1);
