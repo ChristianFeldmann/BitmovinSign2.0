@@ -16,6 +16,8 @@
 #include <animations/AnimationRainbow.h>
 #include <animations/AnimationSegmentsFlashing.h>
 #include <animations/AnimationUllas.h>
+#include <animations/AnimationMatrixBase.h>
+#include <animations/AnimationMatrixFire.h>
 
 int main(int argc, char *argv[])
 {
@@ -26,12 +28,14 @@ int main(int argc, char *argv[])
     Output output;
     DebuggerWidget debugger;
     AnimationList animationList({std::make_shared<AnimationHighlightRotation>()
-                                //,std::make_shared<AnimationRunningDot>()
-                                //,std::make_shared<AnimationConstantColor>()
-                                ,std::make_shared<AnimationHighlightSparkling>()
-                                ,std::make_shared<AnimationRainbow>()
-                                ,std::make_shared<AnimationSegmentsFlashing>(BITMOVIN_BLUE, 20, 40)
-                                ,std::make_shared<AnimationUllas>()
+                               //, std::make_shared<AnimationRunningDot>()
+                               //, std::make_shared<AnimationConstantColor>()
+                               , std::make_shared<AnimationHighlightSparkling>()
+                               , std::make_shared<AnimationRainbow>()
+                               , std::make_shared<AnimationSegmentsFlashing>(BITMOVIN_BLUE, 20, 40)
+                               , std::make_shared<AnimationUllas>()
+                               , std::make_shared<AnimationMatrixBase>()
+                               , std::make_shared<AnimationMatrixFire>()
                                 });
     Player player(animationList);
 
