@@ -15,7 +15,8 @@ bool AnimationUllas::renderFrame(Frame &frame)
 
     frame = getBlackFrame();
 
-    if (this->counter % 6 == 0)
+    double timeOffset = double(this->counter) / 250.0;
+    if (this->counter % 150 < 25)
     {
         count += setRangeOfLedToColor(frame, count, LED_PARTS_BACKGROUND[0], color1);
         count += setRangeOfLedToColor(frame, count, LED_PARTS_BACKGROUND[1], color2);
@@ -24,7 +25,7 @@ bool AnimationUllas::renderFrame(Frame &frame)
         count += setRangeOfLedToColor(frame, count, LED_PARTS_BACKGROUND[4], color2);
         count += setRangeOfLedToColor(frame, count, LED_PARTS_BACKGROUND[5], color1);
     }
-    else if (this->counter % 6 == 1)
+    else if (this->counter % 150 < 50)
     {
         count += setRangeOfLedToColor(frame, count, LED_PARTS_BACKGROUND[0], color1);
         count += setRangeOfLedToColor(frame, count, LED_PARTS_BACKGROUND[1], color1);
@@ -33,7 +34,7 @@ bool AnimationUllas::renderFrame(Frame &frame)
         count += setRangeOfLedToColor(frame, count, LED_PARTS_BACKGROUND[4], color2);
         count += setRangeOfLedToColor(frame, count, LED_PARTS_BACKGROUND[5], color2);
     }
-    else if (this->counter % 6 == 2)
+    else if (this->counter % 150 < 75)
     {
         count += setRangeOfLedToColor(frame, count, LED_PARTS_BACKGROUND[0], color2);
         count += setRangeOfLedToColor(frame, count, LED_PARTS_BACKGROUND[1], color1);
@@ -42,7 +43,7 @@ bool AnimationUllas::renderFrame(Frame &frame)
         count += setRangeOfLedToColor(frame, count, LED_PARTS_BACKGROUND[4], color3);
         count += setRangeOfLedToColor(frame, count, LED_PARTS_BACKGROUND[5], color2);
     }
-    else if (this->counter % 6 == 3)
+    else if (this->counter % 150 < 100)
     {
         count += setRangeOfLedToColor(frame, count, LED_PARTS_BACKGROUND[0], color2);
         count += setRangeOfLedToColor(frame, count, LED_PARTS_BACKGROUND[1], color2);
@@ -51,7 +52,7 @@ bool AnimationUllas::renderFrame(Frame &frame)
         count += setRangeOfLedToColor(frame, count, LED_PARTS_BACKGROUND[4], color3);
         count += setRangeOfLedToColor(frame, count, LED_PARTS_BACKGROUND[5], color3);
     }
-    else if (this->counter % 6 == 4)
+    else if (this->counter % 150 < 125)
     {
         count += setRangeOfLedToColor(frame, count, LED_PARTS_BACKGROUND[0], color3);
         count += setRangeOfLedToColor(frame, count, LED_PARTS_BACKGROUND[1], color2);
@@ -60,7 +61,7 @@ bool AnimationUllas::renderFrame(Frame &frame)
         count += setRangeOfLedToColor(frame, count, LED_PARTS_BACKGROUND[4], color1);
         count += setRangeOfLedToColor(frame, count, LED_PARTS_BACKGROUND[5], color3);
     }
-    else if (this->counter % 6 == 5)
+    else if (this->counter % 150 < 150)
     {
         count += setRangeOfLedToColor(frame, count, LED_PARTS_BACKGROUND[0], color3);
         count += setRangeOfLedToColor(frame, count, LED_PARTS_BACKGROUND[1], color3);
@@ -70,32 +71,32 @@ bool AnimationUllas::renderFrame(Frame &frame)
         count += setRangeOfLedToColor(frame, count, LED_PARTS_BACKGROUND[5], color1);
     }
 
-    if (this->counter % 55 < 11)
+    if (this->counter % 125 < 25)
     {
         count += setRangeOfLedToColor(frame, count, NR_LED_PART_LEFT, color4);
         count += setRangeOfLedToColor(frame, count, NR_LED_PART_MIDDLE, Qt::black);
         count += setRangeOfLedToColor(frame, count, NR_LED_PART_RIGHT, Qt::black);
 
     }
-    else if (this->counter % 55 < 22)
+    else if (this->counter % 125 < 50)
     {
         count += setRangeOfLedToColor(frame, count, NR_LED_PART_LEFT, color4);
         count += setRangeOfLedToColor(frame, count, NR_LED_PART_MIDDLE, color4);
         count += setRangeOfLedToColor(frame, count, NR_LED_PART_RIGHT, Qt::black);
     }
-    else if (this->counter % 55 < 33)
+    else if (this->counter % 125 < 75)
     {
         count += setRangeOfLedToColor(frame, count, NR_LED_PART_LEFT, color4);
         count += setRangeOfLedToColor(frame, count, NR_LED_PART_MIDDLE, color4);
         count += setRangeOfLedToColor(frame, count, NR_LED_PART_RIGHT, color4);
     }
-    else if (this->counter % 55 < 44)
+    else if (this->counter % 125 < 100)
     {
         count += setRangeOfLedToColor(frame, count, NR_LED_PART_LEFT, color4);
         count += setRangeOfLedToColor(frame, count, NR_LED_PART_MIDDLE, color4);
         count += setRangeOfLedToColor(frame, count, NR_LED_PART_RIGHT, color4);
     }
-    else if (this->counter % 55 < 55)
+    else if (this->counter % 125 < 125)
     {
         count += setRangeOfLedToColor(frame, count, NR_LED_PART_LEFT, Qt::black);
         count += setRangeOfLedToColor(frame, count, NR_LED_PART_MIDDLE, Qt::black);
