@@ -18,7 +18,7 @@ bool AnimationSegmentsFlashing::renderFrame(Frame &frame)
 
     for (int i = 0; i < 4; i++)
     {
-        int partCounter = this->counter - this->timeOffsetBetweenSegments * i;
+        unsigned partCounter = this->counter - this->timeOffsetBetweenSegments * i;
         if (partCounter > 0 && partCounter < 100 + this->timeToWaitFullColor)
         {
             double intensity = 0;
