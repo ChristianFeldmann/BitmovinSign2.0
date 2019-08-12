@@ -65,27 +65,25 @@ bool AnimationMatrixBase::renderMatrix()
 
 void AnimationMatrixBase::calculateLedsCoord()
 {
-    int led_counter = 0;
-
     this->draw_lines_from_points(POINTS_BASE , LED_PARTS_BACKGROUND, matrixSize);
     this->draw_lines_from_points(POINTS_PART_L, LED_PARTS_PART_LEFT, matrixSize);
     this->draw_lines_from_points(POINTS_PART_M, LED_PARTS_PART_MIDDLE, matrixSize);
     this->draw_lines_from_points(POINTS_PART_R, LED_PARTS_PART_RIGHT, matrixSize);
 }
 
-void AnimationMatrixBase::draw_lines_from_points(std::vector<QPointF> point_list, std::vector<int> led_list, int factor)
+void AnimationMatrixBase::draw_lines_from_points(std::vector<QPointF> point_list, std::vector<unsigned> led_list, int factor)
 {
     auto num_of_lines = point_list.size();
     for (size_t i = 0; i < num_of_lines; i++)
     {
         QPointF start = point_list[i];
         QPointF end = point_list[(i+1) % num_of_lines];
-        int num_of_led = led_list[i];
+        unsigned num_of_led = led_list[i];
         this->draw_dots_line(start * factor, end * factor, num_of_led);
     }
 }
 
-void AnimationMatrixBase::draw_dots_line(QPointF start, QPointF end, int num_of_dots)
+void AnimationMatrixBase::draw_dots_line(QPointF start, QPointF end, unsigned num_of_dots)
 {
     for(unsigned i = 0; i < num_of_dots; i++)
     {
@@ -96,8 +94,3 @@ void AnimationMatrixBase::draw_dots_line(QPointF start, QPointF end, int num_of_
         this->ledsCoord.push_back(point);
     }
 }
-
-
-
-
-

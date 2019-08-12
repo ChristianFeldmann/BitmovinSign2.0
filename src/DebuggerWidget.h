@@ -21,8 +21,8 @@ protected:
     std::vector<QPointF> points_partR = {QPointF{0.37, 0.16}, QPointF{0.93, 0.50}, QPointF{0.37, 0.85}, QPointF{0.37, 0.69}, QPointF{0.67, 0.5}, QPointF{0.37 , 0.32}};
 
     void paintEvent(QPaintEvent *event) override;
-    void draw_dots_line(QPainter *qp, QPointF start, QPointF end, int num_of_dots, int &counter);
-    void draw_lines_from_points(QPainter *qp, std::vector<QPointF> point_list, std::vector<int> led_list, int factor, int &counter);
+    void draw_dots_line(QPainter *qp, QPointF start, QPointF end, unsigned num_of_dots, int &counter);
+    void draw_lines_from_points(QPainter *qp, std::vector<QPointF> point_list, std::vector<unsigned> led_list, int factor, int &counter);
     void draw_points(QPainter *qp);
     Frame frame;
 };

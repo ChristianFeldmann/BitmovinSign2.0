@@ -18,7 +18,7 @@ void DebuggerWidget::paintEvent(QPaintEvent *event)
     painter.end();
 }
 
-void DebuggerWidget::draw_dots_line(QPainter *qp, QPointF start, QPointF end, int num_of_dots, int &counter)
+void DebuggerWidget::draw_dots_line(QPainter *qp, QPointF start, QPointF end, unsigned num_of_dots, int &counter)
 {
     for(unsigned i = 0; i < num_of_dots; i++)
     {
@@ -35,14 +35,14 @@ void DebuggerWidget::draw_dots_line(QPainter *qp, QPointF start, QPointF end, in
     }
 }
 
-void DebuggerWidget::draw_lines_from_points(QPainter *qp, std::vector<QPointF> point_list, std::vector<int> led_list, int factor, int &counter)
+void DebuggerWidget::draw_lines_from_points(QPainter *qp, std::vector<QPointF> point_list, std::vector<unsigned> led_list, int factor, int &counter)
 {
     auto num_of_lines = point_list.size();
     for (size_t i = 0; i < num_of_lines; i++)
     {
         QPointF start = point_list[i];
         QPointF end = point_list[(i+1) % num_of_lines];
-        int num_of_led = led_list[i];
+        unsigned num_of_led = led_list[i];
         this->draw_dots_line(qp, start * factor, end * factor, num_of_led, counter);
     }
 }

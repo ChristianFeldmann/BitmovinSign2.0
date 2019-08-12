@@ -35,7 +35,7 @@ private:
 
     void calculateLedsCoord();
 
-    void draw_lines_from_points(std::vector<QPointF> point_list, std::vector<int> led_list, int factor);
-    void draw_dots_line(QPointF start, QPointF end, int num_of_dots);
+    void draw_lines_from_points(std::vector<QPointF> point_list, std::vector<unsigned> led_list, int factor);
+    void draw_dots_line(QPointF start, QPointF end, unsigned num_of_dots);
 
 };

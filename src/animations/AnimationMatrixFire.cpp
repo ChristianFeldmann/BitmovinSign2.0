@@ -103,6 +103,6 @@ void AnimationMatrixFire::resetMatrix()
 
     for (int i = 0; i < matrixSize; i++)
     {
-        fireMatrix[i][matrixSize-1] = fireBase.size() - 1;
+        fireMatrix[i][matrixSize-1] = unsigned(fireBase.size()) - 1;
     }
 }
