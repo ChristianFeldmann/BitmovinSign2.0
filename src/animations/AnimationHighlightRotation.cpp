@@ -1,3 +1,5 @@
+#include<assert.h>
+
 #include "AnimationHighlightRotation.h"
 
 AnimationHighlightRotation::AnimationHighlightRotation()
