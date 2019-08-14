@@ -1,5 +1,7 @@
 #include "DebuggerWidget.h"
 
+#include <QDebug>
+
 DebuggerWidget::DebuggerWidget(QWidget *parent): QWidget(parent)
 {
     this->resize(1000, 500);
@@ -7,6 +9,10 @@ DebuggerWidget::DebuggerWidget(QWidget *parent): QWidget(parent)
     QPalette pal = palette();
     pal.setColor(QPalette::Window, Qt::black);
     this->setPalette(pal);
+
+    connect(&this->fpsTimer, &QTimer::timeout, this, &DebuggerWidget::fpsTimerTimeout);
+    this->fpsTimer.start(1000);
+
     this->show();
 }
 
@@ -25,7 +31,18 @@ void DebuggerWidget::paintEvent(QPaintEvent *event)
         QRect target = QRect(this->size().width() / 2, 0, imageDrawWidth, imageDrawHeight);
         painter.drawImage(target, img);
     }
+    // Draw the fps text
+    painter.setPen(Qt::white);
+    painter.drawText(5, 10, QString::number(this->currentFps));
     painter.end();
+
+    this->fpsDrawCounter++;
+}
+
+void DebuggerWidget::fpsTimerTimeout()
+{
+    this->currentFps = this->fpsDrawCounter;
+    this->fpsDrawCounter = 0;
 }
 
 void DebuggerWidget::draw_dots_line(QPainter *qp, QPointF start, QPointF end, unsigned num_of_dots, int &counter)

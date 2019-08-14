@@ -2,6 +2,7 @@
 #include <QWidget>
 #include <QPainter>
 #include <QPointF>
+#include <QTimer>
 
 #include <Constants.h>
 
@@ -14,6 +15,9 @@ class DebuggerWidget : public QWidget
 public:
     DebuggerWidget(QWidget *parent = nullptr);
     void draw(Frame &frame, std::shared_ptr<AnimationImageBase> animationImage);
+
+private slots:
+    void fpsTimerTimeout();
 
 protected:
     std::vector<QPointF> points_base = {QPointF{0.5, 0.98}, QPointF{0.03 , 0.75}, QPointF{0.03 , 0.27}, QPointF{0.5, 0.03}, QPointF{0.97, 0.27}, QPointF{0.97, 0.75}};
@@ -28,4 +32,8 @@ protected:
     
     Frame frame;
     std::shared_ptr<AnimationImageBase> animationImage;
+
+    QTimer fpsTimer;
+    unsigned fpsDrawCounter{ 0 };
+    unsigned currentFps{ 0 };
 };
