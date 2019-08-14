@@ -23,9 +23,7 @@ bool AnimationImageColorWipe::renderImage()
         std::mt19937 mt(rd());
         std::uniform_int_distribution<unsigned> dist(0, 3);
 
-        unsigned testNumber = dist(mt);
-        this->currentDirection = Direction(testNumber);
-        int debugHelper = 234;
+        this->currentDirection = Direction(dist(mt));
     }
 
     const bool horizontal = (this->currentDirection == LEFT_TO_RIGHT || this->currentDirection == RIGHT_TO_LEFT);

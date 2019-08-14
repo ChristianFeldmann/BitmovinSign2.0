@@ -6,6 +6,7 @@
 
 #include <cstdlib>
 #include <climits>
+#include <memory>
 
 #include <algorithm>    // std::fill
 

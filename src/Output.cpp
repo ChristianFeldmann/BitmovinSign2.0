@@ -11,6 +11,7 @@ Output::Output()
     ledstring.freq = WS2811_TARGET_FREQ;
     ledstring.dmanum = 10;
     ledstring.render_wait_time = 0;
+    ledstring.channel[0].gamma = nullptr;
     ledstring.channel[0].gpionum = 18;
     ledstring.channel[0].count = LED_COUNT;
     ledstring.channel[0].invert = 0;
