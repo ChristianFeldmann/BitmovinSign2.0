@@ -31,5 +31,6 @@ private:
     virtual void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE; // Overloaded from QObject. Called when the timer fires.
 
     AnimationList animationList;
-    unsigned currentAnimation{0};
+    unsigned currentAnimationIndex{0};
+    unsigned currentAnimationRuntime{ 0 };
 };

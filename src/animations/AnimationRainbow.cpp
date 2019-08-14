@@ -6,6 +6,11 @@ AnimationRainbow::AnimationRainbow()
 {
 }
 
+void AnimationRainbow::reset()
+{
+    this->counter = 0;
+}
+
 bool AnimationRainbow::renderFrame(Frame &frame)
 {
 
@@ -48,7 +53,6 @@ bool AnimationRainbow::renderFrame(Frame &frame)
     if (this->counter > 250) 
     {
         this->counter = 0;
-        return false;
     }
 
     return true;

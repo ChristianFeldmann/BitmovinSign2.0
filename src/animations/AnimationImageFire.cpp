@@ -1,4 +1,4 @@
-#include "AnimationMatrixFire.h"
+#include "AnimationImageFire.h"
 
 #include <random>
 
@@ -42,67 +42,62 @@ std::vector<QColor> fireBase = {
     QColor(0xFF,0xFF,0xFF),
 };
 
-AnimationMatrixFire::AnimationMatrixFire() : AnimationMatrixBase()
+AnimationImageFire::AnimationImageFire() : AnimationImageBase()
 {
-    resetMatrix();
+    this->resetFireMatrix();
 }
 
-bool AnimationMatrixFire::renderMatrix()
+void AnimationImageFire::reset()
 {
-    this->counter++;
+    this->resetFireMatrix();
+}
 
+bool AnimationImageFire::renderImage()
+{
     std::random_device rd;
     std::mt19937 mt(rd());
-    std::uniform_real_distribution<double> randomNr(0, 3);
+    std::uniform_int_distribution<unsigned> randomNr(0, 3);
 
-    for(unsigned i = 0 ; i < matrixSize; ++i) 
+    for(unsigned i = 0 ; i < imageWidth; ++i)
     {
-        for (unsigned j = 4; j < matrixSize; ++j) 
+        for (unsigned j = 4; j < imageHeight; ++j)
         {
-            if (fireMatrix[i][j] == 0)
+            if (this->fireMatrix[i][j] == 0)
             {
-                fireMatrix[i][j-1] = 0;
+                this->fireMatrix[i][j-1] = 0;
             }
             else
             {
-                unsigned randNumber = unsigned(randomNr(mt));
-
-                fireMatrix[i][j - 1 - (randNumber & 1)] = fireMatrix[i][j] - (randNumber & 1);
+                unsigned randNumber = randomNr(mt);
+                this->fireMatrix[i][j - 1 - (randNumber & 1)] = this->fireMatrix[i][j] - (randNumber & 1);
             }
         }
     }
 
-    for (unsigned i = 0; i < matrixSize; ++i)
+    for (unsigned i = 0; i < imageWidth; ++i)
     {
-        for (unsigned j = 0; j < matrixSize; ++j)
+        for (unsigned j = 0; j < imageHeight; ++j)
         {
-            unsigned index = fireMatrix[i][j];
-            matrix[i][j] = fireBase[index];
+            unsigned index = this->fireMatrix[i][j];
+            this->image.setPixelColor(i, j, fireBase[index]);
         }
     }
 
-    if (this->counter >= 250)
-    {
-        this->counter = 0;    
-        return false;
-    }
     return true;
 }
 
-void AnimationMatrixFire::resetMatrix()
+void AnimationImageFire::resetFireMatrix()
 {
-    AnimationMatrixBase::resetMatrix();
-
-    for (unsigned i = 0; i < matrixSize; ++i)
+    for (unsigned i = 0; i < imageWidth; ++i)
     {
-        for (unsigned j = 0; j < matrixSize; ++j)
+        for (unsigned j = 0; j < imageHeight; ++j)
         {
-            fireMatrix[i][j] = 0;
+            this->fireMatrix[i][j] = 0;
         }
     }
 
-    for (int i = 0; i < matrixSize; i++)
+    for (unsigned i = 0; i < imageWidth; i++)
     {
-        fireMatrix[i][matrixSize-1] = unsigned(fireBase.size()) - 1;
+        this->fireMatrix[i][imageWidth - 1] = unsigned(fireBase.size()) - 1;
     }
 }

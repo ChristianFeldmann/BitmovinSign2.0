@@ -17,5 +17,5 @@ bool AnimationConstantColor::renderFrame(Frame &frame)
         frame.push_back(this->color);
     }
 
-    return false;
+    return true;
 }

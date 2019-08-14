@@ -5,14 +5,15 @@
 
 #include <Constants.h>
 
+#include "animations/AnimationImageBase.h"
+
 class DebuggerWidget : public QWidget
 {
     Q_OBJECT
 
 public:
     DebuggerWidget(QWidget *parent = nullptr);
-    void draw(Frame &frame);
-    
+    void draw(Frame &frame, std::shared_ptr<AnimationImageBase> animationImage);
 
 protected:
     std::vector<QPointF> points_base = {QPointF{0.5, 0.98}, QPointF{0.03 , 0.75}, QPointF{0.03 , 0.27}, QPointF{0.5, 0.03}, QPointF{0.97, 0.27}, QPointF{0.97, 0.75}};
@@ -24,5 +25,7 @@ protected:
     void draw_dots_line(QPainter *qp, QPointF start, QPointF end, unsigned num_of_dots, int &counter);
     void draw_lines_from_points(QPainter *qp, std::vector<QPointF> point_list, std::vector<unsigned> led_list, int factor, int &counter);
     void draw_points(QPainter *qp);
+    
     Frame frame;
+    std::shared_ptr<AnimationImageBase> animationImage;
 };

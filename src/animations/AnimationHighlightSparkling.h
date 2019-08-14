@@ -8,7 +8,9 @@ class AnimationHighlightSparkling: public AnimationInterface
 public:
     AnimationHighlightSparkling();
     AnimationHighlightSparkling(QColor &color);
+
     bool renderFrame(Frame &frame) override;
+    void reset() override;
 
 private:
     struct Spark
@@ -21,7 +23,6 @@ private:
     unsigned getRelativeIndexWrap(unsigned int idx, int offset);
 
     QColor sparkColor;
-    unsigned int counter{0};
     unsigned int offsetCounter{0};
 };
 

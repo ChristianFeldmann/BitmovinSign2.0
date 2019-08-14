@@ -10,6 +10,14 @@ AnimationHighlightRotation::AnimationHighlightRotation(QColor &color)
     this->color = color;
 }
 
+void AnimationHighlightRotation::reset()
+{
+    rotationCounters[0] = 0;
+    rotationCounters[1] = 0;
+    rotationCounters[2] = 0;
+    rotationCounters[3] = 0;
+}
+
 bool AnimationHighlightRotation::renderFrame(Frame &frame)
 {
     for (unsigned i = 0; i < NR_LED_TOTAL; i++)
@@ -54,28 +62,18 @@ bool AnimationHighlightRotation::renderFrame(Frame &frame)
     if (++this->rotationCounters[0] >= NR_LED_BACKGROUND)
     {
         this->rotationCounters[0] = 0;
-        this->counter++;
     }
     if (++this->rotationCounters[1] >= NR_LED_PART_LEFT)
     {
         this->rotationCounters[1] = 0;
-        this->counter++;
     }
     if (++this->rotationCounters[2] >= NR_LED_PART_MIDDLE)
     {
         this->rotationCounters[2] = 0;
-        this->counter++;
     }
     if (++this->rotationCounters[3] >= NR_LED_PART_RIGHT)
     {
         this->rotationCounters[3] = 0;
-        this->counter++;
-    }
-
-    if (this->counter >= 4)
-    {
-        this->counter = 0;
-        return false;
     }
 
     return true;

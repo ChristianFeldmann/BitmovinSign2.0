@@ -12,6 +12,12 @@ AnimationHighlightSparkling::AnimationHighlightSparkling(QColor &color)
     this->sparkColor = color;
 }
 
+void AnimationHighlightSparkling::reset()
+{
+    this->sparks.clear();
+    this->offsetCounter = 0;
+}
+
 bool AnimationHighlightSparkling::renderFrame(Frame &frame)
 {
     const unsigned int duration = 50;
@@ -26,14 +32,13 @@ bool AnimationHighlightSparkling::renderFrame(Frame &frame)
 
         std::random_device rd;
         std::mt19937 mt(rd());
-        std::uniform_real_distribution<double> dist(0, NR_LED_TOTAL);
+        std::uniform_int_distribution<> dist(0, NR_LED_TOTAL - 1);
 
         s.position = dist(mt);
         this->sparks.push_back(s);
         this->offsetCounter = 0;
     }
     this->offsetCounter++;
-    this->counter++;
 
     // Render sparks
     for (auto it = this->sparks.begin(); it != this->sparks.end(); it++)
@@ -54,12 +59,6 @@ bool AnimationHighlightSparkling::renderFrame(Frame &frame)
                                      this->sparks.end(),
                                      [](Spark s) {return s.counter >=100;}),
                        this->sparks.end());
-
-    if (this->counter > 250)
-    {
-        this->counter = 0;
-        return false; 
-    }
 
     return true;
 }

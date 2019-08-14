@@ -6,6 +6,11 @@ AnimationRunningDot::AnimationRunningDot()
     color = Qt::red;
 }
 
+void AnimationRunningDot::reset()
+{
+    this->counter = 0;
+}
+
 AnimationRunningDot::AnimationRunningDot(QColor &color)
 {
     this->color = color;
@@ -29,8 +34,8 @@ bool AnimationRunningDot::renderFrame(Frame &frame)
     if (this->counter > 489)
     {
         this->counter = 0;
-        return false;
+        return true;
     }
 
-    return true;
+    return false;
 }

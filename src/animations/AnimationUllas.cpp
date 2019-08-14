@@ -4,6 +4,11 @@ AnimationUllas::AnimationUllas()
 {
 }
 
+void AnimationUllas::reset()
+{
+    this->counter = 0;
+}
+
 bool AnimationUllas::renderFrame(Frame &frame)
 {
     int count = 0;
@@ -106,7 +111,6 @@ bool AnimationUllas::renderFrame(Frame &frame)
     if (this->counter > 250)
     {
         this->counter = 0;
-        return false;
     }
 
     return true;

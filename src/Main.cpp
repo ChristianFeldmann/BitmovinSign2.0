@@ -16,8 +16,9 @@
 #include <animations/AnimationRainbow.h>
 #include <animations/AnimationSegmentsFlashing.h>
 #include <animations/AnimationUllas.h>
-#include <animations/AnimationMatrixBase.h>
-#include <animations/AnimationMatrixFire.h>
+#include <animations/AnimationImageBase.h>
+#include <animations/AnimationImageFire.h>
+#include <animations/AnimationImageColorWipe.h>
 
 int main(int argc, char *argv[])
 {
@@ -34,8 +35,8 @@ int main(int argc, char *argv[])
                                , std::make_shared<AnimationRainbow>()
                                , std::make_shared<AnimationSegmentsFlashing>(BITMOVIN_BLUE, 20, 40)
                                , std::make_shared<AnimationUllas>()
-                               , std::make_shared<AnimationMatrixBase>()
-                               , std::make_shared<AnimationMatrixFire>()
+                               , std::make_shared<AnimationImageColorWipe>()
+                               , std::make_shared<AnimationImageFire>()
                                 });
     Player player(animationList);
 

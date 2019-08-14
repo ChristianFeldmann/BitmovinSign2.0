@@ -9,6 +9,7 @@ public:
     AnimationRainbow();
     
     bool renderFrame(Frame &frame) override;
+    void reset() override;
 
 private:
     unsigned int counter{ 0 };

@@ -12,6 +12,11 @@ AnimationSegmentsFlashing::AnimationSegmentsFlashing(const QColor &color, unsign
     this->timeToWaitFullColor = timeToWaitFullColor;
 }
 
+void AnimationSegmentsFlashing::reset()
+{
+    this->counter = 0;
+}
+
 bool AnimationSegmentsFlashing::renderFrame(Frame &frame)
 {
     frame = getBlackFrame();
@@ -44,8 +49,8 @@ bool AnimationSegmentsFlashing::renderFrame(Frame &frame)
     if (this->counter > animationDuration)
     {
         this->counter = 0;
-        return false;
+        return true;
     }
 
-    return true;
+    return false;
 }

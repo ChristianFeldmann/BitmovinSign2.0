@@ -10,6 +10,7 @@ public:
     AnimationSegmentsFlashing(const QColor &color, unsigned int timeOffsetBetweenSegments=20, unsigned int timeToWaitFullColor = 0);
     
     bool renderFrame(Frame &frame) override;
+    void reset() override;
 
 private:
     QColor color;

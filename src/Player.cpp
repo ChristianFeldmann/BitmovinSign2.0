@@ -1,6 +1,7 @@
 #include "Player.h"
 
 #include <Constants.h>
+#include "animations/AnimationImageBase.h"
 
 Player::Player(AnimationList animationList, QObject *parent):QObject(parent)
 , animationList(animationList)
@@ -12,21 +13,28 @@ void Player::timerEvent(QTimerEvent *event)
 {
     Q_UNUSED(event);
 
-    Frame frame;
+    Frame frame = Frame(NR_LED_TOTAL);
 
-    if (currentAnimation > animationList.size())
+    if (currentAnimationIndex > animationList.size())
     {
         return;
     }
 
-    if (!animationList[currentAnimation]->renderFrame(frame))
+    if (animationList[currentAnimationIndex]->renderFrame(frame))
     {
-        currentAnimation = (currentAnimation + 1) % animationList.size(); 
+        if (currentAnimationRuntime > 500)
+        {
+            currentAnimationIndex = (currentAnimationIndex + 1) % animationList.size();
+            animationList[currentAnimationIndex]->reset();
+            currentAnimationRuntime = 0;
+        }
     }
+    currentAnimationRuntime++;
 
     if (this->debugger != nullptr)
     {
-        this->debugger->draw(frame);
+        auto animationImage = std::dynamic_pointer_cast<AnimationImageBase>(animationList[currentAnimationIndex]);
+        this->debugger->draw(frame, animationImage);
     }
     if (this->output != nullptr)
     {

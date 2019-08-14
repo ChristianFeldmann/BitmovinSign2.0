@@ -10,10 +10,10 @@ public:
     AnimationHighlightRotation(QColor &color);
     bool renderFrame(Frame &frame) override;
 
+    void reset() override;
+
 private:
     unsigned int rotationCounters[4] {0, 0, 0, 0};
 
     QColor color;
-
-    unsigned counter {0};
 };
