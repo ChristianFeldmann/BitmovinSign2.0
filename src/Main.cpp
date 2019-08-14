@@ -5,20 +5,21 @@
 #include <iostream>
 #include <memory>
 
-#include <Constants.h>
-#include <Output.h>
-#include <DebuggerWidget.h>
-#include <Player.h>
-#include <animations/AnimationConstantColor.h>
-#include <animations/AnimationHighlightRotation.h>
-#include <animations/AnimationRunningDot.h>
-#include <animations/AnimationHighlightSparkling.h>
-#include <animations/AnimationRainbow.h>
-#include <animations/AnimationSegmentsFlashing.h>
-#include <animations/AnimationUllas.h>
-#include <animations/AnimationImageBase.h>
-#include <animations/AnimationImageFire.h>
-#include <animations/AnimationImageColorWipe.h>
+#include "Constants.h"
+#include "Output.h"
+#include "DebuggerWidget.h"
+#include "Player.h"
+#include "animations/AnimationConstantColor.h"
+#include "animations/AnimationHighlightRotation.h"
+#include "animations/AnimationRunningDot.h"
+#include "animations/AnimationHighlightSparkling.h"
+#include "animations/AnimationRainbow.h"
+#include "animations/AnimationSegmentsFlashing.h"
+#include "animations/AnimationUllas.h"
+#include "animations/AnimationImageBase.h"
+#include "animations/AnimationImageFire.h"
+#include "animations/AnimationImageColorWipe.h"
+#include "animations/AnimationImageCircleWipe.h"
 
 int main(int argc, char *argv[])
 {
@@ -28,15 +29,16 @@ int main(int argc, char *argv[])
     
     Output output;
     DebuggerWidget debugger;
-    AnimationList animationList({//std::make_shared<AnimationHighlightRotation>()
+    AnimationList animationList({std::make_shared<AnimationHighlightRotation>()
                                //, std::make_shared<AnimationRunningDot>()
                                //, std::make_shared<AnimationConstantColor>()
-                               /*, std::make_shared<AnimationHighlightSparkling>()
+                               , std::make_shared<AnimationHighlightSparkling>()
                                , std::make_shared<AnimationRainbow>()
                                , std::make_shared<AnimationSegmentsFlashing>(BITMOVIN_BLUE, 20, 40)
-                               , std::make_shared<AnimationUllas>()*/
-                               std::make_shared<AnimationImageColorWipe>()
-                               //, std::make_shared<AnimationImageFire>()
+                               , std::make_shared<AnimationUllas>()
+                               , std::make_shared<AnimationImageColorWipe>()
+                               , std::make_shared<AnimationImageCircleWipe>()
+                               , std::make_shared<AnimationImageFire>()
                                 });
     Player player(animationList);
 

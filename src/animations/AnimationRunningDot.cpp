@@ -22,20 +22,19 @@ bool AnimationRunningDot::renderFrame(Frame &frame)
     {
         if (this->counter == i)
         {
-            frame.push_back(this->color);
+            frame[i] = this->color;
         }
         else
         {
-            frame.push_back(Qt::white);
+            frame[i] = Qt::black;
         }
     }
 
     this->counter++;
-    if (this->counter > 489)
+    if (this->counter > NR_LED_TOTAL)
     {
         this->counter = 0;
-        return true;
     }
 
-    return false;
+    return this->counter == 0;
 }

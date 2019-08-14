@@ -14,7 +14,7 @@ bool AnimationConstantColor::renderFrame(Frame &frame)
 {
     for (unsigned i = 0; i < NR_LED_TOTAL; i++)
     {
-        frame.push_back(this->color);
+        frame[i] = this->color;
     }
 
     return true;
