@@ -22,7 +22,8 @@ void Player::timerEvent(QTimerEvent *event)
 
     if (animationList[currentAnimationIndex]->renderFrame(frame))
     {
-        if (currentAnimationRuntime > 500)
+        static const int minimumAnimationRuntime = 500;
+        if (currentAnimationRuntime > minimumAnimationRuntime)
         {
             currentAnimationIndex = (currentAnimationIndex + 1) % animationList.size();
             animationList[currentAnimationIndex]->reset();
