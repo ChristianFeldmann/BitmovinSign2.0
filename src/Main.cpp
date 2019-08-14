@@ -28,15 +28,15 @@ int main(int argc, char *argv[])
     
     Output output;
     DebuggerWidget debugger;
-    AnimationList animationList({std::make_shared<AnimationHighlightRotation>()
+    AnimationList animationList({//std::make_shared<AnimationHighlightRotation>()
                                //, std::make_shared<AnimationRunningDot>()
                                //, std::make_shared<AnimationConstantColor>()
-                               , std::make_shared<AnimationHighlightSparkling>()
+                               /*, std::make_shared<AnimationHighlightSparkling>()
                                , std::make_shared<AnimationRainbow>()
                                , std::make_shared<AnimationSegmentsFlashing>(BITMOVIN_BLUE, 20, 40)
-                               , std::make_shared<AnimationUllas>()
-                               , std::make_shared<AnimationImageColorWipe>()
-                               , std::make_shared<AnimationImageFire>()
+                               , std::make_shared<AnimationUllas>()*/
+                               std::make_shared<AnimationImageColorWipe>()
+                               //, std::make_shared<AnimationImageFire>()
                                 });
     Player player(animationList);
 

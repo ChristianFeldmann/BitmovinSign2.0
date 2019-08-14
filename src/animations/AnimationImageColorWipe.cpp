@@ -50,7 +50,7 @@ bool AnimationImageColorWipe::renderImage()
         {
             for (unsigned j = 0; j < sizeInOtherDirection; j++)
             {
-                const int iInverted = (directionInvert) ? sizeInDirection - i : i;
+                const int iInverted = (directionInvert) ? sizeInDirection - 1 - i : i;
                 const int x = (horizontal) ? iInverted : j;
                 const int y = (horizontal) ? j : iInverted;
                 bool overLine = i > linePos;

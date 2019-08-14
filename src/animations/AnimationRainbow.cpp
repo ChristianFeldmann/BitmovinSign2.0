@@ -1,7 +1,5 @@
 #include "AnimationRainbow.h"
 
-#include <QDebug>
-
 AnimationRainbow::AnimationRainbow()
 {
 }

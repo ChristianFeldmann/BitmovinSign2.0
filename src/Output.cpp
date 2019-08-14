@@ -1,9 +1,9 @@
 
 #include "Output.h"
 
+#ifdef __arm__
 #include <QDebug>
-
-#define LED_COUNT 489
+#endif
 
 Output::Output()
 {
@@ -13,7 +13,7 @@ Output::Output()
     ledstring.render_wait_time = 0;
     ledstring.channel[0].gamma = nullptr;
     ledstring.channel[0].gpionum = 18;
-    ledstring.channel[0].count = LED_COUNT;
+    ledstring.channel[0].count = NR_LED_TOTAL;
     ledstring.channel[0].invert = 0;
     ledstring.channel[0].brightness = 255;
     ledstring.channel[0].strip_type = WS2811_STRIP_RGB;
@@ -48,7 +48,7 @@ void Output::pushData(Frame &f)
 #ifdef __arm__
     
     // Convert from frame data to ws2811 data format
-    for (int i = 0; i < 489; i++)
+    for (int i = 0; i < NR_LED_TOTAL; i++)
     {
         ws2811_led_t v = 0;
         v += ((f[i].green()) << 16);

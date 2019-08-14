@@ -1,7 +1,5 @@
 #include "DebuggerWidget.h"
 
-#include <QDebug>
-
 DebuggerWidget::DebuggerWidget(QWidget *parent): QWidget(parent)
 {
     this->resize(1000, 500);
