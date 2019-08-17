@@ -7,6 +7,7 @@
 #include <Constants.h>
 
 #include "animations/AnimationImageBase.h"
+#include "AnimationStack.h"
 
 class DebuggerWidget : public QWidget
 {
@@ -14,7 +15,7 @@ class DebuggerWidget : public QWidget
 
 public:
     DebuggerWidget(QWidget *parent = nullptr);
-    void draw(Frame &frame, std::shared_ptr<AnimationImageBase> animationImage);
+    void draw(Frame &frame, AnimationStack animation);
 
 private slots:
     void fpsTimerTimeout();
@@ -31,7 +32,7 @@ protected:
     void draw_points(QPainter *qp);
     
     Frame frame;
-    std::shared_ptr<AnimationImageBase> animationImage;
+    AnimationStack animation;
 
     QTimer fpsTimer;
     unsigned fpsDrawCounter{ 0 };

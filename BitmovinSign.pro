@@ -3,6 +3,7 @@ QT += widgets
 TARGET = bin/BitmovinSign
 TEMPLATE = app
 CONFIG += c++14
+CONFIG -= flat
 
 INCLUDEPATH += $$PWD/lib
 INCLUDEPATH += $$PWD/src

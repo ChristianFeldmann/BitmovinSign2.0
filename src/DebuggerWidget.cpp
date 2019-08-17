@@ -19,7 +19,7 @@ void DebuggerWidget::paintEvent(QPaintEvent *event)
     Q_UNUSED(event);
     QPainter painter(this);
     this->draw_points(&painter);
-    if (this->animationImage)
+    /*if (this->animationImage)
     {
         const QImage &img = this->animationImage->getImage();
         const QSize imageSize = img.size();
@@ -28,7 +28,7 @@ void DebuggerWidget::paintEvent(QPaintEvent *event)
 
         QRect target = QRect(this->size().width() / 2, 0, imageDrawWidth, imageDrawHeight);
         painter.drawImage(target, img);
-    }
+    }*/
     // Draw the fps text
     painter.setPen(Qt::white);
     painter.drawText(5, 10, QString::number(this->currentFps));
@@ -83,9 +83,9 @@ void DebuggerWidget::draw_points(QPainter *qp)
     this->draw_lines_from_points(qp, POINTS_PART_R, LED_PARTS_PART_RIGHT, factor, led_counter);
 }
 
-void DebuggerWidget::draw(Frame &f, std::shared_ptr<AnimationImageBase> animationImage)
+void DebuggerWidget::draw(Frame &f, AnimationStack animation)
 {
     this->frame = f;
-    this->animationImage = animationImage;
+    this->animation = animation;
     this->update();
 }

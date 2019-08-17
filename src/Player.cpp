@@ -2,11 +2,12 @@
 
 #include <Constants.h>
 #include "animations/AnimationImageBase.h"
+#include "AnimationProvider.h"
 
-Player::Player(AnimationList animationList, QObject *parent):QObject(parent)
-, animationList(animationList)
+Player::Player(QObject *parent):QObject(parent)
 {
     this->timer.start(20, Qt::PreciseTimer, this);
+    currentAnimation = AnimationProvider::getRandomAnimation();
 }
 
 void Player::timerEvent(QTimerEvent *event)
@@ -15,18 +16,12 @@ void Player::timerEvent(QTimerEvent *event)
 
     Frame frame = Frame(NR_LED_TOTAL);
 
-    if (currentAnimationIndex > animationList.size())
-    {
-        return;
-    }
-
-    if (animationList[currentAnimationIndex]->renderFrame(frame))
+    if (currentAnimation.renderFrame(frame))
     {
         static const int minimumAnimationRuntime = 500;
         if (currentAnimationRuntime > minimumAnimationRuntime)
         {
-            currentAnimationIndex = (currentAnimationIndex + 1) % animationList.size();
-            animationList[currentAnimationIndex]->reset();
+            currentAnimation = AnimationProvider::getRandomAnimation();
             currentAnimationRuntime = 0;
         }
     }
@@ -34,18 +29,9 @@ void Player::timerEvent(QTimerEvent *event)
 
     if (this->debugger != nullptr)
     {
-        auto animationImage = std::dynamic_pointer_cast<AnimationImageBase>(animationList[currentAnimationIndex]);
-        this->debugger->draw(frame, animationImage);
+        this->debugger->draw(frame, currentAnimation);
     }
-    if (this->output != nullptr)
-    {
-        this->output->pushData(frame);
-    }
-}
-
-void Player::set_output(Output *output)
-{
-    this->output = output;
+    this->output.pushData(frame);
 }
 
 void Player::set_debugger(DebuggerWidget *debugger)

@@ -39,7 +39,6 @@ const std::vector<unsigned> OFFSET_LIST = {0, OFFSET_PART_LEFT, OFFSET_PART_MIDD
 const QColor BITMOVIN_BLUE = QColor(30, 171, 226);
 
 using Frame = std::vector<QColor>;
-using AnimationList = std::vector<std::shared_ptr<AnimationInterface>>;
 
 Frame getBlackFrame();
 
