@@ -10,15 +10,13 @@ AnimationImageBase::AnimationImageBase()
     this->calculateLedsCoord();
 }
 
-bool AnimationImageBase::renderFrame(Frame &frame)
+bool AnimationImageBase::renderFrame()
 {
-    this->image.fill(Qt::black);
-
     bool isFinished = this->renderImage();
 
-    for (unsigned i = 0; i < frame.size(); ++i)
+    for (unsigned i = 0; i < this->frame.data.size(); ++i)
     {
-        frame[i] = this->image.pixelColor(this->ledsCoord[i]);
+        this->frame.data[i] = this->image.pixelColor(this->ledsCoord[i]);
     }
     QColor ccdebug = this->image.pixelColor(100, 100);
 

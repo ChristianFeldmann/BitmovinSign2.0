@@ -9,7 +9,8 @@ public:
     AnimationConstantColor();
     AnimationConstantColor(QColor &color);
     
-    bool renderFrame(Frame &frame) override;
+    virtual QString getName() override { return "ConstantColor"; };
+    bool renderFrame() override;
 
 private:
     QColor color;

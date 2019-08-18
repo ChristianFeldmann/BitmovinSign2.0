@@ -17,6 +17,7 @@ public:
     AnimationImageColorWipe() = default;
     AnimationImageColorWipe(Direction direction, QColor color);
 
+    virtual QString getName() override { return "ColorWipe"; };
     void reset() override;
 
 private:

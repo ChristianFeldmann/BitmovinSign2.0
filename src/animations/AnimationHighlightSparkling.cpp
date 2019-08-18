@@ -18,12 +18,12 @@ void AnimationHighlightSparkling::reset()
     this->offsetCounter = 0;
 }
 
-bool AnimationHighlightSparkling::renderFrame(Frame &frame)
+bool AnimationHighlightSparkling::renderFrame()
 {
     const unsigned int duration = 50;
     const unsigned int offset = 2;
 
-    frame = getBlackFrame();
+    this->frame.clearFrame();
 
     if (this->offsetCounter > offset)
     {
@@ -50,7 +50,8 @@ bool AnimationHighlightSparkling::renderFrame(Frame &frame)
         {
             double ratio = sparkleIntensity * offsetRatios[i + 2];
             unsigned int idx = this->getRelativeIndexWrap((*it).position, i);
-            frame[idx] = interpolateColors(frame[idx], this->sparkColor, ratio);
+            this->frame.data[idx] = this->sparkColor;
+            this->frame.data[idx].setAlpha(int(ratio * 255));
         }
         (*it).counter++;
     }

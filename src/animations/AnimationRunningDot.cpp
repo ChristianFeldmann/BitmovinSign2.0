@@ -16,18 +16,11 @@ AnimationRunningDot::AnimationRunningDot(QColor &color)
     this->color = color;
 }
 
-bool AnimationRunningDot::renderFrame(Frame &frame)
+bool AnimationRunningDot::renderFrame()
 {
     for (unsigned i = 0; i < NR_LED_TOTAL; i++)
     {
-        if (this->counter == i)
-        {
-            frame[i] = this->color;
-        }
-        else
-        {
-            frame[i] = Qt::black;
-        }
+        this->frame.data[i] = (i == this->counter) ? this->color : Qt::transparent;
     }
 
     this->counter++;

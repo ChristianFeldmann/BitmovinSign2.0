@@ -20,13 +20,8 @@ void AnimationHighlightRotation::reset()
     rotationCounters[3] = 0;
 }
 
-bool AnimationHighlightRotation::renderFrame(Frame &frame)
+bool AnimationHighlightRotation::renderFrame()
 {
-    for (unsigned i = 0; i < NR_LED_TOTAL; i++)
-    {
-        frame.push_back(Qt::white);
-    }
-
     auto setLeds = [&](unsigned int ledStartOffset, unsigned int nrLed, unsigned int shift, const unsigned int lengths[], int lengthsSize)
     {
         unsigned int idx = shift;
@@ -37,7 +32,11 @@ bool AnimationHighlightRotation::renderFrame(Frame &frame)
                 if (i % 2 == 0)
                 {
                     assert(ledStartOffset + idx < NR_LED_TOTAL);
-                    frame[ledStartOffset + idx] = this->color;
+                    this->frame.data[ledStartOffset + idx] = this->color;
+                }
+                else
+                {
+                    this->frame.data[ledStartOffset + idx] = Qt::transparent;
                 }
                 idx++;
                 idx = idx % nrLed;

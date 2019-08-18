@@ -14,16 +14,6 @@
 #include "animations/AnimationImageColorWipe.h"
 #include "animations/AnimationImageCircleWipe.h"
 
-QStringList AnimationProvider::animationNames = QStringList() 
-    << "ConstantColor"
-    << "ImageCircleWipe"
-    << "ImageColorWipe"
-    << "ImageFire"
-    << "Rainbow"
-    << "RunningDot"
-    << "SegmentsFlashing"
-    << "Ullas";
-
 const std::vector<AnimationProvider::IFactory*> AnimationProvider::factoryList({
     new Factory<AnimationConstantColor>,
     new Factory<AnimationHighlightRotation>,
@@ -39,12 +29,30 @@ const std::vector<AnimationProvider::IFactory*> AnimationProvider::factoryList({
 
 QStringList AnimationProvider::getAnimationList()
 {
-    return animationNames;
+    QStringList names;
+    for (size_t i = 0; i < factoryList.size(); i++)
+    {
+        auto a = factoryList[i]->create();
+        names.append(a->getName());
+    }
+    return names;
 }
 
-AnimationStack AnimationProvider::getAnimationByName(QString name)
+AnimationStack AnimationProvider::getAnimationsByName(QStringList names)
 {
-    return AnimationStack();
+    AnimationStack newStack;
+    for (auto name : names)
+    {
+        for (size_t i = 0; i < factoryList.size(); i++)
+        {
+            auto a = factoryList[i]->create();
+            if (a->getName() == name)
+            {
+                newStack.addAnimation(a);
+            }
+        }
+    }
+    return newStack;
 }
 
 AnimationStack AnimationProvider::getRandomAnimation()

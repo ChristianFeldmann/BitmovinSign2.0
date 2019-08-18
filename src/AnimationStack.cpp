@@ -1,17 +1,21 @@
 #include "AnimationStack.h"
 
-bool AnimationStack::renderFrame(Frame &f)
+bool AnimationStack::renderFrame()
 {
+    this->frame.clearFrame();
+
     for (auto animation : this->animations)
     {
-        if (animation->renderFrame(f))
+        if (animation->renderFrame())
         {
-            animationsFinished++;
+            this->animationsFinished++;
         }
+        this->frame.blendWithFrame(animation->frame);
     }
-    if (animationsFinished > 0 && animationsFinished == this->animations.size())
+
+    if (this->animationsFinished > 0 && this->animationsFinished == this->animations.size())
     {
-        animationsFinished = 0;
+        this->animationsFinished = 0;
         return true;
     }
     return false;

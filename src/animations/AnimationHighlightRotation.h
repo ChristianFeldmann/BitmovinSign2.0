@@ -8,7 +8,8 @@ class AnimationHighlightRotation: public AnimationInterface
 public:
     AnimationHighlightRotation();
     AnimationHighlightRotation(QColor &color);
-    bool renderFrame(Frame &frame) override;
+    virtual QString getName() override { return "HighlightRotation"; };
+    bool renderFrame() override;
 
     void reset() override;
 

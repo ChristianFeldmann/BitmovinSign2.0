@@ -47,13 +47,13 @@ void DebuggerWidget::draw_dots_line(QPainter *qp, QPointF start, QPointF end, un
 {
     for(unsigned i = 0; i < num_of_dots; i++)
     {
-        if (i < this->frame.size())
+        if (i < this->frame.data.size())
         {
             float s = float(i + 1) / (num_of_dots + 1);
             int x = start.x() + (end.x() - start.x()) * s;
             int y = start.y() + (end.y() - start.y()) * s;
-            qp->setPen(this->frame[counter]);
-            qp->setBrush(this->frame[counter]);
+            qp->setPen(this->frame.data[counter]);
+            qp->setBrush(this->frame.data[counter]);
             qp->drawEllipse(x, y, 10, 10);
             counter++;
         }

@@ -7,6 +7,7 @@ class AnimationImageFire : public AnimationImageBase
 public:
     AnimationImageFire();
 
+    virtual QString getName() override { return "Fire"; };
     void reset() override;
 
 protected:

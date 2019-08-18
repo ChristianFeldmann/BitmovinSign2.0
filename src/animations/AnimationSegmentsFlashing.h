@@ -7,16 +7,17 @@ class AnimationSegmentsFlashing : public AnimationInterface
 {
 public:
     AnimationSegmentsFlashing();
-    AnimationSegmentsFlashing(const QColor &color, unsigned int timeOffsetBetweenSegments=20, unsigned int timeToWaitFullColor = 0);
+    AnimationSegmentsFlashing(const QColor &color, unsigned timeOffsetBetweenSegments=20, unsigned timeToWaitFullColor = 0);
     
-    bool renderFrame(Frame &frame) override;
+    bool renderFrame() override;
+    virtual QString getName() override { return "SegmentsFlashing"; };
     void reset() override;
 
 private:
     QColor color;
 
-    unsigned int counter{ 0 };
-    unsigned int timeOffsetBetweenSegments{ 0 };
-    unsigned int timeToWaitFullColor{ 0 };
+    unsigned counter{ 0 };
+    unsigned timeOffsetBetweenSegments{ 0 };
+    unsigned timeToWaitFullColor{ 0 };
 };
 

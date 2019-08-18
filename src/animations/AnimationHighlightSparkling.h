@@ -9,7 +9,8 @@ public:
     AnimationHighlightSparkling();
     AnimationHighlightSparkling(QColor &color);
 
-    bool renderFrame(Frame &frame) override;
+    bool renderFrame() override;
+    virtual QString getName() override { return "HighlightSparkling"; };
     void reset() override;
 
 private:

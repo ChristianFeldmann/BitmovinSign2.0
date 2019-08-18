@@ -15,7 +15,7 @@ public:
     
     // The AnimationImageBase allows to render 2-dimensional images. These are then mapped
     // to the LED values in 'frame'. The implementation of this function is in this file.
-    bool renderFrame(Frame &frame) override final;
+    bool renderFrame() override final;
 
     const QImage &getImage() { return this->image; }
 

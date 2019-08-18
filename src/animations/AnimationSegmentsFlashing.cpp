@@ -5,7 +5,7 @@ AnimationSegmentsFlashing::AnimationSegmentsFlashing()
     color = BITMOVIN_BLUE;
 }
 
-AnimationSegmentsFlashing::AnimationSegmentsFlashing(const QColor &color, unsigned int timeOffsetBetweenSegments, unsigned int timeToWaitFullColor)
+AnimationSegmentsFlashing::AnimationSegmentsFlashing(const QColor &color, unsigned timeOffsetBetweenSegments, unsigned timeToWaitFullColor)
 {
     this->color = color;
     this->timeOffsetBetweenSegments = timeOffsetBetweenSegments;
@@ -17,10 +17,8 @@ void AnimationSegmentsFlashing::reset()
     this->counter = 0;
 }
 
-bool AnimationSegmentsFlashing::renderFrame(Frame &frame)
+bool AnimationSegmentsFlashing::renderFrame()
 {
-    frame = getBlackFrame();
-
     for (int i = 0; i < 4; i++)
     {
         unsigned partCounter = this->counter - this->timeOffsetBetweenSegments * i;
@@ -39,13 +37,14 @@ bool AnimationSegmentsFlashing::renderFrame(Frame &frame)
             {
                 intensity = double(100 + this->timeToWaitFullColor - partCounter) / 50;
             }
-            QColor color = interpolateColors(Qt::black, this->color, intensity);
-            setRangeOfLedToColor(frame, OFFSET_LIST[i], NR_LED_LIST[i], color);
+            QColor c = this->color;
+            c.setAlpha(int(intensity * 255));
+            frame.setRangeToColor(OFFSET_LIST[i], NR_LED_LIST[i], c);
         }
     }
 
     this->counter++;
-    const unsigned int animationDuration = 100 + this->timeToWaitFullColor + 4 * this->timeOffsetBetweenSegments;
+    const unsigned animationDuration = 100 + this->timeToWaitFullColor + 4 * this->timeOffsetBetweenSegments;
     if (this->counter > animationDuration)
     {
         this->counter = 0;

@@ -10,12 +10,8 @@ AnimationConstantColor::AnimationConstantColor(QColor &color)
     this->color = color;
 }
 
-bool AnimationConstantColor::renderFrame(Frame &frame)
+bool AnimationConstantColor::renderFrame()
 {
-    for (unsigned i = 0; i < NR_LED_TOTAL; i++)
-    {
-        frame[i] = this->color;
-    }
-
+    std::fill(this->frame.data.begin(), this->frame.data.end(), this->color);
     return true;
 }

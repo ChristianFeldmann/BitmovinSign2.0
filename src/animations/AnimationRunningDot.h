@@ -9,7 +9,8 @@ public:
     AnimationRunningDot();
     AnimationRunningDot(QColor &color);
     
-    bool renderFrame(Frame &frame) override;
+    bool renderFrame() override;
+    virtual QString getName() override { return "RunningDot"; };
     void reset() override;
 
 private:

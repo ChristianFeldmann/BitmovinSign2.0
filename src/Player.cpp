@@ -7,16 +7,16 @@
 Player::Player(QObject *parent):QObject(parent)
 {
     this->timer.start(20, Qt::PreciseTimer, this);
-    currentAnimation = AnimationProvider::getRandomAnimation();
+    this->currentAnimation = AnimationProvider::getRandomAnimation();
+    //this->currentAnimation = AnimationProvider::getAnimationByName("HighlightSparkling");
+    //this->currentAnimation = AnimationProvider::getAnimationsByName({"ConstantColor", "HighlightSparkling" });
 }
 
 void Player::timerEvent(QTimerEvent *event)
 {
     Q_UNUSED(event);
 
-    Frame frame = Frame(NR_LED_TOTAL);
-
-    if (currentAnimation.renderFrame(frame))
+    if (this->currentAnimation.renderFrame())
     {
         static const int minimumAnimationRuntime = 500;
         if (currentAnimationRuntime > minimumAnimationRuntime)
@@ -29,9 +29,9 @@ void Player::timerEvent(QTimerEvent *event)
 
     if (this->debugger != nullptr)
     {
-        this->debugger->draw(frame, currentAnimation);
+        this->debugger->draw(this->currentAnimation.frame, currentAnimation);
     }
-    this->output.pushData(frame);
+    this->output.pushData(this->currentAnimation.frame);
 }
 
 void Player::set_debugger(DebuggerWidget *debugger)

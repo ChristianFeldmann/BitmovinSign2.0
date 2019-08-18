@@ -8,7 +8,8 @@ class AnimationRainbow: public AnimationInterface
 public:
     AnimationRainbow();
     
-    bool renderFrame(Frame &frame) override;
+    bool renderFrame() override;
+    virtual QString getName() override { return "Rainbow"; };
     void reset() override;
 
 private:

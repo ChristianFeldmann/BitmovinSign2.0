@@ -37,11 +37,3 @@ const std::vector<unsigned> NR_LED_LIST = {NR_LED_BACKGROUND, NR_LED_PART_LEFT, 
 const std::vector<unsigned> OFFSET_LIST = {0, OFFSET_PART_LEFT, OFFSET_PART_MIDDLE, OFFSET_PART_RIGHT};
 
 const QColor BITMOVIN_BLUE = QColor(30, 171, 226);
-
-using Frame = std::vector<QColor>;
-
-Frame getBlackFrame();
-
-QColor interpolateColors(const QColor &c1, const QColor &c2, double ratio);
-
-unsigned int setRangeOfLedToColor(Frame& frame, unsigned int startIdx, unsigned int nrLed, QColor color);

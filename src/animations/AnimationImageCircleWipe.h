@@ -8,6 +8,7 @@ public:
     AnimationImageCircleWipe() = default;
     AnimationImageCircleWipe(QColor color);
 
+    virtual QString getName() override { return "CircleWipe"; };
     void reset() override;
 
 private:

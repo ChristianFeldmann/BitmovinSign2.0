@@ -10,7 +10,7 @@ public:
     ~AnimationProvider() = default;
 
     static QStringList getAnimationList();
-    static AnimationStack getAnimationByName(QString name);
+    static AnimationStack getAnimationsByName(QStringList names);
 
     static AnimationStack getRandomAnimation();
 
@@ -27,6 +27,4 @@ private:
     };
 
     static const std::vector<IFactory*> factoryList;
-
-    static QStringList animationNames;
 };

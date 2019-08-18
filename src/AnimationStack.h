@@ -11,7 +11,8 @@ public:
     AnimationStack() = default;
     ~AnimationStack() = default;
 
-    virtual bool renderFrame(Frame &f);
+    virtual bool renderFrame() override;
+    virtual QString getName() override { return "Stack"; };
 
     void addAnimation(std::shared_ptr<AnimationInterface> animation);
 
