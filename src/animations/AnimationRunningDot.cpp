@@ -1,17 +1,8 @@
 #include "AnimationRunningDot.h"
 
-#include <QDebug>
-
-void AnimationRunningDot::setPropertie(QString propertyName, QString value)
+AnimationRunningDot::AnimationRunningDot()
 {
-    if (propertyName.toLower() == "color")
-    {
-        this->color = QColor(value);
-    }
-    else
-    {
-        qDebug() << "Unable to set property '" << propertyName << "' to value '" << value << "'. Unknown option for class " << typeid(*this).name();
-    }
+    this->animationParameters.push_back(AnimationParameter("color", &this->color));
 }
 
 void AnimationRunningDot::reset()

@@ -1,12 +1,5 @@
 #include "AnimationRainbow.h"
 
-#include <QDebug>
-
-void AnimationRainbow::setPropertie(QString propertyName, QString value)
-{
-    qDebug() << "Unable to set property '" << propertyName << "' to value '" << value << "'. Unknown option for class " << typeid(*this).name();
-}
-
 void AnimationRainbow::reset()
 {
     this->counter = 0;

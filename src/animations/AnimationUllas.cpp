@@ -1,15 +1,8 @@
 #include "AnimationUllas.h"
 
-#include <QDebug>
-
 void AnimationUllas::reset()
 {
     this->counter = 0;
-}
-
-void AnimationUllas::setPropertie(QString propertyName, QString value)
-{
-    qDebug() << "Unable to set property '" << propertyName << "' to value '" << value << "'. Unknown option for class " << typeid(*this).name();
 }
 
 bool AnimationUllas::renderFrame()

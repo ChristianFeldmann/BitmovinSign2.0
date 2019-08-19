@@ -14,10 +14,9 @@ public:
         RANDOM
     };
 
-    AnimationImageColorWipe() = default;
+    AnimationImageColorWipe();
 
     virtual QString getName() override { return "ColorWipe"; };
-    virtual void setPropertie(QString propertyName, QString value) override;
     void reset() override;
 
 private:

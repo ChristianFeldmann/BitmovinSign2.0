@@ -1,25 +1,10 @@
 #include "AnimationSegmentsFlashing.h"
 
-#include <QDebug>
-
-void AnimationSegmentsFlashing::setPropertie(QString propertyName, QString value)
+AnimationSegmentsFlashing::AnimationSegmentsFlashing()
 {
-    if (propertyName.toLower() == "color")
-    {
-        this->color = QColor(value);
-    }
-    else if (propertyName.toLower() == "timeoffsetbetweensegments")
-    {
-        this->timeOffsetBetweenSegments = value.toInt();
-    }
-    else if (propertyName.toLower() == "timetowaitfullcolor")
-    {
-        this->timeToWaitFullColor = value.toInt();
-    }
-    else
-    {
-        qDebug() << "Unable to set property '" << propertyName << "' to value '" << value << "'. Unknown option for class " << typeid(*this).name();
-    }
+    this->animationParameters.push_back(AnimationParameter("color", &this->color));
+    this->animationParameters.push_back(AnimationParameter("timeOffsetBetweenSegments", &this->timeOffsetBetweenSegments));
+    this->animationParameters.push_back(AnimationParameter("timeToWaitFullColor", &this->timeToWaitFullColor));
 }
 
 void AnimationSegmentsFlashing::reset()
@@ -31,7 +16,7 @@ bool AnimationSegmentsFlashing::renderFrame()
 {
     for (int i = 0; i < 4; i++)
     {
-        unsigned partCounter = this->counter - this->timeOffsetBetweenSegments * i;
+        int partCounter = this->counter - this->timeOffsetBetweenSegments * i;
         if (partCounter > 0 && partCounter < 100 + this->timeToWaitFullColor)
         {
             double intensity = 0;

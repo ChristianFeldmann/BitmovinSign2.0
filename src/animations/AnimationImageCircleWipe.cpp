@@ -1,18 +1,10 @@
 #include "AnimationImageCircleWipe.h"
 
 #include <QPainter>
-#include <QDebug>
 
-void AnimationImageCircleWipe::setPropertie(QString propertyName, QString value)
+AnimationImageCircleWipe::AnimationImageCircleWipe()
 {
-    if (propertyName.toLower() == "color")
-    {
-        this->color = QColor(value);
-    }
-    else
-    {
-        qDebug() << "Unable to set property '" << propertyName << "' to value '" << value << "'. Unknown option for class " << typeid(*this).name();
-    }
+    this->animationParameters.push_back(AnimationParameter("color", &this->color));
 }
 
 void AnimationImageCircleWipe::reset()

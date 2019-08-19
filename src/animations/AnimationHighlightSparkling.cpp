@@ -1,23 +1,10 @@
 #include "AnimationHighlightSparkling.h"
 
 #include <random>
-#include <QDebug>
 
 AnimationHighlightSparkling::AnimationHighlightSparkling()
 {
-    this->sparkColor = Qt::white;
-}
-
-void AnimationHighlightSparkling::setPropertie(QString propertyName, QString value)
-{
-    if (propertyName.toLower() == "color")
-    {
-        this->sparkColor = QColor(value);
-    }
-    else
-    {
-        qDebug() << "Unable to set property '" << propertyName << "' to value '" << value << "'. Unknown option for class " << typeid(*this).name();
-    }
+    this->animationParameters.push_back(AnimationParameter("color", &this->sparkColor));
 }
 
 void AnimationHighlightSparkling::reset()

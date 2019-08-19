@@ -10,7 +10,6 @@ public:
 
     bool renderFrame() override;
     virtual QString getName() override { return "HighlightSparkling"; }
-    virtual void setPropertie(QString propertyName, QString value) override;
     void reset() override;
 
 private:
@@ -23,7 +22,7 @@ private:
 
     unsigned getRelativeIndexWrap(unsigned int idx, int offset);
 
-    QColor sparkColor;
-    unsigned int offsetCounter{0};
+    QColor sparkColor{ Qt::white };
+    unsigned int offsetCounter{ 0 };
 };
 

@@ -13,7 +13,6 @@ public:
 
     virtual bool renderFrame() override;
     virtual QString getName() override { return "Stack"; };
-    virtual void setPropertie(QString propertieName, QString value) override;
 
     void addAnimation(std::shared_ptr<AnimationInterface> animation);
 

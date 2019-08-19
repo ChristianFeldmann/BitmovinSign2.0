@@ -6,11 +6,10 @@
 class AnimationRunningDot: public AnimationInterface
 {
 public:
-    AnimationRunningDot() = default;
+    AnimationRunningDot();
     
     bool renderFrame() override;
     virtual QString getName() override { return "RunningDot"; };
-    virtual void setPropertie(QString propertyName, QString value) override;
     void reset() override;
 
 private:

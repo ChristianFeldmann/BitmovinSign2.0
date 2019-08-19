@@ -8,7 +8,6 @@ class AnimationHighlightRotation: public AnimationInterface
 public:
     AnimationHighlightRotation();
     virtual QString getName() override { return "HighlightRotation"; };
-    virtual void setPropertie(QString propertyName, QString value) override;
     
     bool renderFrame() override;
     void reset() override;
@@ -16,5 +15,5 @@ public:
 private:
     unsigned int rotationCounters[4] {0, 0, 0, 0};
 
-    QColor color;
+    QColor color{ BITMOVIN_BLUE };
 };

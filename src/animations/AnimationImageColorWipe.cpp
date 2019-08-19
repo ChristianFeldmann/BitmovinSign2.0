@@ -1,45 +1,11 @@
 #include "AnimationImageColorWipe.h"
 
 #include <random>
-#include <QDebug>
 
-void AnimationImageColorWipe::setPropertie(QString propertyName, QString value)
+AnimationImageColorWipe::AnimationImageColorWipe()
 {
-    if (propertyName.toLower() == "color")
-    {
-        this->color = QColor(value);
-    }
-    else if (propertyName == "direction")
-    {
-        if (value.toLower() == "left_to_right")
-        {
-            this->direction = LEFT_TO_RIGHT;
-        }
-        else if (value.toLower() == "right_to_left")
-        {
-            this->direction = RIGHT_TO_LEFT;
-        }
-        else if (value.toLower() == "top_to_bottom")
-        {
-            this->direction = TOP_TO_BOTTOM;
-        }
-        else if (value.toLower() == "bottom_to_top")
-        {
-            this->direction = BOTTOM_TO_TOP;
-        }
-        else if (value.toLower() == "random")
-        {
-            this->direction = RANDOM;
-        }
-        else
-        {
-            qDebug() << "Unable to set property '" << propertyName << "' to value '" << value << "'. Unknown value for option.";
-        }
-    }
-    else
-    {
-        qDebug() << "Unable to set property '" << propertyName << "' to value '" << value << "'. Unknown option for class " << typeid(*this).name();
-    }
+    this->animationParameters.push_back(AnimationParameter("color", &this->color));
+    this->animationParameters.push_back(AnimationParameter("direction", (int*)&this->direction, QStringList() << "LEFT_TO_RIGHT" << "RIGHT_TO_LEFT" << "TOP_TO_BOTTOM" << "BOTTOM_TO_TOP"));
 }
 
 void AnimationImageColorWipe::reset()

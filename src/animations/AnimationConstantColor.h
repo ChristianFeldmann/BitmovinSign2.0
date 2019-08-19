@@ -10,8 +10,7 @@ public:
     
     virtual QString getName() override { return "ConstantColor"; };
     bool renderFrame() override;
-    virtual void setPropertie(QString propertyName, QString value) override;
     
 private:
-    QColor color;
+    QColor color{ BITMOVIN_BLUE };
 };

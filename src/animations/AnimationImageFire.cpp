@@ -1,7 +1,6 @@
 #include "AnimationImageFire.h"
 
 #include <random>
-#include <QDebug>
 
 std::vector<QColor> fireBase = {
     QColor(0x07,0x07,0x07),
@@ -46,11 +45,6 @@ std::vector<QColor> fireBase = {
 AnimationImageFire::AnimationImageFire() : AnimationImageBase()
 {
     this->resetFireMatrix();
-}
-
-void AnimationImageFire::setPropertie(QString propertyName, QString value)
-{
-    qDebug() << "Unable to set property '" << propertyName << "' to value '" << value << "'. Unknown option for class " << typeid(*this).name();
 }
 
 void AnimationImageFire::reset()

@@ -31,6 +31,7 @@ const std::vector<QStringList> AnimationProvider::randomAnimationPool({
     {"ConstantColor|color=#0a394b", "HighlightSparkling"},
     {"ConstantColor|color=#0a394b", "HighlightRotation|color=#FFFFFF"},
     {"Fire", "HighlightRotation|color=#FFFFFF"},
+    {"ColorWipe|direction=left_to_right"},
 });
 
 QStringList AnimationProvider::getAnimationList()

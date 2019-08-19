@@ -5,10 +5,9 @@
 class AnimationImageCircleWipe : public AnimationImageBase
 {
 public:
-    AnimationImageCircleWipe() = default;
+    AnimationImageCircleWipe();
 
     virtual QString getName() override { return "CircleWipe"; };
-    virtual void setPropertie(QString propertyName, QString value) override;
     void reset() override;
 
 private:
