@@ -6,10 +6,11 @@
 class AnimationUllas: public AnimationInterface
 {
 public:
-    AnimationUllas();
+    AnimationUllas() = default;
     
     bool renderFrame() override;
-    virtual QString getName() override { return "Ullas"; };
+    virtual QString getName() override { return "Ullas"; }
+    virtual void setPropertie(QString propertyName, QString value) override;
     void reset() override;
 
 private:

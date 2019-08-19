@@ -7,9 +7,7 @@
 Player::Player(QObject *parent):QObject(parent)
 {
     this->timer.start(20, Qt::PreciseTimer, this);
-    this->currentAnimation = AnimationProvider::getRandomAnimation();
-    //this->currentAnimation = AnimationProvider::getAnimationByName("HighlightSparkling");
-    //this->currentAnimation = AnimationProvider::getAnimationsByName({"ConstantColor", "HighlightSparkling" });
+    this->currentAnimation = AnimationProvider::getAnimationsByName({"ConstantColor|color=#0a394b", "HighlightSparkling"});
 }
 
 void Player::timerEvent(QTimerEvent *event)

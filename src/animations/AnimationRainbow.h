@@ -6,10 +6,11 @@
 class AnimationRainbow: public AnimationInterface
 {
 public:
-    AnimationRainbow();
+    AnimationRainbow() = default;
     
     bool renderFrame() override;
     virtual QString getName() override { return "Rainbow"; };
+    virtual void setPropertie(QString propertyName, QString value) override;
     void reset() override;
 
 private:

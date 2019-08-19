@@ -1,15 +1,25 @@
 #include "AnimationSegmentsFlashing.h"
 
-AnimationSegmentsFlashing::AnimationSegmentsFlashing()
-{
-    color = BITMOVIN_BLUE;
-}
+#include <QDebug>
 
-AnimationSegmentsFlashing::AnimationSegmentsFlashing(const QColor &color, unsigned timeOffsetBetweenSegments, unsigned timeToWaitFullColor)
+void AnimationSegmentsFlashing::setPropertie(QString propertyName, QString value)
 {
-    this->color = color;
-    this->timeOffsetBetweenSegments = timeOffsetBetweenSegments;
-    this->timeToWaitFullColor = timeToWaitFullColor;
+    if (propertyName.toLower() == "color")
+    {
+        this->color = QColor(value);
+    }
+    else if (propertyName.toLower() == "timeoffsetbetweensegments")
+    {
+        this->timeOffsetBetweenSegments = value.toInt();
+    }
+    else if (propertyName.toLower() == "timetowaitfullcolor")
+    {
+        this->timeToWaitFullColor = value.toInt();
+    }
+    else
+    {
+        qDebug() << "Unable to set property '" << propertyName << "' to value '" << value << "'. Unknown option for class " << typeid(*this).name();
+    }
 }
 
 void AnimationSegmentsFlashing::reset()

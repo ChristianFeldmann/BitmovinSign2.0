@@ -1,15 +1,23 @@
-#include<assert.h>
-
 #include "AnimationHighlightRotation.h"
+
+#include<assert.h>
+#include <QDebug>
 
 AnimationHighlightRotation::AnimationHighlightRotation()
 {
     color = BITMOVIN_BLUE;
 }
 
-AnimationHighlightRotation::AnimationHighlightRotation(QColor &color)
+void AnimationHighlightRotation::setPropertie(QString propertyName, QString value)
 {
-    this->color = color;
+    if (propertyName.toLower() == "color")
+    {
+        this->color = QColor(value);
+    }
+    else
+    {
+        qDebug() << "Unable to set property '" << propertyName << "' to value '" << value << "'. Unknown option for class " << typeid(*this).name();
+    }
 }
 
 void AnimationHighlightRotation::reset()

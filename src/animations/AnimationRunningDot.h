@@ -6,14 +6,14 @@
 class AnimationRunningDot: public AnimationInterface
 {
 public:
-    AnimationRunningDot();
-    AnimationRunningDot(QColor &color);
+    AnimationRunningDot() = default;
     
     bool renderFrame() override;
     virtual QString getName() override { return "RunningDot"; };
+    virtual void setPropertie(QString propertyName, QString value) override;
     void reset() override;
 
 private:
     unsigned counter {0};
-    QColor color;
+    QColor color{ Qt::red };
 };

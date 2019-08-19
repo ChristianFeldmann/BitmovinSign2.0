@@ -7,10 +7,10 @@ class AnimationHighlightSparkling: public AnimationInterface
 {
 public:
     AnimationHighlightSparkling();
-    AnimationHighlightSparkling(QColor &color);
 
     bool renderFrame() override;
-    virtual QString getName() override { return "HighlightSparkling"; };
+    virtual QString getName() override { return "HighlightSparkling"; }
+    virtual void setPropertie(QString propertyName, QString value) override;
     void reset() override;
 
 private:

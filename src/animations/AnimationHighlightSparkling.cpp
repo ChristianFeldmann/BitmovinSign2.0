@@ -1,15 +1,23 @@
 #include "AnimationHighlightSparkling.h"
 
 #include <random>
+#include <QDebug>
 
 AnimationHighlightSparkling::AnimationHighlightSparkling()
 {
-    sparkColor = Qt::white;
+    this->sparkColor = Qt::white;
 }
 
-AnimationHighlightSparkling::AnimationHighlightSparkling(QColor &color)
+void AnimationHighlightSparkling::setPropertie(QString propertyName, QString value)
 {
-    this->sparkColor = color;
+    if (propertyName.toLower() == "color")
+    {
+        this->sparkColor = QColor(value);
+    }
+    else
+    {
+        qDebug() << "Unable to set property '" << propertyName << "' to value '" << value << "'. Unknown option for class " << typeid(*this).name();
+    }
 }
 
 void AnimationHighlightSparkling::reset()
@@ -50,8 +58,18 @@ bool AnimationHighlightSparkling::renderFrame()
         {
             double ratio = sparkleIntensity * offsetRatios[i + 2];
             unsigned int idx = this->getRelativeIndexWrap((*it).position, i);
+
+            auto setAlpha = this->frame.data[idx].alpha();
             this->frame.data[idx] = this->sparkColor;
-            this->frame.data[idx].setAlpha(int(ratio * 255));
+            if (setAlpha == 0)
+            {
+                this->frame.data[idx].setAlpha(int(ratio * 255));
+            }
+            else
+            {
+                auto newAlpha = clip<int>(setAlpha + int(ratio * 255), 0, 255);
+                this->frame.data[idx].setAlpha(newAlpha);
+            }
         }
         (*it).counter++;
     }

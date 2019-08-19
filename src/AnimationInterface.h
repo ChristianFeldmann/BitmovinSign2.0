@@ -14,6 +14,7 @@ public:
     virtual bool renderFrame() = 0;
 
     virtual QString getName() = 0;
+    virtual void setPropertie(QString propertieName, QString value) = 0;
 
     virtual void reset() {};
 

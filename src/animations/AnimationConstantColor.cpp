@@ -1,14 +1,23 @@
 #include "AnimationConstantColor.h"
 
+#include <QDebug>
+
 AnimationConstantColor::AnimationConstantColor()
 {
     color = BITMOVIN_BLUE;
 }
 
-AnimationConstantColor::AnimationConstantColor(QColor &color)
+void AnimationConstantColor::setPropertie(QString propertyName, QString value)
 {
-    this->color = color;
-}
+    if (propertyName.toLower() == "color")
+    {
+        this->color = QColor(value);
+    }
+    else
+    {
+        qDebug() << "Unable to set property '" << propertyName << "' to value '" << value << "'. Unknown option for class " << typeid(*this).name();
+    }
+};
 
 bool AnimationConstantColor::renderFrame()
 {

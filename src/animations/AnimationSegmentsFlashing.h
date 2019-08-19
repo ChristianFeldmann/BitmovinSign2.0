@@ -6,15 +6,15 @@
 class AnimationSegmentsFlashing : public AnimationInterface
 {
 public:
-    AnimationSegmentsFlashing();
-    AnimationSegmentsFlashing(const QColor &color, unsigned timeOffsetBetweenSegments=20, unsigned timeToWaitFullColor = 0);
+    AnimationSegmentsFlashing() = default;
     
     bool renderFrame() override;
     virtual QString getName() override { return "SegmentsFlashing"; };
+    virtual void setPropertie(QString propertyName, QString value) override;
     void reset() override;
 
 private:
-    QColor color;
+    QColor color{ BITMOVIN_BLUE };
 
     unsigned counter{ 0 };
     unsigned timeOffsetBetweenSegments{ 0 };

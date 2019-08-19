@@ -7,10 +7,10 @@ class AnimationHighlightRotation: public AnimationInterface
 {
 public:
     AnimationHighlightRotation();
-    AnimationHighlightRotation(QColor &color);
     virtual QString getName() override { return "HighlightRotation"; };
+    virtual void setPropertie(QString propertyName, QString value) override;
+    
     bool renderFrame() override;
-
     void reset() override;
 
 private:

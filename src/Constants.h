@@ -37,3 +37,8 @@ const std::vector<unsigned> NR_LED_LIST = {NR_LED_BACKGROUND, NR_LED_PART_LEFT, 
 const std::vector<unsigned> OFFSET_LIST = {0, OFFSET_PART_LEFT, OFFSET_PART_MIDDLE, OFFSET_PART_RIGHT};
 
 const QColor BITMOVIN_BLUE = QColor(30, 171, 226);
+
+template <typename T>
+T clip(const T& n, const T& lower, const T& upper) {
+    return std::max(lower, std::min(n, upper));
+}

@@ -1,5 +1,12 @@
 #include "AnimationStack.h"
 
+#include <QDebug>
+
+void AnimationStack::setPropertie(QString propertyName, QString value)
+{
+    qDebug() << "Unable to set property '" << propertyName << "' to value '" << value << "'. You can not set properties on an animation stack.";
+}
+
 bool AnimationStack::renderFrame()
 {
     this->frame.clearFrame();

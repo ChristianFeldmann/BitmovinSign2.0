@@ -2,6 +2,7 @@
 
 #include "AnimationInterface.h"
 #include "AnimationStack.h"
+#include <QStringList>
 
 class AnimationProvider
 {
@@ -27,4 +28,5 @@ private:
     };
 
     static const std::vector<IFactory*> factoryList;
+    static const std::vector<QStringList> randomAnimationPool;
 };
