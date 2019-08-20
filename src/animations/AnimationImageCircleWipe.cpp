@@ -1,6 +1,7 @@
 #include "AnimationImageCircleWipe.h"
 
 #include <QPainter>
+#include <cmath>
 
 AnimationImageCircleWipe::AnimationImageCircleWipe()
 {

@@ -51,9 +51,9 @@ void Output::pushData(Frame &f)
     for (int i = 0; i < NR_LED_TOTAL; i++)
     {
         ws2811_led_t v = 0;
-        v += ((f[i].green()) << 16);
-        v += ((f[i].red()) << 8);
-        v += (f[i].blue());
+        v += ((f.data[i].green()) << 16);
+        v += ((f.data[i].red()) << 8);
+        v += (f.data[i].blue());
 
         ledstring.channel[0].leds[i] = v;
     }

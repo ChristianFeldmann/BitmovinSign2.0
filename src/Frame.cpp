@@ -1,5 +1,7 @@
 #include "Frame.h"
 
+#include <cassert>
+
 unsigned Frame::setRangeToColor(unsigned startIdx, unsigned count, QColor color)
 {
     std::fill(data.begin() + startIdx, data.begin() + startIdx + count, color);

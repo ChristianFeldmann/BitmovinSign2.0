@@ -24,6 +24,9 @@ public:
 
     void set_debugger(DebuggerWidget *debugger);
 
+private slots:
+    void fpsTimerTimeout();
+    
 private:
     QBasicTimer timer;
     Output output;
@@ -32,4 +35,7 @@ private:
 
     AnimationStack currentAnimation;
     unsigned currentAnimationRuntime{ 0 };
+    
+    QTimer fpsTimer;
+    unsigned fpsDrawCounter{ 0 };
 };

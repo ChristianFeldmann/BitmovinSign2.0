@@ -16,9 +16,8 @@ class DebuggerWidget : public QWidget
 public:
     DebuggerWidget(QWidget *parent = nullptr);
     void draw(Frame &frame, AnimationStack animation);
-
-private slots:
-    void fpsTimerTimeout();
+    
+    void setFPS(unsigned fps) { this->fps = fps; }
 
 protected:
     std::vector<QPointF> points_base = {QPointF{0.5, 0.98}, QPointF{0.03 , 0.75}, QPointF{0.03 , 0.27}, QPointF{0.5, 0.03}, QPointF{0.97, 0.27}, QPointF{0.97, 0.75}};
@@ -33,8 +32,6 @@ protected:
     
     Frame frame;
     AnimationStack animation;
-
-    QTimer fpsTimer;
-    unsigned fpsDrawCounter{ 0 };
-    unsigned currentFps{ 0 };
+    
+    unsigned fps{0};
 };
