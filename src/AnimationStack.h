@@ -14,6 +14,8 @@ public:
     virtual bool renderFrame() override;
     virtual QString getName() override { return "Stack"; };
 
+    const std::vector<std::shared_ptr<AnimationInterface>> &getAnimationList() { return this->animations; }
+
     void addAnimation(std::shared_ptr<AnimationInterface> animation);
 
 private:

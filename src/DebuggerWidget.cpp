@@ -1,80 +1,115 @@
 #include "DebuggerWidget.h"
 
-DebuggerWidget::DebuggerWidget(QWidget *parent): QWidget(parent)
+DebuggerWidget::DebuggerWidget(QWidget *parent) : 
+    QWidget(parent)
 {
-    this->resize(1000, 500);
-    this->setWindowTitle("Points");
-    QPalette pal = palette();
-    pal.setColor(QPalette::Window, Qt::black);
-    this->setPalette(pal);
-
-    this->show();
 }
 
 void DebuggerWidget::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
     QPainter painter(this);
-    this->draw_points(&painter);
-    /*if (this->animationImage)
-    {
-        const QImage &img = this->animationImage->getImage();
-        const QSize imageSize = img.size();
-        int imageDrawWidth = std::min(this->size().width() / 2, this->size().height());
-        int imageDrawHeight = imageDrawWidth * imageSize.width() / imageSize.height();
+    painter.fillRect(rect(), Qt::black);
+    // Split the widget area into a 3x3 "matrix" of square spaces
+    int widthHeight = std::min(this->size().width(), this->size().height());
+    int wh3 = widthHeight / 3;
 
-        QRect target = QRect(this->size().width() / 2, 0, imageDrawWidth, imageDrawHeight);
-        painter.drawImage(target, img);
-    }*/
-    // Draw the fps text
-    painter.setPen(Qt::white);
-    painter.drawText(5, 10, QString::number(this->fps));
+    auto animations = this->animation.getAnimationList();
+    for (int i = 0; i < 3; i++)
+    {
+        if (i < animations.size())
+        {
+            DebuggerWidget::drawPoints(painter, QRect(0, i * wh3, wh3, wh3), animations[i]->frame, animations[i]->getName());
+
+            auto imageAnimation = std::dynamic_pointer_cast<AnimationImageBase>(animations[i]);
+            if (imageAnimation)
+            {
+                DebuggerWidget::drawImage(painter, QRect(wh3, i * wh3, wh3, wh3), imageAnimation->getImage());
+            }
+            else
+            {
+                DebuggerWidget::drawRect(painter, QRect(wh3, i * wh3, wh3, wh3));
+            }
+        }
+        else
+        {
+            DebuggerWidget::drawRect(painter, QRect(0, i * wh3, wh3, wh3));
+            DebuggerWidget::drawRect(painter, QRect(wh3, i * wh3, wh3, wh3));
+        }
+
+    }
+
+    // Draw the output frame into the square in the right middle
+    DebuggerWidget::drawPoints(painter, QRect(2 * wh3, wh3, wh3, wh3), this->animation.frame, "Output");
     painter.end();
 }
 
-void DebuggerWidget::draw_dots_line(QPainter *qp, QPointF start, QPointF end, unsigned num_of_dots, int &counter)
+void DebuggerWidget::drawDotsLine(QPainter &painter, Frame &frame, QPointF start, QPointF end, unsigned num_of_dots, int &counter)
 {
+    auto &data = frame.data;
     for(unsigned i = 0; i < num_of_dots; i++)
     {
-        if (i < this->frame.data.size())
+        if (i < data.size())
         {
             float s = float(i + 1) / (num_of_dots + 1);
             int x = start.x() + (end.x() - start.x()) * s;
             int y = start.y() + (end.y() - start.y()) * s;
-            qp->setPen(this->frame.data[counter]);
-            qp->setBrush(this->frame.data[counter]);
-            qp->drawEllipse(x, y, 10, 10);
+            painter.setPen(data[counter]);
+            painter.setBrush(data[counter]);
+            painter.drawEllipse(x, y, 10, 10);
             counter++;
         }
     }
 }
 
-void DebuggerWidget::draw_lines_from_points(QPainter *qp, std::vector<QPointF> point_list, std::vector<unsigned> led_list, int factor, int &counter)
+void DebuggerWidget::drawLinesFromPoints(QPainter &painter, QRect where, Frame &frame, std::vector<QPointF> point_list, std::vector<unsigned> led_list, int &counter)
 {
     auto num_of_lines = point_list.size();
     for (size_t i = 0; i < num_of_lines; i++)
     {
-        QPointF start = point_list[i];
-        QPointF end = point_list[(i+1) % num_of_lines];
+        QPointF startRelative = point_list[i];
+        QPointF endRelative = point_list[(i+1) % num_of_lines];
+        
+        QPointF start = where.topLeft() + startRelative * where.width();
+        QPointF end = where.topLeft() + endRelative * where.width();
+
         unsigned num_of_led = led_list[i];
-        this->draw_dots_line(qp, start * factor, end * factor, num_of_led, counter);
+        DebuggerWidget::drawDotsLine(painter, frame, start, end, num_of_led, counter);
     }
 }
 
-void DebuggerWidget::draw_points(QPainter *qp)
+void DebuggerWidget::drawPoints(QPainter &painter, QRect where, Frame &frame, QString lable)
 {
-    int factor = std::min(this->size().width() / 2, this->size().height());
     int led_counter = 0;
 
-    this->draw_lines_from_points(qp, POINTS_BASE , LED_PARTS_BACKGROUND, factor, led_counter);
-    this->draw_lines_from_points(qp, POINTS_PART_L, LED_PARTS_PART_LEFT, factor, led_counter);
-    this->draw_lines_from_points(qp, POINTS_PART_M, LED_PARTS_PART_MIDDLE, factor, led_counter);
-    this->draw_lines_from_points(qp, POINTS_PART_R, LED_PARTS_PART_RIGHT, factor, led_counter);
+    DebuggerWidget::drawLinesFromPoints(painter, where, frame, POINTS_BASE , LED_PARTS_BACKGROUND, led_counter);
+    DebuggerWidget::drawLinesFromPoints(painter, where, frame, POINTS_PART_L, LED_PARTS_PART_LEFT, led_counter);
+    DebuggerWidget::drawLinesFromPoints(painter, where, frame, POINTS_PART_M, LED_PARTS_PART_MIDDLE, led_counter);
+    DebuggerWidget::drawLinesFromPoints(painter, where, frame, POINTS_PART_R, LED_PARTS_PART_RIGHT, led_counter);
+
+    DebuggerWidget::drawRect(painter, where, lable);
 }
 
-void DebuggerWidget::draw(Frame &f, AnimationStack animation)
+void DebuggerWidget::drawImage(QPainter &painter, QRect where, const QImage &image)
 {
-    this->frame = f;
+    painter.drawImage(where, image);
+
+    DebuggerWidget::drawRect(painter, where);
+}
+
+void DebuggerWidget::drawRect(QPainter &painter, QRect where, QString lable)
+{
+    painter.setPen(Qt::white);
+    painter.setBrush(Qt::transparent);
+    painter.drawRect(where);
+    if (!lable.isEmpty())
+    {
+        painter.drawText(where, Qt::AlignLeft | Qt::AlignTop, lable);
+    }
+}
+
+void DebuggerWidget::draw(AnimationStack &animation)
+{
     this->animation = animation;
     this->update();
 }

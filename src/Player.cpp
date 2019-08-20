@@ -30,29 +30,15 @@ void Player::timerEvent(QTimerEvent *event)
     }
     currentAnimationRuntime++;
 
-    if (this->debugger != nullptr)
-    {
-        this->debugger->draw(this->currentAnimation.frame, currentAnimation);
-    }
+    emit this->updateDebugger(this->currentAnimation);
     this->output.pushData(this->currentAnimation.frame);
     
     this->fpsDrawCounter++;
 }
 
-void Player::set_debugger(DebuggerWidget *debugger)
-{
-    this->debugger = debugger;
-}
-
 void Player::fpsTimerTimeout()
 {
-    if (this->debugger != nullptr)
-    {
-        this->debugger->setFPS(this->fpsDrawCounter);
-    }
-    else
-    {
-        qDebug() << "FPS: " << this->fpsDrawCounter;
-    }
+    qDebug() << "FPS: " << this->fpsDrawCounter;
+    emit this->updateFPS(this->fpsDrawCounter);
     this->fpsDrawCounter = 0;
 }

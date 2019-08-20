@@ -16,6 +16,8 @@ SOURCES += $$files(lib/*.cpp, true)
 SOURCES += $$files(src/*.c, true)
 SOURCES += $$files(src/*.cpp, true)
 
+FORMS += $$files(ui/*.ui, true)
+
 macx {
 HEADERS -= $$files(lib/ws2811/*.h, true)
 SOURCES -= $$files(lib/ws2811/*.c, true)

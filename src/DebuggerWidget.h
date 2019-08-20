@@ -15,9 +15,8 @@ class DebuggerWidget : public QWidget
 
 public:
     DebuggerWidget(QWidget *parent = nullptr);
-    void draw(Frame &frame, AnimationStack animation);
     
-    void setFPS(unsigned fps) { this->fps = fps; }
+    void draw(AnimationStack &animation);
 
 protected:
     std::vector<QPointF> points_base = {QPointF{0.5, 0.98}, QPointF{0.03 , 0.75}, QPointF{0.03 , 0.27}, QPointF{0.5, 0.03}, QPointF{0.97, 0.27}, QPointF{0.97, 0.75}};
@@ -26,12 +25,11 @@ protected:
     std::vector<QPointF> points_partR = {QPointF{0.37, 0.16}, QPointF{0.93, 0.50}, QPointF{0.37, 0.85}, QPointF{0.37, 0.69}, QPointF{0.67, 0.5}, QPointF{0.37 , 0.32}};
 
     void paintEvent(QPaintEvent *event) override;
-    void draw_dots_line(QPainter *qp, QPointF start, QPointF end, unsigned num_of_dots, int &counter);
-    void draw_lines_from_points(QPainter *qp, std::vector<QPointF> point_list, std::vector<unsigned> led_list, int factor, int &counter);
-    void draw_points(QPainter *qp);
+    static void drawDotsLine(QPainter &painter, Frame &frame, QPointF start, QPointF end, unsigned num_of_dots, int &counter);
+    static void drawLinesFromPoints(QPainter &painter, QRect where, Frame &frame, std::vector<QPointF> point_list, std::vector<unsigned> led_list, int &counter);
+    static void drawPoints(QPainter &painter, QRect where, Frame &frame, QString lable);
+    static void drawImage(QPainter &painter, QRect where, const QImage &image);
+    static void drawRect(QPainter &painter, QRect where, QString lable = "");
     
-    Frame frame;
     AnimationStack animation;
-    
-    unsigned fps{0};
 };

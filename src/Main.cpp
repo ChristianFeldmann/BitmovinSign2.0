@@ -6,7 +6,7 @@
 #include <memory>
 
 #include "Constants.h"
-#include "DebuggerWidget.h"
+#include "DebuggerMainWindow.h"
 #include "Player.h"
 
 int main(int argc, char *argv[])
@@ -32,12 +32,11 @@ int main(int argc, char *argv[])
     
     Player player;
 
-    std::unique_ptr<DebuggerWidget> debugger;
+    std::unique_ptr<DebuggerMainWindow> debugger;
     if (enableDebugger)
     {
-        debugger.reset(new DebuggerWidget);
+        debugger.reset(new DebuggerMainWindow(&player));
     }
-    player.set_debugger(debugger.get());
 
     if (debugger)
     {

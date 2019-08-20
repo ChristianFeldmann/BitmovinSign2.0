@@ -22,7 +22,9 @@ public:
     Player(const Player&) = delete;
     Player& operator =(const Player&) = delete;
 
-    void set_debugger(DebuggerWidget *debugger);
+signals:
+    void updateDebugger(AnimationStack &currentAnimation);
+    void updateFPS(int fps);
 
 private slots:
     void fpsTimerTimeout();
@@ -30,7 +32,6 @@ private slots:
 private:
     QBasicTimer timer;
     Output output;
-    DebuggerWidget *debugger;
     virtual void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE; // Overloaded from QObject. Called when the timer fires.
 
     AnimationStack currentAnimation;
