@@ -3,12 +3,13 @@
 #include <vector>
 #include <QColor>
 #include <QPointF>
+#include <QSize>
 
 #include <cstdlib>
 #include <climits>
 #include <memory>
 
-#include <algorithm>    // std::fill
+#include <algorithm>
 
 class AnimationInterface;
 
@@ -42,3 +43,14 @@ template <typename T>
 T clip(const T& n, const T& lower, const T& upper) {
     return std::max(lower, std::min(n, upper));
 }
+
+const unsigned imageWidth = 120;
+const unsigned imageHeight = 120;
+const QSize imageSize = QSize(imageWidth, imageHeight);
+
+class Frame;
+struct RenderMemory
+{
+    std::map<int, Frame> frameMap;
+    std::map<int, QImage> imageMap;
+};

@@ -1,15 +1,15 @@
 #pragma once
 
-#include <AnimationInterface.h>
-#include <Constants.h>
+#include "AnimationBase.h"
 
-class AnimationConstantColor: public AnimationInterface
+class AnimationConstantColor: public AnimationBase
 {
 public:
-    AnimationConstantColor();
-    
-    virtual QString getName() override { return "ConstantColor"; };
-    bool renderFrame() override;
+    AnimationConstantColor() = delete;
+    AnimationConstantColor(AnimationTreeBase *parentStack);
+
+    virtual bool renderFrame(Frame &frame, QImage &image) override;
+    virtual QString getName() const override { return "ConstantColor"; };
     
 private:
     QColor color{ BITMOVIN_BLUE };

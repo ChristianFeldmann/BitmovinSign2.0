@@ -1,10 +1,11 @@
 #include "AnimationSegmentsFlashing.h"
 
-AnimationSegmentsFlashing::AnimationSegmentsFlashing()
+AnimationSegmentsFlashing::AnimationSegmentsFlashing(AnimationTreeBase *parentStack) :
+    AnimationBase(parentStack)
 {
-    this->animationParameters.push_back(AnimationParameter("color", &this->color));
-    this->animationParameters.push_back(AnimationParameter("timeOffsetBetweenSegments", &this->timeOffsetBetweenSegments));
-    this->animationParameters.push_back(AnimationParameter("timeToWaitFullColor", &this->timeToWaitFullColor));
+    this->animationParameters.push_back(AnimationParameter(this, "color", &this->color));
+    this->animationParameters.push_back(AnimationParameter(this, "timeOffsetBetweenSegments", &this->timeOffsetBetweenSegments));
+    this->animationParameters.push_back(AnimationParameter(this, "timeToWaitFullColor", &this->timeToWaitFullColor));
 }
 
 void AnimationSegmentsFlashing::reset()
@@ -12,8 +13,9 @@ void AnimationSegmentsFlashing::reset()
     this->counter = 0;
 }
 
-bool AnimationSegmentsFlashing::renderFrame()
+bool AnimationSegmentsFlashing::renderFrame(Frame &frame, QImage &image)
 {
+    Q_UNUSED(image);
     for (int i = 0; i < 4; i++)
     {
         int partCounter = this->counter - this->timeOffsetBetweenSegments * i;

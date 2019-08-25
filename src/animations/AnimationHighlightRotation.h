@@ -1,15 +1,15 @@
 #pragma once
 
-#include <AnimationInterface.h>
-#include <Constants.h>
+#include "AnimationBase.h"
 
-class AnimationHighlightRotation: public AnimationInterface
+class AnimationHighlightRotation: public AnimationBase
 {
 public:
-    AnimationHighlightRotation();
-    virtual QString getName() override { return "HighlightRotation"; };
-    
-    bool renderFrame() override;
+    AnimationHighlightRotation() = delete;
+    AnimationHighlightRotation(AnimationTreeBase *parentStack);
+
+    virtual bool renderFrame(Frame &frame, QImage &image) override;
+    virtual QString getName() const override { return "HighlightRotation"; };
     void reset() override;
 
 private:

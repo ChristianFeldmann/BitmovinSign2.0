@@ -1,25 +1,31 @@
 #pragma once
 
-#include "AnimationInterface.h"
+#include "AnimationBase.h"
+#include "AnimationTreeBase.h"
 
 /* A stack of multiple animations. Rendering the stack will render all animations
  * in the order they were added.
  */
-class AnimationStack : public AnimationInterface
+class AnimationStack : public AnimationTreeBase
 {
 public:
-    AnimationStack() = default;
+    AnimationStack(AnimationTreeBase *rootPlaylist, QStringList animations = {});
     ~AnimationStack() = default;
 
-    virtual bool renderFrame() override;
-    virtual QString getName() override { return "Stack"; };
+    bool renderStack(Frame &output, RenderMemory &renderMemory);
 
-    const std::vector<std::shared_ptr<AnimationInterface>> &getAnimationList() { return this->animations; }
-
-    void addAnimation(std::shared_ptr<AnimationInterface> animation);
+    // Overload from AnimationTreeBase
+    virtual AnimationTreeBase *child(int number) override;
+    virtual size_t childCount() const override;
+    virtual int childNumber(AnimationTreeBase *child) const override;
+    virtual QVariant data(int column) const override;
+    
+    // Get a list with all names of all known animations
+    static QStringList getAnimationList();
 
 private:
-    std::vector<std::shared_ptr<AnimationInterface>> animations;
+    void addAnimationFromString(QString &name);
+    std::vector<std::shared_ptr<AnimationBase>> animations;
 
     unsigned animationsFinished{ 0 };
 };

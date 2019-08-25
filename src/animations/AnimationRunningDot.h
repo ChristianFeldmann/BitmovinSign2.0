@@ -1,15 +1,15 @@
 #pragma once
 
-#include <AnimationInterface.h>
-#include <Constants.h>
+#include "AnimationBase.h"
 
-class AnimationRunningDot: public AnimationInterface
+class AnimationRunningDot: public AnimationBase
 {
 public:
-    AnimationRunningDot();
+    AnimationRunningDot() = delete;
+    AnimationRunningDot(AnimationTreeBase *parentStack);
     
-    bool renderFrame() override;
-    virtual QString getName() override { return "RunningDot"; };
+    virtual bool renderFrame(Frame &frame, QImage &image) override;
+    virtual QString getName() const override { return "RunningDot"; };
     void reset() override;
 
 private:

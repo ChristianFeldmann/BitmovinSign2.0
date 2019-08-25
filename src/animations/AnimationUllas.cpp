@@ -1,12 +1,18 @@
 #include "AnimationUllas.h"
 
+AnimationUllas::AnimationUllas(AnimationTreeBase *parentStack) :
+    AnimationBase(parentStack)
+{
+}
+
 void AnimationUllas::reset()
 {
     this->counter = 0;
 }
 
-bool AnimationUllas::renderFrame()
+bool AnimationUllas::renderFrame(Frame &frame, QImage &image)
 {
+    Q_UNUSED(image);
     int count = 0;
 
     const QColor color1 = QColor(255, 150, 0);

@@ -2,10 +2,11 @@
 
 #include <random>
 
-AnimationImageColorWipe::AnimationImageColorWipe()
+AnimationImageColorWipe::AnimationImageColorWipe(AnimationTreeBase *parentStack) :
+    AnimationBase(parentStack)
 {
-    this->animationParameters.push_back(AnimationParameter("color", &this->color));
-    this->animationParameters.push_back(AnimationParameter("direction", (int*)&this->direction, QStringList() << "LEFT_TO_RIGHT" << "RIGHT_TO_LEFT" << "TOP_TO_BOTTOM" << "BOTTOM_TO_TOP"));
+    this->animationParameters.push_back(AnimationParameter(this, "color", &this->color));
+    this->animationParameters.push_back(AnimationParameter(this, "direction", (int*)&this->direction, QStringList() << "LEFT_TO_RIGHT" << "RIGHT_TO_LEFT" << "TOP_TO_BOTTOM" << "BOTTOM_TO_TOP"));
 }
 
 void AnimationImageColorWipe::reset()
@@ -15,7 +16,7 @@ void AnimationImageColorWipe::reset()
     this->currentDirection = RANDOM;
 }
 
-bool AnimationImageColorWipe::renderImage()
+bool AnimationImageColorWipe::renderFrame(Frame &frame, QImage &image)
 {
     if (this->currentDirection == RANDOM)
     {
@@ -33,7 +34,7 @@ bool AnimationImageColorWipe::renderImage()
     
     if (this->counter > sizeInDirection && this->counter < sizeInDirection + this->waitFull)
     {
-        this->image.fill(this->color);
+        image.fill(this->color);
     }
     else
     {
@@ -55,10 +56,12 @@ bool AnimationImageColorWipe::renderImage()
                 const int y = (horizontal) ? j : iInverted;
                 bool overLine = i > linePos;
                 const QColor c = (overLine ^ colorInvert) ? Qt::black : this->color;
-                this->image.setPixelColor(x, y, c);
+                image.setPixelColor(x, y, c);
             }
         }
     }
+
+    AnimationBase::convertImageToFrame(frame, image);
     
     this->counter++;
     if (this->counter > sizeInDirection * 2 + this->waitFull)

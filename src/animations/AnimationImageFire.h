@@ -1,17 +1,17 @@
 #pragma once
 
-#include <animations/AnimationImageBase.h>
+#include "AnimationBase.h"
 
-class AnimationImageFire : public AnimationImageBase
+class AnimationImageFire : public AnimationBase
 {
 public:
-    AnimationImageFire();
+    AnimationImageFire() = delete;
+    AnimationImageFire(AnimationTreeBase *parentStack);
 
-    virtual QString getName() override { return "Fire"; };
+    virtual bool renderFrame(Frame &frame, QImage &image) override;
+
+    virtual QString getName() const override { return "Fire"; };
     void reset() override;
-
-protected:
-    bool renderImage() override;
 
 private:
 

@@ -42,7 +42,8 @@ std::vector<QColor> fireBase = {
     QColor(0xFF,0xFF,0xFF),
 };
 
-AnimationImageFire::AnimationImageFire() : AnimationImageBase()
+AnimationImageFire::AnimationImageFire(AnimationTreeBase *parentStack) :
+    AnimationBase(parentStack)
 {
     this->resetFireMatrix();
 }
@@ -52,7 +53,7 @@ void AnimationImageFire::reset()
     this->resetFireMatrix();
 }
 
-bool AnimationImageFire::renderImage()
+bool AnimationImageFire::renderFrame(Frame &frame, QImage &image)
 {
     std::random_device rd;
     std::mt19937 mt(rd());
@@ -79,9 +80,11 @@ bool AnimationImageFire::renderImage()
         for (unsigned j = 0; j < imageHeight; ++j)
         {
             unsigned index = this->fireMatrix[i][j];
-            this->image.setPixelColor(i, j, fireBase[index]);
+            image.setPixelColor(i, j, fireBase[index]);
         }
     }
+
+    AnimationBase::convertImageToFrame(frame, image);
 
     return true;
 }

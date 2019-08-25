@@ -6,7 +6,6 @@
 
 #include <Constants.h>
 
-#include "animations/AnimationImageBase.h"
 #include "AnimationStack.h"
 
 class DebuggerWidget : public QWidget

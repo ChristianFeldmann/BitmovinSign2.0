@@ -2,9 +2,10 @@
 
 #include <random>
 
-AnimationHighlightSparkling::AnimationHighlightSparkling()
+AnimationHighlightSparkling::AnimationHighlightSparkling(AnimationTreeBase *parentStack) :
+    AnimationBase(parentStack)
 {
-    this->animationParameters.push_back(AnimationParameter("color", &this->sparkColor));
+    this->animationParameters.push_back(AnimationParameter(this, "color", &this->sparkColor));
 }
 
 void AnimationHighlightSparkling::reset()
@@ -13,12 +14,14 @@ void AnimationHighlightSparkling::reset()
     this->offsetCounter = 0;
 }
 
-bool AnimationHighlightSparkling::renderFrame()
+bool AnimationHighlightSparkling::renderFrame(Frame &frame, QImage &image)
 {
+    Q_UNUSED(image);
+
     const unsigned int duration = 50;
     const unsigned int offset = 2;
 
-    this->frame.clearFrame();
+    frame.clearFrame();
 
     if (this->offsetCounter > offset)
     {
@@ -46,16 +49,16 @@ bool AnimationHighlightSparkling::renderFrame()
             double ratio = sparkleIntensity * offsetRatios[i + 2];
             unsigned int idx = this->getRelativeIndexWrap((*it).position, i);
 
-            auto setAlpha = this->frame.data[idx].alpha();
-            this->frame.data[idx] = this->sparkColor;
+            auto setAlpha = frame.data[idx].alpha();
+            frame.data[idx] = this->sparkColor;
             if (setAlpha == 0)
             {
-                this->frame.data[idx].setAlpha(int(ratio * 255));
+                frame.data[idx].setAlpha(int(ratio * 255));
             }
             else
             {
                 auto newAlpha = clip<int>(setAlpha + int(ratio * 255), 0, 255);
-                this->frame.data[idx].setAlpha(newAlpha);
+                frame.data[idx].setAlpha(newAlpha);
             }
         }
         (*it).counter++;

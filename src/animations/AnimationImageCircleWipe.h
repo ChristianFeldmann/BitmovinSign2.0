@@ -1,17 +1,19 @@
 #pragma once
 
-#include <animations/AnimationImageBase.h>
+#include "AnimationBase.h"
 
-class AnimationImageCircleWipe : public AnimationImageBase
+class AnimationImageCircleWipe : public AnimationBase
 {
 public:
-    AnimationImageCircleWipe();
+    AnimationImageCircleWipe() = delete;
+    AnimationImageCircleWipe(AnimationTreeBase *parentStack);
 
-    virtual QString getName() override { return "CircleWipe"; };
+    virtual bool renderFrame(Frame &frame, QImage &image) override;
+
+    virtual QString getName() const override { return "CircleWipe"; };
     void reset() override;
 
 private:
-    bool renderImage() override;
 
     unsigned counter{ 0 };
     unsigned waitFull{ 20 };

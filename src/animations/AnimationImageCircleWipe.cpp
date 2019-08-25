@@ -3,9 +3,10 @@
 #include <QPainter>
 #include <cmath>
 
-AnimationImageCircleWipe::AnimationImageCircleWipe()
+AnimationImageCircleWipe::AnimationImageCircleWipe(AnimationTreeBase *parentStack) :
+    AnimationBase(parentStack)
 {
-    this->animationParameters.push_back(AnimationParameter("color", &this->color));
+    this->animationParameters.push_back(AnimationParameter(this, "color", &this->color));
 }
 
 void AnimationImageCircleWipe::reset()
@@ -13,19 +14,19 @@ void AnimationImageCircleWipe::reset()
     this->counter = 0;
 }
 
-bool AnimationImageCircleWipe::renderImage()
+bool AnimationImageCircleWipe::renderFrame(Frame &frame, QImage &image)
 {
     QPainter qp;
-    qp.begin(&this->image);
+    qp.begin(&image);
 
-    const int x = this->image.size().width() / 2;
-    const int y = this->image.size().height() / 2;
+    const int x = image.size().width() / 2;
+    const int y = image.size().height() / 2;
     const unsigned fullRadius = unsigned(std::sqrt(x*x + y * y));
     const bool unfill = (this->counter > fullRadius);
 
     if (this->counter >= fullRadius)
     {
-        this->image.fill(this->color);
+        image.fill(this->color);
     }
 
     if (this->counter < fullRadius || this->counter > fullRadius + this->waitFull)
@@ -48,6 +49,8 @@ bool AnimationImageCircleWipe::renderImage()
         centeredRect.moveCenter(QPoint(x, y));
         qp.drawEllipse(centeredRect);
     }
+
+    AnimationBase::convertImageToFrame(frame, image);
     
     this->counter++;
     if (this->counter > fullRadius * 2 + this->waitFull)

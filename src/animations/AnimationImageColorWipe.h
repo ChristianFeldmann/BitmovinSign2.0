@@ -1,8 +1,8 @@
 #pragma once
 
-#include <animations/AnimationImageBase.h>
+#include "AnimationBase.h"
 
-class AnimationImageColorWipe : public AnimationImageBase
+class AnimationImageColorWipe : public AnimationBase
 {
 public:
     enum Direction
@@ -14,14 +14,15 @@ public:
         RANDOM
     };
 
-    AnimationImageColorWipe();
+    AnimationImageColorWipe() = delete;
+    AnimationImageColorWipe(AnimationTreeBase *parentStack);
 
-    virtual QString getName() override { return "ColorWipe"; };
+    virtual bool renderFrame(Frame &frame, QImage &image) override;
+
+    virtual QString getName() const override { return "ColorWipe"; };
     void reset() override;
 
 private:
-    bool renderImage() override;
-
     unsigned counter{ 0 };
     unsigned waitFull{ 20 };
     QColor color{ BITMOVIN_BLUE };

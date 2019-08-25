@@ -1,15 +1,15 @@
 #pragma once
 
-#include <AnimationInterface.h>
-#include <Constants.h>
+#include "AnimationBase.h"
 
-class AnimationUllas: public AnimationInterface
+class AnimationUllas: public AnimationBase
 {
 public:
-    AnimationUllas() = default;
+    AnimationUllas() = delete;
+    AnimationUllas(AnimationTreeBase *parentStack);
     
-    bool renderFrame() override;
-    virtual QString getName() override { return "Ullas"; }
+    virtual bool renderFrame(Frame &frame, QImage &image) override;
+    virtual QString getName() const override { return "Ullas"; }
     void reset() override;
 
 private:

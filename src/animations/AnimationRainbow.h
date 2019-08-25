@@ -1,15 +1,15 @@
 #pragma once
 
-#include <AnimationInterface.h>
-#include <Constants.h>
+#include "AnimationBase.h"
 
-class AnimationRainbow: public AnimationInterface
+class AnimationRainbow: public AnimationBase
 {
 public:
-    AnimationRainbow() = default;
+    AnimationRainbow() = delete;
+    AnimationRainbow(AnimationTreeBase *parentStack);
     
-    bool renderFrame() override;
-    virtual QString getName() override { return "Rainbow"; };
+    virtual bool renderFrame(Frame &frame, QImage &image) override;
+    virtual QString getName() const override { return "Rainbow"; };
     void reset() override;
 
 private:

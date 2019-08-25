@@ -2,9 +2,10 @@
 
 #include<assert.h>
 
-AnimationHighlightRotation::AnimationHighlightRotation()
+AnimationHighlightRotation::AnimationHighlightRotation(AnimationTreeBase *parentStack) :
+    AnimationBase(parentStack)
 {
-    this->animationParameters.push_back(AnimationParameter("color", &this->color));
+    this->animationParameters.push_back(AnimationParameter(this, "color", &this->color));
 }
 
 void AnimationHighlightRotation::reset()
@@ -15,8 +16,10 @@ void AnimationHighlightRotation::reset()
     rotationCounters[3] = 0;
 }
 
-bool AnimationHighlightRotation::renderFrame()
+bool AnimationHighlightRotation::renderFrame(Frame &frame, QImage &image)
 {
+    Q_UNUSED(image);
+
     auto setLeds = [&](unsigned int ledStartOffset, unsigned int nrLed, unsigned int shift, const unsigned int lengths[], int lengthsSize)
     {
         unsigned int idx = shift;
@@ -27,11 +30,11 @@ bool AnimationHighlightRotation::renderFrame()
                 if (i % 2 == 0)
                 {
                     assert(ledStartOffset + idx < NR_LED_TOTAL);
-                    this->frame.data[ledStartOffset + idx] = this->color;
+                    frame.data[ledStartOffset + idx] = this->color;
                 }
                 else
                 {
-                    this->frame.data[ledStartOffset + idx] = Qt::transparent;
+                    frame.data[ledStartOffset + idx] = Qt::transparent;
                 }
                 idx++;
                 idx = idx % nrLed;

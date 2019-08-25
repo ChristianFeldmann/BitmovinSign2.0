@@ -1,15 +1,15 @@
 #pragma once
 
-#include <AnimationInterface.h>
-#include <Constants.h>
+#include "AnimationBase.h"
 
-class AnimationSegmentsFlashing : public AnimationInterface
+class AnimationSegmentsFlashing : public AnimationBase
 {
 public:
-    AnimationSegmentsFlashing();
+    AnimationSegmentsFlashing() = delete;
+    AnimationSegmentsFlashing(AnimationTreeBase *parentStack);
     
-    bool renderFrame() override;
-    virtual QString getName() override { return "SegmentsFlashing"; };
+    virtual bool renderFrame(Frame &frame, QImage &image) override;
+    virtual QString getName() const override { return "SegmentsFlashing"; };
     void reset() override;
 
 private:

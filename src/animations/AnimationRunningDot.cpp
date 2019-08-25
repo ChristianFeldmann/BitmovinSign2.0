@@ -1,8 +1,9 @@
 #include "AnimationRunningDot.h"
 
-AnimationRunningDot::AnimationRunningDot()
+AnimationRunningDot::AnimationRunningDot(AnimationTreeBase *parentStack) :
+    AnimationBase(parentStack)
 {
-    this->animationParameters.push_back(AnimationParameter("color", &this->color));
+    this->animationParameters.push_back(AnimationParameter(this, "color", &this->color));
 }
 
 void AnimationRunningDot::reset()
@@ -10,11 +11,12 @@ void AnimationRunningDot::reset()
     this->counter = 0;
 }
 
-bool AnimationRunningDot::renderFrame()
+bool AnimationRunningDot::renderFrame(Frame &frame, QImage &image)
 {
+    Q_UNUSED(image);
     for (unsigned i = 0; i < NR_LED_TOTAL; i++)
     {
-        this->frame.data[i] = (i == this->counter) ? this->color : Qt::transparent;
+        frame.data[i] = (i == this->counter) ? this->color : Qt::transparent;
     }
 
     this->counter++;

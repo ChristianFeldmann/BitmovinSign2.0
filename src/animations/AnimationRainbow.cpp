@@ -1,12 +1,18 @@
 #include "AnimationRainbow.h"
 
+AnimationRainbow::AnimationRainbow(AnimationTreeBase *parentStack) :
+    AnimationBase(parentStack)
+{
+}
+
 void AnimationRainbow::reset()
 {
     this->counter = 0;
 }
 
-bool AnimationRainbow::renderFrame()
+bool AnimationRainbow::renderFrame(Frame &frame, QImage &image)
 {
+    Q_UNUSED(image);
     auto getColorForPos = [](double pos) -> QColor
     {
         unsigned int posScaled = (unsigned int)(pos * 255);
@@ -36,7 +42,7 @@ bool AnimationRainbow::renderFrame()
             unsigned int idx = OFFSET_LIST[j] + ((i + timeOffsetInArray) % NR_LED_LIST[j]);
             double pos = double(i) / NR_LED_LIST[j];
             auto c = getColorForPos(pos);
-            this->frame.data[idx] = getColorForPos(pos);
+            frame.data[idx] = getColorForPos(pos);
         }
     }
 

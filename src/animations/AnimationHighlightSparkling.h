@@ -1,15 +1,15 @@
 #pragma once
 
-#include <AnimationInterface.h>
-#include <Constants.h>
+#include "AnimationBase.h"
 
-class AnimationHighlightSparkling: public AnimationInterface
+class AnimationHighlightSparkling: public AnimationBase
 {
 public:
-    AnimationHighlightSparkling();
+    AnimationHighlightSparkling() = delete;
+    AnimationHighlightSparkling(AnimationTreeBase *parentStack);
 
-    bool renderFrame() override;
-    virtual QString getName() override { return "HighlightSparkling"; }
+    virtual bool renderFrame(Frame &frame, QImage &image) override;
+    virtual QString getName() const override { return "HighlightSparkling"; }
     void reset() override;
 
 private:
