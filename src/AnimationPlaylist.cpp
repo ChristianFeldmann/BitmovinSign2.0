@@ -1,5 +1,10 @@
 #include "AnimationPlaylist.h"
 
+AnimationStack &AnimationPlaylist::getAnimationStack(unsigned idx)
+{
+    return this->animationStackList[idx];
+}
+
 AnimationTreeBase *AnimationPlaylist::child(int number)
 {
     return &this->animationStackList.at(number);

@@ -8,28 +8,24 @@ DebuggerWidget::DebuggerWidget(QWidget *parent) :
 void DebuggerWidget::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
+
+    if (this->outputFrame == nullptr || this->renderMemory == nullptr || this->animationNames.empty())
+    {
+        return;
+    }
+
     QPainter painter(this);
     painter.fillRect(rect(), Qt::black);
     // Split the widget area into a 3x3 "matrix" of square spaces
     int widthHeight = std::min(this->size().width(), this->size().height());
     int wh3 = widthHeight / 3;
 
-    auto animations = this->animation.getAnimationList();
     for (int i = 0; i < 3; i++)
     {
-        if (i < animations.size())
+        if (i < this->animationNames.size())
         {
-            DebuggerWidget::drawPoints(painter, QRect(0, i * wh3, wh3, wh3), animations[i]->frame, animations[i]->getName());
-
-            auto imageAnimation = std::dynamic_pointer_cast<AnimationImageBase>(animations[i]);
-            if (imageAnimation)
-            {
-                DebuggerWidget::drawImage(painter, QRect(wh3, i * wh3, wh3, wh3), imageAnimation->getImage());
-            }
-            else
-            {
-                DebuggerWidget::drawRect(painter, QRect(wh3, i * wh3, wh3, wh3));
-            }
+            DebuggerWidget::drawPoints(painter, QRect(0, i * wh3, wh3, wh3), this->renderMemory->frameMap[i], this->animationNames[i]);
+            DebuggerWidget::drawImage(painter, QRect(wh3, i * wh3, wh3, wh3), this->renderMemory->imageMap[i]);
         }
         else
         {
@@ -40,7 +36,7 @@ void DebuggerWidget::paintEvent(QPaintEvent *event)
     }
 
     // Draw the output frame into the square in the right middle
-    DebuggerWidget::drawPoints(painter, QRect(2 * wh3, wh3, wh3, wh3), this->animation.frame, "Output");
+    DebuggerWidget::drawPoints(painter, QRect(2 * wh3, wh3, wh3, wh3), *this->outputFrame, "Output");
     painter.end();
 }
 
@@ -108,8 +104,10 @@ void DebuggerWidget::drawRect(QPainter &painter, QRect where, QString lable)
     }
 }
 
-void DebuggerWidget::draw(AnimationStack &animation)
+void DebuggerWidget::draw(QStringList animationNames, Frame *outputFrame, RenderMemory *renderMemory)
 {
-    this->animation = animation;
+    this->outputFrame = outputFrame;
+    this->renderMemory = renderMemory;
+    this->animationNames = animationNames;
     this->update();
 }

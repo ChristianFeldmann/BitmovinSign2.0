@@ -5,13 +5,15 @@
 #include "AnimationStack.h"
 #include "AnimationTreeBase.h"
 
-/* The AnimationPlaylist is the root of our playlist
+/* The AnimationPlaylist is the root of our tree
  */
 class AnimationPlaylist : public AnimationTreeBase
 {
 public:
     AnimationPlaylist() : AnimationTreeBase(nullptr) {};
     ~AnimationPlaylist() = default;
+
+    AnimationStack &getAnimationStack(unsigned idx);
 
     // Overrides from the AnimationTreeBase
     AnimationTreeBase *child(int number) override;

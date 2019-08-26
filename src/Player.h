@@ -3,8 +3,8 @@
 #include <QBasicTimer>
 #include <QTimer>
 
-#include "AnimationInterface.h"
-#include "AnimationStack.h"
+#include "AnimationPlaylist.h"
+#include "Frame.h"
 #include "Output.h"
 #include "DebuggerWidget.h"
 #include "Constants.h"
@@ -23,7 +23,7 @@ public:
     Player& operator =(const Player&) = delete;
 
 signals:
-    void updateDebugger(AnimationStack &currentAnimation);
+    void updateDebugger(QStringList animationNames, Frame *outputFrame, RenderMemory *renderMemory);
     void updateFPS(int fps);
 
 private slots:
@@ -34,8 +34,12 @@ private:
     Output output;
     virtual void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE; // Overloaded from QObject. Called when the timer fires.
 
-    AnimationStack currentAnimation;
+    AnimationPlaylist playlist;
+    unsigned currentAnimationStackIndex{ 0 };
     unsigned currentAnimationRuntime{ 0 };
+
+    Frame outputFrame;
+    RenderMemory renderMemory;
     
     QTimer fpsTimer;
     unsigned fpsDrawCounter{ 0 };

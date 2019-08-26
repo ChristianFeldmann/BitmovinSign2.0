@@ -28,7 +28,7 @@ int AnimationBase::childNumber(AnimationTreeBase *child) const
     {
         if (&this->animationParameters[i] == child)
         {
-            return i;
+            return int(i);
         }
     }
     return -1;

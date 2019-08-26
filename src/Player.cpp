@@ -1,7 +1,5 @@
 #include "Player.h"
 
-#include "animations/AnimationImageBase.h"
-#include "AnimationProvider.h"
 #include "Constants.h"
 
 #include <QDebug>
@@ -9,7 +7,7 @@
 Player::Player(QObject *parent):QObject(parent)
 {
     this->timer.start(20, Qt::PreciseTimer, this);
-    this->currentAnimation = AnimationProvider::getAnimationsByName({"ConstantColor|color=#0a394b", "HighlightSparkling"});
+    this->currentAnimationStackIndex = 0;
     
     connect(&this->fpsTimer, &QTimer::timeout, this, &Player::fpsTimerTimeout);
     this->fpsTimer.start(1000);
@@ -19,19 +17,24 @@ void Player::timerEvent(QTimerEvent *event)
 {
     Q_UNUSED(event);
 
-    if (this->currentAnimation.renderFrame())
+    QStringList animationNames = this->playlist.getAnimationStack(this->currentAnimationStackIndex).getAnimationList();
+    if (this->playlist.getAnimationStack(this->currentAnimationStackIndex).renderStack(this->outputFrame, this->renderMemory))
     {
         static const int minimumAnimationRuntime = 500;
         if (currentAnimationRuntime > minimumAnimationRuntime)
         {
-            currentAnimation = AnimationProvider::getRandomAnimation();
+            this->currentAnimationStackIndex++;
+            if (this->currentAnimationStackIndex > this->playlist.childCount())
+            {
+                this->currentAnimationStackIndex = 0;
+            }
             currentAnimationRuntime = 0;
         }
     }
     currentAnimationRuntime++;
 
-    emit this->updateDebugger(this->currentAnimation);
-    this->output.pushData(this->currentAnimation.frame);
+    emit this->updateDebugger(animationNames, &this->outputFrame, &this->renderMemory);
+    this->output.pushData(this->outputFrame);
     
     this->fpsDrawCounter++;
 }

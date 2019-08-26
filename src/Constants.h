@@ -2,11 +2,13 @@
 
 #include <vector>
 #include <QColor>
+#include <QImage>
 #include <QPointF>
 #include <QSize>
 
 #include <cstdlib>
 #include <climits>
+#include <map>
 #include <memory>
 
 #include <algorithm>

@@ -21,6 +21,8 @@ QModelIndex AnimationTreeModel::index(int row, int column, const QModelIndex &pa
 
     auto childItem = parentItem->child(row);
     return (childItem) ? createIndex(row, column, childItem.get()) : QModelIndex();*/
+
+    return {};
 }
 
 int AnimationTreeModel::rowCount(const QModelIndex &parent) const
@@ -28,6 +30,8 @@ int AnimationTreeModel::rowCount(const QModelIndex &parent) const
     //AnimationTreeBase *parentItem = getItem(parent);
 
     //return parentItem->childCount();
+    
+    return 0;
 }
 
 
@@ -60,6 +64,8 @@ QVariant AnimationTreeModel::data(const QModelIndex &index, int role) const
     auto item = this->getItem(index);
 
     return item->data(index.column());*/
+
+    return {};
 }
 
 //Qt::ItemFlags AnimationTreeModel::flags(const QModelIndex &index) const
@@ -121,8 +127,8 @@ QVariant AnimationTreeModel::data(const QModelIndex &index, int role) const
 //    return success;
 //}
 //
-//QModelIndex AnimationTreeModel::parent(const QModelIndex &index) const
-//{
+QModelIndex AnimationTreeModel::parent(const QModelIndex &index) const
+{
 //    if (!index.isValid())
 //    {
 //        return QModelIndex();
@@ -137,7 +143,10 @@ QVariant AnimationTreeModel::data(const QModelIndex &index, int role) const
 //    }
 //
 //    return createIndex(parentItem->childNumber(), 0, parentItem);
-//}
+
+    return {};
+}
+
 //
 //bool AnimationTreeModel::removeColumns(int position, int columns, const QModelIndex &parent)
 //{

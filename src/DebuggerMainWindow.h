@@ -13,7 +13,7 @@ public:
     explicit DebuggerMainWindow(Player *player, QWidget *parent = 0);
 
 private slots:
-    void updateDebugger(AnimationStack &currentAnimation);
+    void updateDebugger(QStringList animationNames, Frame *outputFrame, RenderMemory *renderMemory);
     void setFPSLabel(int fps);
 
 private:

@@ -16,12 +16,12 @@
 namespace
 {
     // For easy creation of ne animations
-    struct IFactory { virtual std::shared_ptr<AnimationBase> create() = 0; };
+    struct IFactory { virtual std::shared_ptr<AnimationBase> create(AnimationTreeBase *parent) = 0; };
     template< typename T > struct Factory : public IFactory
     {
-        virtual std::shared_ptr<AnimationBase> create()
+        virtual std::shared_ptr<AnimationBase> create(AnimationTreeBase *parent)
         {
-            return std::make_shared<T>();
+            return std::make_shared<T>(parent);
         }
     };
 
@@ -115,7 +115,7 @@ QStringList AnimationStack::getAnimationList()
     QStringList names;
     for (size_t i = 0; i < factoryList.size(); i++)
     {
-        auto a = factoryList[i]->create();
+        auto a = factoryList[i]->create(nullptr);
         names.append(a->getName());
     }
     return names;
@@ -128,7 +128,7 @@ void AnimationStack::addAnimationFromString(QString &name)
 
     for (size_t i = 0; i < factoryList.size(); i++)
     {
-        auto a = factoryList[i]->create();
+        auto a = factoryList[i]->create(this);
         if (a->getName() == animationName)
         {
             for (int i = 1; i < nameAndParameters.size(); i++)

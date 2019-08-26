@@ -21,7 +21,7 @@ DebuggerMainWindow::DebuggerMainWindow(Player *player, QWidget *parent) :
 
         QFile file("default.txt");
         file.open(QIODevice::ReadOnly);
-        AnimationTreeModel *model = new AnimationTreeModel(headers, file.readAll());
+        AnimationTreeModel *model = new AnimationTreeModel();
         file.close();
 
         this->ui.animationStacksView->setModel(model);
@@ -34,9 +34,9 @@ DebuggerMainWindow::DebuggerMainWindow(Player *player, QWidget *parent) :
     }
 }
 
-void DebuggerMainWindow::updateDebugger(AnimationStack &currentAnimation)
+void DebuggerMainWindow::updateDebugger(QStringList animationNames, Frame *outputFrame, RenderMemory *renderMemory)
 {
-    this->ui.debuggerWidget->draw(currentAnimation);
+    this->ui.debuggerWidget->draw(animationNames, outputFrame, renderMemory);
 }
 
 void DebuggerMainWindow::setFPSLabel(int fps)
