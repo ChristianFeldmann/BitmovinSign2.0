@@ -91,7 +91,10 @@ void AnimationParameter::setValue(QString value)
         {
             *this->enumInt = this->enumValues.indexOf(value);
         }
-        qDebug() << "Unable to set property '" << this->name << "' to value '" << value << "'. Could not find the enum value.";
+        else
+        {
+            qDebug() << "Unable to set property '" << this->name << "' to value '" << value << "'. Could not find the enum value.";
+        }
     }
     if (this->type == Int)
     {

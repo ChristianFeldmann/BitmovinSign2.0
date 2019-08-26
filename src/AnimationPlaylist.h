@@ -13,7 +13,7 @@ public:
     AnimationPlaylist() : AnimationTreeBase(nullptr) {};
     ~AnimationPlaylist() = default;
 
-    AnimationStack &getAnimationStack(unsigned idx);
+    AnimationStack *getAnimationStack(unsigned idx);
 
     // Overrides from the AnimationTreeBase
     AnimationTreeBase *child(int number) override;
@@ -21,9 +21,9 @@ public:
     int childNumber(AnimationTreeBase *child) const override;
     QVariant data(int column) const override;
 
-private:
     // We will replace this by some sort of loading / saving to file
-    void createPlaylist();
+    void createDefaultPlaylist();
 
+private:
     std::vector<AnimationStack> animationStackList;
 };

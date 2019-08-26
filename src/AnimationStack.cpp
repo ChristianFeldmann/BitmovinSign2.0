@@ -139,8 +139,7 @@ void AnimationStack::addAnimationFromString(QString &name)
                     a->setPropertie(parameterAndValue[0], parameterAndValue[1]);
                 }
             }
+            this->animations.push_back(a);
         }
-
-        this->animations.push_back(a);
     }
 }

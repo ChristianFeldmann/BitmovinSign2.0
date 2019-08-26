@@ -11,14 +11,22 @@ Player::Player(QObject *parent):QObject(parent)
     
     connect(&this->fpsTimer, &QTimer::timeout, this, &Player::fpsTimerTimeout);
     this->fpsTimer.start(1000);
+
+    playlist.createDefaultPlaylist();
 }
 
 void Player::timerEvent(QTimerEvent *event)
 {
     Q_UNUSED(event);
 
-    QStringList animationNames = this->playlist.getAnimationStack(this->currentAnimationStackIndex).getAnimationList();
-    if (this->playlist.getAnimationStack(this->currentAnimationStackIndex).renderStack(this->outputFrame, this->renderMemory))
+    auto animationStack = this->playlist.getAnimationStack(this->currentAnimationStackIndex);
+    if (animationStack == nullptr)
+    {
+        return;
+    }
+
+    QStringList animationNames = animationStack->getAnimationList();
+    if (animationStack->renderStack(this->outputFrame, this->renderMemory))
     {
         static const int minimumAnimationRuntime = 500;
         if (currentAnimationRuntime > minimumAnimationRuntime)

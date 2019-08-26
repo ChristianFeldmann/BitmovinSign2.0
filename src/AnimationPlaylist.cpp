@@ -1,8 +1,12 @@
 #include "AnimationPlaylist.h"
 
-AnimationStack &AnimationPlaylist::getAnimationStack(unsigned idx)
+AnimationStack *AnimationPlaylist::getAnimationStack(unsigned idx)
 {
-    return this->animationStackList[idx];
+    if (idx < 0 || idx >= this->animationStackList.size())
+    {
+        return nullptr;
+    }
+    return &this->animationStackList[idx];
 }
 
 AnimationTreeBase *AnimationPlaylist::child(int number)
@@ -33,7 +37,7 @@ QVariant AnimationPlaylist::data(int column) const
     return {};
 }
 
-void AnimationPlaylist::createPlaylist()
+void AnimationPlaylist::createDefaultPlaylist()
 {
     const std::vector<QStringList> playlist({
         {"ConstantColor|color=#0a394b", "HighlightSparkling"},
