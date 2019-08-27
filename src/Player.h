@@ -22,6 +22,8 @@ public:
     Player(const Player&) = delete;
     Player& operator =(const Player&) = delete;
 
+    AnimationPlaylist *getPlaylist() { return &this->playlist; }
+
 signals:
     void updateDebugger(QStringList animationNames, Frame *outputFrame, RenderMemory *renderMemory);
     void updateFPS(int fps);

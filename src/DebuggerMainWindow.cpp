@@ -21,7 +21,7 @@ DebuggerMainWindow::DebuggerMainWindow(Player *player, QWidget *parent) :
 
         QFile file("default.txt");
         file.open(QIODevice::ReadOnly);
-        AnimationTreeModel *model = new AnimationTreeModel();
+        AnimationTreeModel *model = new AnimationTreeModel(player->getPlaylist());
         file.close();
 
         this->ui.animationStacksView->setModel(model);

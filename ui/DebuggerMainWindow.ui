@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1004</width>
+    <width>1012</width>
     <height>636</height>
    </rect>
   </property>
@@ -19,6 +19,9 @@
      <widget class="QSplitter" name="splitter">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="childrenCollapsible">
+       <bool>false</bool>
       </property>
       <widget class="QWidget" name="verticalLayoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -73,9 +76,15 @@
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <widget class="DebuggerWidget" name="debuggerWidget" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="minimumSize">
            <size>
-            <width>800</width>
+            <width>100</width>
             <height>100</height>
            </size>
           </property>
@@ -92,8 +101,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1004</width>
-     <height>18</height>
+     <width>1012</width>
+     <height>22</height>
     </rect>
    </property>
   </widget>

@@ -1,17 +1,17 @@
 #include "AnimationPlaylist.h"
 
-AnimationStack *AnimationPlaylist::getAnimationStack(unsigned idx)
+std::shared_ptr<AnimationStack> AnimationPlaylist::getAnimationStack(unsigned idx) const
 {
     if (idx < 0 || idx >= this->animationStackList.size())
     {
         return nullptr;
     }
-    return &this->animationStackList[idx];
+    return this->animationStackList[idx];
 }
 
 AnimationTreeBase *AnimationPlaylist::child(int number)
 {
-    return &this->animationStackList.at(number);
+    return this->animationStackList.at(number).get();
 }
 
 size_t AnimationPlaylist::childCount() const 
@@ -23,7 +23,7 @@ int AnimationPlaylist::childNumber(AnimationTreeBase *child) const
 {
     for (size_t i = 0; i < this->animationStackList.size(); i++)
     {
-        if (&this->animationStackList[i] == child)
+        if (this->animationStackList[i].get() == child)
         {
             return int(i);
         }
@@ -48,6 +48,7 @@ void AnimationPlaylist::createDefaultPlaylist()
 
     for (QStringList stack : playlist)
     {
-        this->animationStackList.push_back(AnimationStack(this, stack));
+        auto newStack = std::make_shared<AnimationStack>(this, stack);
+        this->animationStackList.push_back(newStack);
     }
 }

@@ -60,11 +60,11 @@ QVariant AnimationParameter::data(int column) const
     {
         if (this->type == Color)
         {
-            return QVariant(&this->color);
+            return QVariant(this->color->name());
         }
         if (this->type == Enum)
         {
-            return QVariant(&this->enumInt);
+            return QVariant(this->enumValues[*this->enumInt]);
         }
         if (type == Int)
         {

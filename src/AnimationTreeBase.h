@@ -12,6 +12,7 @@
 class AnimationTreeBase
 {
 public:
+    AnimationTreeBase() = delete;
     AnimationTreeBase(AnimationTreeBase *parent) { this->parent = parent; }
     ~AnimationTreeBase() = default;
 
@@ -20,6 +21,8 @@ public:
     virtual int childNumber(AnimationTreeBase *child) const = 0;
     virtual QVariant data(int column) const = 0;
 
+    AnimationTreeBase *getParent() { return this->parent; }
+
 protected:
-    AnimationTreeBase *parent;
+    AnimationTreeBase *parent{ nullptr };
 };

@@ -5,55 +5,47 @@
 
 #include <QColor>
 
-AnimationTreeModel::AnimationTreeModel(QObject *parent) : 
+AnimationTreeModel::AnimationTreeModel(AnimationTreeBase *treeRoot, QObject *parent) :
     QAbstractItemModel(parent)
 {
+    this->rootItem = treeRoot;
 }
 
 QModelIndex AnimationTreeModel::index(int row, int column, const QModelIndex &parent) const
 {
-    /*if (parent.isValid() && parent.column() != 0)
+    if (parent.isValid() && parent.column() != 0)
     {
         return QModelIndex();
     }
 
     auto parentItem = this->getItem(parent);
-
     auto childItem = parentItem->child(row);
-    return (childItem) ? createIndex(row, column, childItem.get()) : QModelIndex();*/
 
-    return {};
+    if (childItem == nullptr)
+    {
+        return QModelIndex();
+    }
+    
+    return createIndex(row, column, childItem);
 }
 
 int AnimationTreeModel::rowCount(const QModelIndex &parent) const
 {
-    //AnimationTreeBase *parentItem = getItem(parent);
-
-    //return parentItem->childCount();
-    
-    return 0;
+    AnimationTreeBase *parentItem = getItem(parent);
+    return int(parentItem->childCount());
 }
-
 
 int AnimationTreeModel::columnCount(const QModelIndex &parent) const
 {
-    if (!parent.isValid())
-    {
-        return 0;
-    }
+    Q_UNUSED(parent);
     return 2;
 }
 
 QVariant AnimationTreeModel::data(const QModelIndex &index, int role) const
 {
-    /*if (!index.isValid())
+    if (!index.isValid())
     {
         return QVariant();
-    }
-
-    if (role == Qt::BackgroundRole)
-    {
-        return QColor(Qt::red);
     }
 
     if (role != Qt::DisplayRole && role != Qt::EditRole)
@@ -62,10 +54,7 @@ QVariant AnimationTreeModel::data(const QModelIndex &index, int role) const
     }
 
     auto item = this->getItem(index);
-
-    return item->data(index.column());*/
-
-    return {};
+    return item->data(index.column());
 }
 
 //Qt::ItemFlags AnimationTreeModel::flags(const QModelIndex &index) const
@@ -77,20 +66,20 @@ QVariant AnimationTreeModel::data(const QModelIndex &index, int role) const
 //
 //    return Qt::ItemIsEditable | QAbstractItemModel::flags(index);
 //}
-//
-//std::shared_ptr<AnimationTreeBase> AnimationTreeModel::getItem(const QModelIndex &index) const
-//{
-//    if (index.isValid()) 
-//    {
-//        AnimationTreeBase *item = static_cast<AnimationTreeBase*>(index.internalPointer());
-//        if (item)
-//        {
-//            return item;
-//        }
-//    }
-//    return &rootItem;
-//}
-//
+
+AnimationTreeBase *AnimationTreeModel::getItem(const QModelIndex &index) const
+{
+    if (index.isValid()) 
+    {
+        AnimationTreeBase *item = static_cast<AnimationTreeBase*>(index.internalPointer());
+        if (item)
+        {
+            return item;
+        }
+    }
+    return this->rootItem;
+}
+
 //QVariant AnimationTreeModel::headerData(int section, Qt::Orientation orientation,
 //    int role) const
 //{
@@ -129,22 +118,27 @@ QVariant AnimationTreeModel::data(const QModelIndex &index, int role) const
 //
 QModelIndex AnimationTreeModel::parent(const QModelIndex &index) const
 {
-//    if (!index.isValid())
-//    {
-//        return QModelIndex();
-//    }
-//
-//    auto childItem = getItem(index);
-//    auto parentItem = childItem->parent();
-//
-//    if (parentItem == rootItem)
-//    {
-//        return QModelIndex();
-//    }
-//
-//    return createIndex(parentItem->childNumber(), 0, parentItem);
+    if (!index.isValid())
+    {
+        return QModelIndex();
+    }
 
-    return {};
+    auto childItem = getItem(index);
+    auto parentItem = childItem->getParent();
+
+    if (parentItem == rootItem || parentItem == nullptr)
+    {
+        return QModelIndex();
+    }
+
+    auto grandparentItem = parentItem->getParent();
+    if (grandparentItem == nullptr)
+    {
+        return QModelIndex();
+    }
+
+    const int row = grandparentItem->childNumber(parentItem);
+    return createIndex(row, 0, parentItem);
 }
 
 //

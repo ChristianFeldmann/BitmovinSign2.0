@@ -32,7 +32,6 @@ void DebuggerWidget::paintEvent(QPaintEvent *event)
             DebuggerWidget::drawRect(painter, QRect(0, i * wh3, wh3, wh3));
             DebuggerWidget::drawRect(painter, QRect(wh3, i * wh3, wh3, wh3));
         }
-
     }
 
     // Draw the output frame into the square in the right middle

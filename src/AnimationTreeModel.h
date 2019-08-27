@@ -1,5 +1,7 @@
 #pragma once
 
+#include "AnimationTreeBase.h"
+
 #include <QAbstractItemModel>
 
 class AnimationTreeModel : public QAbstractItemModel
@@ -7,7 +9,7 @@ class AnimationTreeModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
-    AnimationTreeModel(QObject *parent = 0);
+    AnimationTreeModel(AnimationTreeBase *treeRoot, QObject *parent = 0);
     ~AnimationTreeModel() = default;
     
     // Needed for a read only mode
@@ -16,6 +18,8 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
+
+    AnimationTreeBase *getItem(const QModelIndex &index) const;
 
     // Optional? 
     /*QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
@@ -30,5 +34,5 @@ public:
     bool removeRows(int position, int rows, const QModelIndex &parent = QModelIndex()) override;*/
 
 private:
-    
+    AnimationTreeBase *rootItem{ nullptr };
 };

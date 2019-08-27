@@ -10,6 +10,7 @@
 class AnimationBase : public AnimationTreeBase
 {
 public:
+    AnimationBase() = delete;
     AnimationBase(AnimationTreeBase *parentStack);
     virtual ~AnimationBase() = default;
 
@@ -34,7 +35,7 @@ public:
 protected:
     void convertImageToFrame(Frame &frame, QImage &image);
 
-    std::vector<AnimationParameter> animationParameters;
+    std::vector<std::shared_ptr<AnimationParameter>> animationParameters;
 
 private:
     std::vector<QPoint> ledsCoord;

@@ -20,8 +20,7 @@ public:
     QVariant data(int column) const override;
 
     void setValue(QString value);
-
-    QString name;
+    QString getName() { return this->name; }
 
 private:
     enum Type_t
@@ -32,6 +31,8 @@ private:
     };
 
     Type_t type;
+
+    QString name;
 
     QColor *color{ nullptr };
     int *enumInt{ nullptr };

@@ -12,7 +12,7 @@ AnimationTreeBase *AnimationBase::child(int number)
 {
     if (number >= 0 && number < this->animationParameters.size())
     {
-        return &this->animationParameters[number];
+        return this->animationParameters[number].get();
     }
     return nullptr;
 }
@@ -26,7 +26,7 @@ int AnimationBase::childNumber(AnimationTreeBase *child) const
 {
     for (size_t i = 0; i < this->animationParameters.size(); i++)
     {
-        if (&this->animationParameters[i] == child)
+        if (this->animationParameters[i].get() == child)
         {
             return int(i);
         }
@@ -46,11 +46,11 @@ QVariant AnimationBase::data(int column) const
 
 void AnimationBase::setPropertie(QString propertyName, QString value)
 {
-    for (auto &parameter : this->animationParameters)
+    for (auto parameter : this->animationParameters)
     {
-        if (parameter.name == propertyName)
+        if (parameter->getName() == propertyName)
         {
-            parameter.setValue(value);
+            parameter->setValue(value);
             return;
         }
     }
