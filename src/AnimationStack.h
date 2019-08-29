@@ -13,6 +13,7 @@ public:
     ~AnimationStack() = default;
 
     bool renderStack(Frame &output, RenderMemory &renderMemory);
+    void resetAnimations();
 
     // Overload from AnimationTreeBase
     virtual AnimationTreeBase *child(int number) override;

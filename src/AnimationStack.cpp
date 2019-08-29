@@ -110,6 +110,14 @@ bool AnimationStack::renderStack(Frame &output, RenderMemory &renderMemory)
     return false;
 }
 
+void AnimationStack::resetAnimations()
+{
+    for (auto &animation : this->animations)
+    {
+        animation->reset();
+    }
+}
+
 QStringList AnimationStack::getAnimationList()
 {
     QStringList names;

@@ -14,6 +14,7 @@ public:
     ~AnimationPlaylist() = default;
 
     std::shared_ptr<AnimationStack> getAnimationStack(unsigned idx) const;
+    int getAnimationStackIndex(AnimationTreeBase *stack) const;
 
     // Overrides from the AnimationTreeBase
     AnimationTreeBase *child(int number) override;

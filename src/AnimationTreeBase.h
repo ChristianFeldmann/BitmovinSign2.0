@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <QVariant>
+#include <QWidget>
 
 /* This base adds the ability for a hierarchical structure where
  * each item in the tree knows his parents and can have children.
@@ -23,6 +24,13 @@ public:
 
     AnimationTreeBase *getParent() { return this->parent; }
 
+    QWidget *getPropertiesWidget() { if (propertiesWidget == nullptr) createPropertiesWidget(); return propertiesWidget; }
+
 protected:
     AnimationTreeBase *parent{ nullptr };
+
+    virtual void createPropertiesWidget();
+    void preparePropertiesWidget(const QString &name);
+
+    QWidget *propertiesWidget{ nullptr };
 };

@@ -4,7 +4,7 @@
 
 #include <QDebug>
 
-Player::Player(QObject *parent):QObject(parent)
+Player::Player(QObject *parent) : QObject(parent)
 {
     this->timer.start(20, Qt::PreciseTimer, this);
     this->currentAnimationStackIndex = 0;
@@ -29,14 +29,15 @@ void Player::timerEvent(QTimerEvent *event)
     if (animationStack->renderStack(this->outputFrame, this->renderMemory))
     {
         static const int minimumAnimationRuntime = 500;
-        if (currentAnimationRuntime > minimumAnimationRuntime)
+        if (autoSwitchStacks && currentAnimationRuntime > minimumAnimationRuntime)
         {
             this->currentAnimationStackIndex++;
-            if (this->currentAnimationStackIndex > this->playlist.childCount())
+            if (this->currentAnimationStackIndex >= this->playlist.childCount())
             {
                 this->currentAnimationStackIndex = 0;
             }
             currentAnimationRuntime = 0;
+            this->playlist.getAnimationStack(this->currentAnimationStackIndex)->resetAnimations();
         }
     }
     currentAnimationRuntime++;
@@ -52,4 +53,16 @@ void Player::fpsTimerTimeout()
     qDebug() << "FPS: " << this->fpsDrawCounter;
     emit this->updateFPS(this->fpsDrawCounter);
     this->fpsDrawCounter = 0;
+}
+
+void Player::setCurrentAnimation(AnimationTreeBase *item)
+{
+    int index = this->playlist.getAnimationStackIndex(item);
+    if (index >= 0)
+    {
+        this->currentAnimationStackIndex = index;
+        currentAnimationRuntime = 0;
+        this->playlist.getAnimationStack(this->currentAnimationStackIndex)->resetAnimations();
+        autoSwitchStacks = false;
+    }
 }

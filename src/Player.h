@@ -24,6 +24,8 @@ public:
 
     AnimationPlaylist *getPlaylist() { return &this->playlist; }
 
+    void setCurrentAnimation(AnimationTreeBase *item);
+
 signals:
     void updateDebugger(QStringList animationNames, Frame *outputFrame, RenderMemory *renderMemory);
     void updateFPS(int fps);
@@ -45,4 +47,6 @@ private:
     
     QTimer fpsTimer;
     unsigned fpsDrawCounter{ 0 };
+
+    bool autoSwitchStacks{ false };
 };

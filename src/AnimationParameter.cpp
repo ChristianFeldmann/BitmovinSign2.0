@@ -1,19 +1,20 @@
 #include "AnimationParameter.h"
 
 #include <QColor>
+#include <QComboBox>
 #include <QDebug>
+#include <QLabel>
+#include <QSpinBox>
 #include <QVariant>
 
-AnimationParameter::AnimationParameter(AnimationTreeBase *animation, QString name, QColor *color) :
-    AnimationTreeBase(animation)
+AnimationParameter::AnimationParameter(QString name, QColor *color) : QObject()
 {
     this->name = name;
     this->type = Color;
     this->color = color;
 };
 
-AnimationParameter::AnimationParameter(AnimationTreeBase *animation, QString name, int *enumInt, QStringList enumValues) :
-    AnimationTreeBase(animation)
+AnimationParameter::AnimationParameter(QString name, int *enumInt, QStringList enumValues) : QObject()
 {
     this->name = name;
     this->type = Enum;
@@ -24,55 +25,32 @@ AnimationParameter::AnimationParameter(AnimationTreeBase *animation, QString nam
     this->enumInt = enumInt;
 };
 
-AnimationParameter::AnimationParameter(AnimationTreeBase *animation, QString name, int *integer) :
-    AnimationTreeBase(animation)
+AnimationParameter::AnimationParameter(QString name, int *integer) : QObject()
 {
     this->name = name;
     this->type = Int;
     this->integer = integer;
 };
 
-AnimationTreeBase *AnimationParameter::child(int number)
+QWidget *AnimationParameter::createParameterWidget()
 {
-    Q_UNUSED(number);
-    // A parameter has no further children
-    return nullptr;
-}
-
-size_t AnimationParameter::childCount() const
-{
-    return 0;
-}
-
-int AnimationParameter::childNumber(AnimationTreeBase *child) const
-{
-    Q_UNUSED(child);
-    return 0;
-}
-
-QVariant AnimationParameter::data(int column) const
-{
-    if (column == 0)
+    if (this->type == Enum)
     {
-        return QVariant(this->name);
+        QComboBox *comboBox = new QComboBox();
+        for (auto &enumItem : this->enumValues)
+        {
+            comboBox->addItem(enumItem);
+        }
+        return comboBox;
+        //connect!!
     }
-    else if (column == 1)
+    if (this->type == Int)
     {
-        if (this->type == Color)
-        {
-            return QVariant(this->color->name());
-        }
-        if (this->type == Enum)
-        {
-            return QVariant(this->enumValues[*this->enumInt]);
-        }
-        if (type == Int)
-        {
-            return QVariant(&this->integer);
-        }
+        QSpinBox *spinBox = new QSpinBox();
+        spinBox->setValue(*this->integer);
+        //connect!!
     }
-
-    return {};
+    return new QLabel("TESTTEST");
 }
 
 void AnimationParameter::setValue(QString value)

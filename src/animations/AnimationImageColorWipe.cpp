@@ -5,8 +5,8 @@
 AnimationImageColorWipe::AnimationImageColorWipe(AnimationTreeBase *parentStack) :
     AnimationBase(parentStack)
 {
-    this->animationParameters.push_back(std::make_shared<AnimationParameter>(this, "color", &this->color));
-    this->animationParameters.push_back(std::make_shared<AnimationParameter>(this, "direction", (int*)&this->direction, QStringList() << "LEFT_TO_RIGHT" << "RIGHT_TO_LEFT" << "TOP_TO_BOTTOM" << "BOTTOM_TO_TOP"));
+    this->animationParameters.push_back(std::make_shared<AnimationParameter>("color", &this->color));
+    this->animationParameters.push_back(std::make_shared<AnimationParameter>("direction", (int*)&this->direction, QStringList() << "LEFT_TO_RIGHT" << "RIGHT_TO_LEFT" << "TOP_TO_BOTTOM" << "BOTTOM_TO_TOP"));
 }
 
 void AnimationImageColorWipe::reset()

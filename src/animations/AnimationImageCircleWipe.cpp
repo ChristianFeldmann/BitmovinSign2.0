@@ -6,7 +6,7 @@
 AnimationImageCircleWipe::AnimationImageCircleWipe(AnimationTreeBase *parentStack) :
     AnimationBase(parentStack)
 {
-    this->animationParameters.push_back(std::make_shared<AnimationParameter>(this, "color", &this->color));
+    this->animationParameters.push_back(std::make_shared<AnimationParameter>("color", &this->color));
 }
 
 void AnimationImageCircleWipe::reset()

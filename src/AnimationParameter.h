@@ -5,19 +5,17 @@
 
 #include <QStringList>
 
-class AnimationParameter : public AnimationTreeBase
+class AnimationParameter : public QObject
 {
-public:
-    AnimationParameter() = delete;
-    AnimationParameter(AnimationTreeBase *animation, QString name, QColor *color);
-    AnimationParameter(AnimationTreeBase *animation, QString name, int *enumInt, QStringList enumValues);
-    AnimationParameter(AnimationTreeBase *animation, QString name, int *integer);
+    Q_OBJECT
 
-    // Overrides from the AnimationTreeBase
-    AnimationTreeBase *child(int number) override;
-    size_t childCount() const override;
-    int childNumber(AnimationTreeBase *child) const override;
-    QVariant data(int column) const override;
+public:
+    AnimationParameter(QObject *parent=nullptr) : QObject(parent) {};
+    AnimationParameter(QString name, QColor *color);
+    AnimationParameter(QString name, int *enumInt, QStringList enumValues);
+    AnimationParameter(QString name, int *integer);
+
+    QWidget *createParameterWidget();
 
     void setValue(QString value);
     QString getName() { return this->name; }

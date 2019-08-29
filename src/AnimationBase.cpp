@@ -1,6 +1,7 @@
 #include "AnimationBase.h"
 
 #include <QDebug>
+#include <QFormLayout>
 
 AnimationBase::AnimationBase(AnimationTreeBase *parentStack) : 
     AnimationTreeBase(parentStack)
@@ -10,27 +11,18 @@ AnimationBase::AnimationBase(AnimationTreeBase *parentStack) :
 
 AnimationTreeBase *AnimationBase::child(int number)
 {
-    if (number >= 0 && number < this->animationParameters.size())
-    {
-        return this->animationParameters[number].get();
-    }
+    Q_UNUSED(number);
     return nullptr;
 }
 
 size_t AnimationBase::childCount() const
 {
-    return this->animationParameters.size();
+    return 0;
 }
 
 int AnimationBase::childNumber(AnimationTreeBase *child) const
 {
-    for (size_t i = 0; i < this->animationParameters.size(); i++)
-    {
-        if (this->animationParameters[i].get() == child)
-        {
-            return int(i);
-        }
-    }
+    Q_UNUSED(child);
     return -1;
 }
 
@@ -46,7 +38,7 @@ QVariant AnimationBase::data(int column) const
 
 void AnimationBase::setPropertie(QString propertyName, QString value)
 {
-    for (auto parameter : this->animationParameters)
+    for (auto &parameter : this->animationParameters)
     {
         if (parameter->getName() == propertyName)
         {
@@ -63,6 +55,19 @@ void AnimationBase::convertImageToFrame(Frame &frame, QImage &image)
     for (unsigned i = 0; i < frame.data.size(); ++i)
     {
         frame.data[i] = image.pixelColor(this->ledsCoord[i]);
+    }
+}
+
+void AnimationBase::createPropertiesWidget()
+{
+    assert(this->propertiesWidget == nullptr);
+
+    this->preparePropertiesWidget(QStringLiteral("Animation"));
+    QFormLayout *form = new QFormLayout(this->propertiesWidget);
+
+    for (auto &parameter : this->animationParameters)
+    {
+        form->addRow(parameter->getName(), parameter->createParameterWidget());
     }
 }
 

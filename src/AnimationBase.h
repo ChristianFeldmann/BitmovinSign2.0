@@ -37,6 +37,8 @@ protected:
 
     std::vector<std::shared_ptr<AnimationParameter>> animationParameters;
 
+    virtual void createPropertiesWidget() override;
+
 private:
     std::vector<QPoint> ledsCoord;
 

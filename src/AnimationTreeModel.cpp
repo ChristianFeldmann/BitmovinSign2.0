@@ -38,7 +38,7 @@ int AnimationTreeModel::rowCount(const QModelIndex &parent) const
 int AnimationTreeModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return 2;
+    return 1;
 }
 
 QVariant AnimationTreeModel::data(const QModelIndex &index, int role) const

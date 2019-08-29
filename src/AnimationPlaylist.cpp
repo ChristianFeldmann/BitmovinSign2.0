@@ -9,6 +9,18 @@ std::shared_ptr<AnimationStack> AnimationPlaylist::getAnimationStack(unsigned id
     return this->animationStackList[idx];
 }
 
+int AnimationPlaylist::getAnimationStackIndex(AnimationTreeBase *stack) const
+{
+    for (size_t i = 0; i < this->animationStackList.size(); i++)
+    {
+        if (this->animationStackList[i].get() == stack)
+        {
+            return int(i);
+        }
+    }
+    return -1;
+}
+
 AnimationTreeBase *AnimationPlaylist::child(int number)
 {
     return this->animationStackList.at(number).get();

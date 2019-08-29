@@ -15,9 +15,12 @@ public:
 private slots:
     void updateDebugger(QStringList animationNames, Frame *outputFrame, RenderMemory *renderMemory);
     void setFPSLabel(int fps);
+    void viewSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 
 private:
     Ui::DebuggerMainWindow ui;
+
+    QWidget emptyPropertiesWidget;
 
     Player *player{ nullptr };
 };

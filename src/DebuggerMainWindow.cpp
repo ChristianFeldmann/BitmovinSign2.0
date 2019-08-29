@@ -32,6 +32,12 @@ DebuggerMainWindow::DebuggerMainWindow(Player *player, QWidget *parent) :
         }
         this->ui.animationStacksView->setStyleSheet(QString("QTreeView { show-decoration-selected: 1; }"));
     }
+
+    auto selectionModel = this->ui.animationStacksView->selectionModel();
+    connect(selectionModel, &QItemSelectionModel::selectionChanged, this, &DebuggerMainWindow::viewSelectionChanged);
+
+    this->ui.stackedWidgetProperties->addWidget(&this->emptyPropertiesWidget);
+    this->ui.stackedWidgetProperties->setCurrentWidget(&this->emptyPropertiesWidget);
 }
 
 void DebuggerMainWindow::updateDebugger(QStringList animationNames, Frame *outputFrame, RenderMemory *renderMemory)
@@ -42,4 +48,29 @@ void DebuggerMainWindow::updateDebugger(QStringList animationNames, Frame *outpu
 void DebuggerMainWindow::setFPSLabel(int fps)
 {
     this->ui.fpsLabel->setText(QString("%1 fps").arg(fps));
+}
+
+void DebuggerMainWindow::viewSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
+{
+    Q_UNUSED(deselected);
+
+    auto indexes = selected.indexes();
+    if (indexes.size() == 1)
+    {
+        AnimationTreeBase *item = static_cast<AnimationTreeBase*>(indexes[0].internalPointer());
+
+        if (item)
+        {
+            this->player->setCurrentAnimation(item);
+            QWidget *propertiesWidget = item->getPropertiesWidget();
+            if (this->ui.stackedWidgetProperties->indexOf(propertiesWidget) == -1)
+            {
+                this->ui.stackedWidgetProperties->addWidget(propertiesWidget);
+            }
+            this->ui.stackedWidgetProperties->setCurrentWidget(propertiesWidget);
+            return;
+        }
+    }
+
+    this->ui.stackedWidgetProperties->setCurrentWidget(&this->emptyPropertiesWidget);
 }

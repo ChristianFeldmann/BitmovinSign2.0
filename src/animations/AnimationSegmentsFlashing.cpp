@@ -3,9 +3,9 @@
 AnimationSegmentsFlashing::AnimationSegmentsFlashing(AnimationTreeBase *parentStack) :
     AnimationBase(parentStack)
 {
-    this->animationParameters.push_back(std::make_shared<AnimationParameter>(this, "color", &this->color));
-    this->animationParameters.push_back(std::make_shared<AnimationParameter>(this, "timeOffsetBetweenSegments", &this->timeOffsetBetweenSegments));
-    this->animationParameters.push_back(std::make_shared<AnimationParameter>(this, "timeToWaitFullColor", &this->timeToWaitFullColor));
+    this->animationParameters.push_back(std::make_shared<AnimationParameter>("color", &this->color));
+    this->animationParameters.push_back(std::make_shared<AnimationParameter>("timeOffsetBetweenSegments", &this->timeOffsetBetweenSegments));
+    this->animationParameters.push_back(std::make_shared<AnimationParameter>("timeToWaitFullColor", &this->timeToWaitFullColor));
 }
 
 void AnimationSegmentsFlashing::reset()
