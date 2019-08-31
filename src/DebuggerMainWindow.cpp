@@ -4,6 +4,7 @@
 #include "AnimationTreeModel.h"
 
 #include <QFile>
+#include <QDebug>
 
 DebuggerMainWindow::DebuggerMainWindow(Player *player, QWidget *parent) :
     QMainWindow(parent)
@@ -38,6 +39,9 @@ DebuggerMainWindow::DebuggerMainWindow(Player *player, QWidget *parent) :
 
     this->ui.stackedWidgetProperties->addWidget(&this->emptyPropertiesWidget);
     this->ui.stackedWidgetProperties->setCurrentWidget(&this->emptyPropertiesWidget);
+
+    this->ui.animationStacksView->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(this->ui.animationStacksView, &QWidget::customContextMenuRequested, this, &DebuggerMainWindow::onTreeViewCustomContextMenu);
 }
 
 void DebuggerMainWindow::updateDebugger(QStringList animationNames, Frame *outputFrame, RenderMemory *renderMemory)
@@ -73,4 +77,52 @@ void DebuggerMainWindow::viewSelectionChanged(const QItemSelection &selected, co
     }
 
     this->ui.stackedWidgetProperties->setCurrentWidget(&this->emptyPropertiesWidget);
+}
+
+void DebuggerMainWindow::onTreeViewCustomContextMenu(const QPoint &point)
+{
+    QModelIndex index = this->ui.animationStacksView->indexAt(point);
+    this->itemSelectedByRightClick = nullptr;
+
+    if (index.isValid())
+    {
+        AnimationTreeBase *item = static_cast<AnimationTreeBase*>(index.internalPointer());
+        if (item != nullptr)
+        {
+            AnimationStack *stack = dynamic_cast<AnimationStack*>(item);
+            if (stack)
+            {
+                QMenu *menu = new QMenu(this);
+                menu->addAction("Delete Stack", this, &DebuggerMainWindow::deleteItem);
+                menu->popup(this->ui.animationStacksView->viewport()->mapToGlobal(point));
+                this->itemSelectedByRightClick = stack;
+                return;
+            }
+            AnimationBase *animation = dynamic_cast<AnimationBase*>(item);
+            if (animation)
+            {
+                QMenu *menu = new QMenu(this);
+                menu->addAction("Delete Animation", this, &DebuggerMainWindow::deleteItem);
+                menu->popup(this->ui.animationStacksView->viewport()->mapToGlobal(point));
+                this->itemSelectedByRightClick = animation;
+                return;
+            }
+        }
+    }
+    else
+    {
+        QMenu *menu = new QMenu(this);
+        menu->addAction("Add Stack", this, &DebuggerMainWindow::addStack);
+        menu->popup(this->ui.animationStacksView->viewport()->mapToGlobal(point));
+    }
+}
+
+void DebuggerMainWindow::addStack()
+{
+    qDebug() << "Add stack";
+}
+
+void DebuggerMainWindow::deleteItem()
+{
+    qDebug() << "Delete item";
 }

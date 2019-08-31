@@ -16,6 +16,10 @@ private slots:
     void updateDebugger(QStringList animationNames, Frame *outputFrame, RenderMemory *renderMemory);
     void setFPSLabel(int fps);
     void viewSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+    
+    void onTreeViewCustomContextMenu(const QPoint &point);
+    void addStack();
+    void deleteItem();
 
 private:
     Ui::DebuggerMainWindow ui;
@@ -23,4 +27,6 @@ private:
     QWidget emptyPropertiesWidget;
 
     Player *player{ nullptr };
+
+    AnimationTreeBase *itemSelectedByRightClick{ nullptr };
 };
