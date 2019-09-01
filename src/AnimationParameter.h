@@ -3,6 +3,9 @@
 #include "AnimationTreeBase.h"
 #include "Constants.h"
 
+#include <QComboBox>
+#include <QPushButton>
+#include <QSpinBox>
 #include <QStringList>
 
 class AnimationParameter : public QObject
@@ -20,6 +23,9 @@ public:
     void setValue(QString value);
     QString getName() { return this->name; }
 
+private slots:
+    void onColorButtonPressed(bool checked);
+
 private:
     enum Type_t
     {
@@ -36,4 +42,10 @@ private:
     int *enumInt{ nullptr };
     QStringList enumValues;
     int *integer{ nullptr };
+
+    QComboBox *enumComboBox{ nullptr };
+    QPushButton *colorPushButton{ nullptr };
+    QSpinBox *intSpinBox{ nullptr };
+
+    void setColorForButton();
 };

@@ -1,10 +1,10 @@
 #include "AnimationParameter.h"
 
 #include <QColor>
-#include <QComboBox>
+#include <QColorDialog>
 #include <QDebug>
 #include <QLabel>
-#include <QSpinBox>
+#include <QPainter>
 #include <QVariant>
 
 AnimationParameter::AnimationParameter(QString name, QColor *color) : QObject()
@@ -36,21 +36,31 @@ QWidget *AnimationParameter::createParameterWidget()
 {
     if (this->type == Enum)
     {
-        QComboBox *comboBox = new QComboBox();
+        assert(this->enumComboBox == nullptr);
+        this->enumComboBox = new QComboBox();
         for (auto &enumItem : this->enumValues)
         {
-            comboBox->addItem(enumItem);
+            this->enumComboBox->addItem(enumItem);
         }
-        return comboBox;
         //connect!!
+        return this->enumComboBox;
     }
     if (this->type == Int)
     {
         QSpinBox *spinBox = new QSpinBox();
         spinBox->setValue(*this->integer);
         //connect!!
+        return spinBox;
     }
-    return new QLabel("TESTTEST");
+    if (this->type == Color)
+    {
+        this->colorPushButton = new QPushButton();
+        this->setColorForButton();
+        connect(this->colorPushButton, &QPushButton::clicked, this, &AnimationParameter::onColorButtonPressed);
+        return this->colorPushButton;
+    }
+
+    return new QLabel("Error");
 }
 
 void AnimationParameter::setValue(QString value)
@@ -83,4 +93,26 @@ void AnimationParameter::setValue(QString value)
             qDebug() << "Unable to set property '" << this->name << "' to value '" << value << "'. Unable to convert value to int.";
         }
     }
+}
+
+void AnimationParameter::onColorButtonPressed(bool checked)
+{
+    Q_UNUSED(checked);
+    QColor newColor = QColorDialog::getColor(*this->color, nullptr, "Please choose a new color", QColorDialog::ShowAlphaChannel);
+    if (newColor.isValid())
+    {
+        *this->color = newColor;
+        setColorForButton();
+    }
+}
+
+void AnimationParameter::setColorForButton()
+{
+    QImage image(50, 50, QImage::Format_ARGB32);
+    QPainter painter(&image);
+    painter.fillRect(0, 0, 50, 50, *this->color);
+    QPixmap pixmap;
+    pixmap.convertFromImage(image);
+    QIcon ico(pixmap);
+    this->colorPushButton->setIcon(ico);
 }
