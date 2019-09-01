@@ -21,6 +21,17 @@ int AnimationPlaylist::getAnimationStackIndex(AnimationTreeBase *stack) const
     return -1;
 }
 
+bool AnimationPlaylist::insertStack(int pos)
+{
+    if (pos < 0 || pos > this->animationStackList.size())
+        return false;
+
+    auto newStack = std::make_shared<AnimationStack>(this);
+    this->animationStackList.insert(this->animationStackList.begin() + pos, newStack);
+
+    return true;
+}
+
 AnimationTreeBase *AnimationPlaylist::child(int number)
 {
     return this->animationStackList.at(number).get();
@@ -47,6 +58,17 @@ QVariant AnimationPlaylist::data(int column) const
 {
     Q_UNUSED(column);
     return {};
+}
+
+bool AnimationPlaylist::removeChildren(int pos, int count)
+{
+    if (pos < 0 || pos > this->animationStackList.size())
+    {
+        return false;
+    }
+
+    this->animationStackList.erase(this->animationStackList.begin() + pos, this->animationStackList.begin() + pos + count);
+    return true;
 }
 
 void AnimationPlaylist::createDefaultPlaylist()

@@ -20,12 +20,15 @@ public:
     virtual size_t childCount() const override;
     virtual int childNumber(AnimationTreeBase *child) const override;
     virtual QVariant data(int column) const override;
+
+    bool removeChildren(int pos, int rows) override;
+    bool insertAnimation(int position, QString type);
     
     // Get a list with all names of all known animations
     static QStringList getAnimationList();
 
 private:
-    void addAnimationFromString(QString &name);
+    void addAnimationFromString(QString &name, int position=-1);
     std::vector<std::shared_ptr<AnimationBase>> animations;
 
     unsigned animationsFinished{ 0 };

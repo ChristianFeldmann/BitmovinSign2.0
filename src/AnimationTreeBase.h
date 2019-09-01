@@ -22,6 +22,8 @@ public:
     virtual int childNumber(AnimationTreeBase *child) const = 0;
     virtual QVariant data(int column) const = 0;
 
+    virtual bool removeChildren(int pos, int rows) = 0;
+
     AnimationTreeBase *getParent() { return this->parent; }
 
     QWidget *getPropertiesWidget() { if (propertiesWidget == nullptr) createPropertiesWidget(); return propertiesWidget; }

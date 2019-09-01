@@ -20,6 +20,8 @@ public:
     virtual int childNumber(AnimationTreeBase *child) const override;
     virtual QVariant data(int column) const override;
 
+    virtual bool removeChildren(int pos, int rows) override;
+
     // Reimplement this function and fill the LED data for the frame.
     // The function should return true if the animation ended. Some animations
     // may always return true because they don't have a specific beginning and end.

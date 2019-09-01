@@ -84,6 +84,27 @@ QVariant AnimationStack::data(int column) const
     return {};
 }
 
+bool AnimationStack::removeChildren(int pos, int count)
+{
+    if (pos < 0 || pos > this->animations.size())
+    {
+        return false;
+    }
+
+    this->animations.erase(this->animations.begin() + pos, this->animations.begin() + pos + count);
+    return true;
+}
+
+bool AnimationStack::insertAnimation(int pos, QString type)
+{
+    if (pos < 0 || pos > this->animations.size())
+        return false;
+
+    this->addAnimationFromString(type, pos);
+    
+    return true;
+}
+
 bool AnimationStack::renderStack(Frame &output, RenderMemory &renderMemory)
 {
     output.clearFrame();
@@ -129,7 +150,7 @@ QStringList AnimationStack::getAnimationList()
     return names;
 }
 
-void AnimationStack::addAnimationFromString(QString &name)
+void AnimationStack::addAnimationFromString(QString &name, int position)
 {
     auto nameAndParameters = name.split("|");
     QString animationName = nameAndParameters[0];
@@ -147,7 +168,14 @@ void AnimationStack::addAnimationFromString(QString &name)
                     a->setPropertie(parameterAndValue[0], parameterAndValue[1]);
                 }
             }
-            this->animations.push_back(a);
+            if (position == -1)
+            {
+                this->animations.push_back(a);
+            }
+            else
+            {
+                this->animations.insert(this->animations.begin() + position, a);
+            }
         }
     }
 }

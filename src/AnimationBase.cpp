@@ -36,6 +36,13 @@ QVariant AnimationBase::data(int column) const
     return {};
 }
 
+bool AnimationBase::removeChildren(int pos, int rows)
+{
+    Q_UNUSED(pos);
+    Q_UNUSED(rows);
+    return false;
+}
+
 void AnimationBase::setPropertie(QString propertyName, QString value)
 {
     for (auto &parameter : this->animationParameters)

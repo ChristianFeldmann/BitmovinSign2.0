@@ -18,7 +18,7 @@ private slots:
     void viewSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
     
     void onTreeViewCustomContextMenu(const QPoint &point);
-    void addStack();
+    void addItem();
     void deleteItem();
 
 private:
@@ -28,5 +28,5 @@ private:
 
     Player *player{ nullptr };
 
-    AnimationTreeBase *itemSelectedByRightClick{ nullptr };
+    QModelIndex currentItemContextMenu;
 };

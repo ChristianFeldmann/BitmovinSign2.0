@@ -82,7 +82,7 @@ void DebuggerMainWindow::viewSelectionChanged(const QItemSelection &selected, co
 void DebuggerMainWindow::onTreeViewCustomContextMenu(const QPoint &point)
 {
     QModelIndex index = this->ui.animationStacksView->indexAt(point);
-    this->itemSelectedByRightClick = nullptr;
+    this->currentItemContextMenu = QModelIndex();
 
     if (index.isValid())
     {
@@ -94,8 +94,9 @@ void DebuggerMainWindow::onTreeViewCustomContextMenu(const QPoint &point)
             {
                 QMenu *menu = new QMenu(this);
                 menu->addAction("Delete Stack", this, &DebuggerMainWindow::deleteItem);
+                menu->addAction("Add animation", this, &DebuggerMainWindow::addItem);
                 menu->popup(this->ui.animationStacksView->viewport()->mapToGlobal(point));
-                this->itemSelectedByRightClick = stack;
+                this->currentItemContextMenu = index;
                 return;
             }
             AnimationBase *animation = dynamic_cast<AnimationBase*>(item);
@@ -104,7 +105,7 @@ void DebuggerMainWindow::onTreeViewCustomContextMenu(const QPoint &point)
                 QMenu *menu = new QMenu(this);
                 menu->addAction("Delete Animation", this, &DebuggerMainWindow::deleteItem);
                 menu->popup(this->ui.animationStacksView->viewport()->mapToGlobal(point));
-                this->itemSelectedByRightClick = animation;
+                this->currentItemContextMenu = index;
                 return;
             }
         }
@@ -112,17 +113,39 @@ void DebuggerMainWindow::onTreeViewCustomContextMenu(const QPoint &point)
     else
     {
         QMenu *menu = new QMenu(this);
-        menu->addAction("Add Stack", this, &DebuggerMainWindow::addStack);
+        menu->addAction("Add Stack", this, &DebuggerMainWindow::addItem);
         menu->popup(this->ui.animationStacksView->viewport()->mapToGlobal(point));
     }
 }
 
-void DebuggerMainWindow::addStack()
+void DebuggerMainWindow::addItem()
 {
-    qDebug() << "Add stack";
+    qDebug() << "Add item";
+
+    int row;
+    if (this->currentItemContextMenu.isValid())
+    {
+        AnimationTreeBase *item = static_cast<AnimationTreeBase*>(this->currentItemContextMenu.internalPointer());
+        row = item->childCount();
+    }
+    else
+    {
+        row = this->player->getPlaylist()->childCount();
+    }
+    this->ui.animationStacksView->model()->insertRow(row, this->currentItemContextMenu);
 }
 
 void DebuggerMainWindow::deleteItem()
 {
     qDebug() << "Delete item";
+
+    auto view = this->ui.animationStacksView;
+    QModelIndex index = view->selectionModel()->currentIndex();
+    QAbstractItemModel *model = view->model();
+
+    if (this->currentItemContextMenu.isValid())
+    {
+        int row = this->currentItemContextMenu.row();
+        this->ui.animationStacksView->model()->removeRow(row, this->currentItemContextMenu.parent());
+    }
 }
