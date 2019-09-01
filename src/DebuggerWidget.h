@@ -28,7 +28,7 @@ protected:
     static void drawLinesFromPoints(QPainter &painter, QRect where, Frame &frame, std::vector<QPointF> point_list, std::vector<unsigned> led_list, int &counter);
     static void drawPoints(QPainter &painter, QRect where, Frame &frame, QString lable);
     static void drawImage(QPainter &painter, QRect where, const QImage &image);
-    static void drawRect(QPainter &painter, QRect where, QString lable = "");
+    static void drawRect(QPainter &painter, QRect where, QString lable = "", bool fillBlack=false);
     
     Frame *outputFrame{ nullptr };
     RenderMemory *renderMemory{ nullptr };

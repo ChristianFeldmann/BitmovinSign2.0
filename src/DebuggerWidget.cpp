@@ -29,8 +29,8 @@ void DebuggerWidget::paintEvent(QPaintEvent *event)
         }
         else
         {
-            DebuggerWidget::drawRect(painter, QRect(0, i * wh3, wh3, wh3));
-            DebuggerWidget::drawRect(painter, QRect(wh3, i * wh3, wh3, wh3));
+            DebuggerWidget::drawRect(painter, QRect(0, i * wh3, wh3, wh3), "", true);
+            DebuggerWidget::drawRect(painter, QRect(wh3, i * wh3, wh3, wh3), "", true);
         }
     }
 
@@ -92,10 +92,10 @@ void DebuggerWidget::drawImage(QPainter &painter, QRect where, const QImage &ima
     DebuggerWidget::drawRect(painter, where);
 }
 
-void DebuggerWidget::drawRect(QPainter &painter, QRect where, QString lable)
+void DebuggerWidget::drawRect(QPainter &painter, QRect where, QString lable, bool fillBlack)
 {
     painter.setPen(Qt::white);
-    painter.setBrush(Qt::transparent);
+    painter.setBrush(fillBlack ? Qt::black : Qt::transparent);
     painter.drawRect(where);
     if (!lable.isEmpty())
     {

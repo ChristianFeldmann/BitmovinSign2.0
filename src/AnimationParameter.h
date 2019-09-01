@@ -25,6 +25,8 @@ public:
 
 private slots:
     void onColorButtonPressed(bool checked);
+    void onEnumComboBoxIndexChanged(int index);
+    void onIntSpinBoxValueChanged(int value);
 
 private:
     enum Type_t

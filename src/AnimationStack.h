@@ -23,6 +23,8 @@ public:
 
     bool removeChildren(int pos, int rows) override;
     bool insertAnimation(int position, QString type);
+
+    QStringList getChildAnimationNames();
     
     // Get a list with all names of all known animations
     static QStringList getAnimationList();

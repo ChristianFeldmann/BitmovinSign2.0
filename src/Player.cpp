@@ -25,7 +25,7 @@ void Player::timerEvent(QTimerEvent *event)
         return;
     }
 
-    QStringList animationNames = animationStack->getAnimationList();
+    QStringList animationNames = animationStack->getChildAnimationNames();
     if (animationStack->renderStack(this->outputFrame, this->renderMemory))
     {
         static const int minimumAnimationRuntime = 500;

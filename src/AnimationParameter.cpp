@@ -42,15 +42,15 @@ QWidget *AnimationParameter::createParameterWidget()
         {
             this->enumComboBox->addItem(enumItem);
         }
-        //connect!!
+        connect(this->enumComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &AnimationParameter::onEnumComboBoxIndexChanged);
         return this->enumComboBox;
     }
     if (this->type == Int)
     {
-        QSpinBox *spinBox = new QSpinBox();
-        spinBox->setValue(*this->integer);
-        //connect!!
-        return spinBox;
+        this->intSpinBox = new QSpinBox();
+        this->intSpinBox->setValue(*this->integer);
+        connect(this->intSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &AnimationParameter::onIntSpinBoxValueChanged);
+        return this->intSpinBox;
     }
     if (this->type == Color)
     {
@@ -104,6 +104,19 @@ void AnimationParameter::onColorButtonPressed(bool checked)
         *this->color = newColor;
         setColorForButton();
     }
+}
+
+void AnimationParameter::onEnumComboBoxIndexChanged(int index)
+{
+    if (index >= 0 && index < enumValues.count())
+    {
+        *this->enumInt = index;
+    }
+}
+
+void AnimationParameter::onIntSpinBoxValueChanged(int value)
+{
+    *this->integer = value;
 }
 
 void AnimationParameter::setColorForButton()

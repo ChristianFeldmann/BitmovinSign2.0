@@ -139,6 +139,16 @@ void AnimationStack::resetAnimations()
     }
 }
 
+QStringList AnimationStack::getChildAnimationNames()
+{
+    QStringList names;
+    for (auto animation : this->animations)
+    {
+        names.push_back(animation->getName());
+    }
+    return names;
+}
+
 QStringList AnimationStack::getAnimationList()
 {
     QStringList names;
