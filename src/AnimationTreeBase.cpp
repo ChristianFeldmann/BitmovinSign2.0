@@ -1,5 +1,6 @@
 #include "AnimationTreeBase.h"
 
+#include <cassert>
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QLabel>

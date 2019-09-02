@@ -41,7 +41,6 @@ bool AnimationRainbow::renderFrame(Frame &frame, QImage &image)
             unsigned int timeOffsetInArray = (unsigned int)(timeOffset * NR_LED_LIST[j]);
             unsigned int idx = OFFSET_LIST[j] + ((i + timeOffsetInArray) % NR_LED_LIST[j]);
             double pos = double(i) / NR_LED_LIST[j];
-            auto c = getColorForPos(pos);
             frame.data[idx] = getColorForPos(pos);
         }
     }

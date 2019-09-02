@@ -18,7 +18,6 @@ bool AnimationHighlightSparkling::renderFrame(Frame &frame, QImage &image)
 {
     Q_UNUSED(image);
 
-    const unsigned int duration = 50;
     const unsigned int offset = 2;
 
     frame.clearFrame();
@@ -80,32 +79,32 @@ unsigned AnimationHighlightSparkling::getRelativeIndexWrap(unsigned int idx, int
         // Background
         if (newIndex < 0)
             return NR_LED_BACKGROUND + newIndex;
-        if (newIndex >= NR_LED_BACKGROUND)
+        if (newIndex >= int(NR_LED_BACKGROUND))
             return newIndex - NR_LED_BACKGROUND;
     }
     else if (idx < OFFSET_PART_MIDDLE)
     {
         // Part left
-        if (newIndex < OFFSET_PART_LEFT)
+        if (newIndex < int(OFFSET_PART_LEFT))
             return newIndex + NR_LED_PART_LEFT;
-        if (newIndex >= OFFSET_PART_MIDDLE)
+        if (newIndex >= int(OFFSET_PART_MIDDLE))
             return newIndex - NR_LED_PART_LEFT;
 
     }
     else if (idx < OFFSET_PART_RIGHT)
     {
         // Part middle
-        if (newIndex < OFFSET_PART_MIDDLE)
+        if (newIndex < int(OFFSET_PART_MIDDLE))
             return newIndex + NR_LED_PART_MIDDLE;
-        if (newIndex >= OFFSET_PART_RIGHT)
+        if (newIndex >= int(OFFSET_PART_RIGHT))
             return newIndex - NR_LED_PART_MIDDLE;
     }
     else
     {
         // Part right
-        if (newIndex < OFFSET_PART_RIGHT)
+        if (newIndex < int(OFFSET_PART_RIGHT))
             return newIndex + NR_LED_PART_RIGHT;
-        if (newIndex >= NR_LED_TOTAL)
+        if (newIndex >= int(NR_LED_TOTAL))
             return newIndex - NR_LED_PART_RIGHT;
     }
     return newIndex;

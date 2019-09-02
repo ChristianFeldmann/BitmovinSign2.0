@@ -1,5 +1,6 @@
 #include "AnimationBase.h"
 
+#include <cassert>
 #include <QDebug>
 #include <QFormLayout>
 

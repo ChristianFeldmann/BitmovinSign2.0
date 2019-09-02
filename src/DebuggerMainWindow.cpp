@@ -1,5 +1,3 @@
-#pragma once
-
 #include "DebuggerMainWindow.h"
 #include "AnimationTreeModel.h"
 
@@ -138,10 +136,6 @@ void DebuggerMainWindow::addItem()
 void DebuggerMainWindow::deleteItem()
 {
     qDebug() << "Delete item";
-
-    auto view = this->ui.animationStacksView;
-    QModelIndex index = view->selectionModel()->currentIndex();
-    QAbstractItemModel *model = view->model();
 
     if (this->currentItemContextMenu.isValid())
     {
