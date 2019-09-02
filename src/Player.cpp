@@ -6,13 +6,13 @@
 
 Player::Player(QObject *parent) : QObject(parent)
 {
-    this->timer.start(20, Qt::PreciseTimer, this);
     this->currentAnimationStackIndex = 0;
     
     connect(&this->fpsTimer, &QTimer::timeout, this, &Player::fpsTimerTimeout);
     this->fpsTimer.start(1000);
 
     playlist.createDefaultPlaylist();
+    this->play();
 }
 
 void Player::timerEvent(QTimerEvent *event)
@@ -64,5 +64,33 @@ void Player::setCurrentAnimation(AnimationTreeBase *item)
         currentAnimationRuntime = 0;
         this->playlist.getAnimationStack(this->currentAnimationStackIndex)->resetAnimations();
         autoSwitchStacks = false;
+    }
+}
+
+void Player::pause()
+{
+    this->timer.stop();
+    this->playing = false;
+}
+
+void Player::play()
+{
+    int millisecond = 1000 / this->targetFPS;
+    this->timer.start(millisecond, Qt::PreciseTimer, this);
+    this->playing = true;
+}
+
+void Player::step()
+{
+    this->timerEvent(nullptr);
+}
+
+void Player::setTargetFPS(int value)
+{
+    this->targetFPS = value;
+    if (this->playing)
+    {
+        this->pause();
+        this->play();
     }
 }

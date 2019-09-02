@@ -16,6 +16,9 @@ private slots:
     void updateDebugger(QStringList animationNames, Frame *outputFrame, RenderMemory *renderMemory);
     void setFPSLabel(int fps);
     void viewSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+
+    void onPlayPausePushButton();
+    void onStepPushButton();
     
     void onTreeViewCustomContextMenu(const QPoint &point);
     void addItem();

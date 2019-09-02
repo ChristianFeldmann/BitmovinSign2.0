@@ -42,6 +42,10 @@ DebuggerMainWindow::DebuggerMainWindow(Player *player, QWidget *parent) :
 
     this->ui.animationStacksView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this->ui.animationStacksView, &QWidget::customContextMenuRequested, this, &DebuggerMainWindow::onTreeViewCustomContextMenu);
+
+    connect(this->ui.pushButtonPlayPause, &QPushButton::clicked, this, &DebuggerMainWindow::onPlayPausePushButton);
+    connect(this->ui.pushButtonStep, &QPushButton::clicked, this, &DebuggerMainWindow::onStepPushButton);
+    connect(this->ui.targetFramerateSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this->player, &Player::setTargetFPS);
 }
 
 void DebuggerMainWindow::updateDebugger(QStringList animationNames, Frame *outputFrame, RenderMemory *renderMemory)
@@ -77,6 +81,25 @@ void DebuggerMainWindow::viewSelectionChanged(const QItemSelection &selected, co
     }
 
     this->ui.stackedWidgetProperties->setCurrentWidget(&this->emptyPropertiesWidget);
+}
+
+void DebuggerMainWindow::onPlayPausePushButton()
+{
+    if (this->player->isPlaying())
+    {
+        this->ui.pushButtonPlayPause->setText("Play");
+        this->player->pause();
+    }
+    else
+    {
+        this->ui.pushButtonPlayPause->setText("Pause");
+        this->player->play();
+    }
+}
+
+void DebuggerMainWindow::onStepPushButton()
+{
+    this->player->step();
 }
 
 void DebuggerMainWindow::onTreeViewCustomContextMenu(const QPoint &point)
@@ -122,7 +145,7 @@ void DebuggerMainWindow::addItem()
 {
     qDebug() << "Add item";
 
-    int row;
+    size_t row;
     if (this->currentItemContextMenu.isValid())
     {
         AnimationTreeBase *item = static_cast<AnimationTreeBase*>(this->currentItemContextMenu.internalPointer());
@@ -132,7 +155,7 @@ void DebuggerMainWindow::addItem()
     {
         row = this->player->getPlaylist()->childCount();
     }
-    this->ui.animationStacksView->model()->insertRow(row, this->currentItemContextMenu);
+    this->ui.animationStacksView->model()->insertRow(int(row), this->currentItemContextMenu);
 }
 
 void DebuggerMainWindow::deleteItem()
@@ -141,7 +164,6 @@ void DebuggerMainWindow::deleteItem()
 
     auto view = this->ui.animationStacksView;
     QModelIndex index = view->selectionModel()->currentIndex();
-    QAbstractItemModel *model = view->model();
 
     if (this->currentItemContextMenu.isValid())
     {

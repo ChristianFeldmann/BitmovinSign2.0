@@ -26,6 +26,15 @@ public:
 
     void setCurrentAnimation(AnimationTreeBase *item);
 
+    void pause();
+    void play();
+    void step();
+
+    bool isPlaying() { return this->playing; }
+
+public slots:
+    void setTargetFPS(int value);
+
 signals:
     void updateDebugger(QStringList animationNames, Frame *outputFrame, RenderMemory *renderMemory);
     void updateFPS(int fps);
@@ -35,6 +44,8 @@ private slots:
     
 private:
     QBasicTimer timer;
+    int targetFPS{ 50 };
+
     Output output;
     virtual void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE; // Overloaded from QObject. Called when the timer fires.
 
@@ -49,4 +60,5 @@ private:
     unsigned fpsDrawCounter{ 0 };
 
     bool autoSwitchStacks{ false };
+    bool playing{ false };
 };
