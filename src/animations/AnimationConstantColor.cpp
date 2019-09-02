@@ -3,7 +3,7 @@
 AnimationConstantColor::AnimationConstantColor(AnimationTreeBase *parentStack) : 
     AnimationBase(parentStack)
 {
-    this->animationParameters.push_back(std::make_shared<AnimationParameter>("color", &this->color));
+    this->addParameter("color", &this->color);
 }
 
 bool AnimationConstantColor::renderFrame(Frame &frame, QImage &image)

@@ -5,7 +5,7 @@
 AnimationHighlightSparkling::AnimationHighlightSparkling(AnimationTreeBase *parentStack) :
     AnimationBase(parentStack)
 {
-    this->animationParameters.push_back(std::make_shared<AnimationParameter>("color", &this->sparkColor));
+    this->addParameter("color", &this->sparkColor);
 }
 
 void AnimationHighlightSparkling::reset()

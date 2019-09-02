@@ -65,6 +65,21 @@ void AnimationBase::convertImageToFrame(Frame &frame, QImage &image)
     }
 }
 
+void AnimationBase::addParameter(QString name, QColor *color)
+{
+    this->animationParameters.push_back(std::make_shared<AnimationParameter>(name, color));
+}
+
+void AnimationBase::addParameter(QString name, int *integer)
+{
+    this->animationParameters.push_back(std::make_shared<AnimationParameter>(name, integer));
+}
+
+void AnimationBase::addParameter(QString name, int *enumInteger, QStringList enumValues)
+{
+    this->animationParameters.push_back(std::make_shared<AnimationParameter>(name, enumInteger, enumValues));
+}
+
 void AnimationBase::createPropertiesWidget()
 {
     assert(this->propertiesWidget == nullptr);
