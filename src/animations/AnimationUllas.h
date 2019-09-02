@@ -14,5 +14,7 @@ public:
 
 private:
     unsigned int counter{0};
+
+    QColor colors[5];
 };
 
