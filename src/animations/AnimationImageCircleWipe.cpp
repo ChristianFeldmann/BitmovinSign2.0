@@ -22,7 +22,6 @@ bool AnimationImageCircleWipe::renderFrame(Frame &frame, QImage &image)
     const int x = image.size().width() / 2;
     const int y = image.size().height() / 2;
     const unsigned fullRadius = unsigned(std::sqrt(x*x + y * y));
-    const bool unfill = (this->counter > fullRadius);
 
     if (this->counter >= fullRadius)
     {

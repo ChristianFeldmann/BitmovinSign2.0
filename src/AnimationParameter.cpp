@@ -1,5 +1,6 @@
 #include "AnimationParameter.h"
 
+#include <cassert>
 #include <QColor>
 #include <QColorDialog>
 #include <QDebug>

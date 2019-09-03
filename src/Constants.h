@@ -56,8 +56,8 @@ const QSize imageSize = QSize(imageWidth, imageHeight);
 class Frame;
 struct RenderMemory
 {
-    std::map<int, Frame> frameMap;
-    std::map<int, QImage> imageMap;
+    std::map<unsigned, Frame> frameMap;
+    std::map<unsigned, QImage> imageMap;
 };
 
 // Identical to a QDomElement, but we add some convenience functions (findChildValue and appendProperiteChild)

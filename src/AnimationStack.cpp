@@ -50,7 +50,7 @@ AnimationStack::AnimationStack(AnimationTreeBase *rootPlaylist, QStringList anim
 
 AnimationTreeBase *AnimationStack::child(int number)
 {
-    if (number >= 0 && number < this->animations.size())
+    if (number >= 0 && number < int(this->animations.size()))
     {
         return this->animations[number].get();
     }
@@ -86,7 +86,7 @@ QVariant AnimationStack::data(int column) const
 
 bool AnimationStack::removeChildren(int pos, int count)
 {
-    if (pos < 0 || pos > this->animations.size())
+    if (pos < 0 || pos > int(this->animations.size()))
     {
         return false;
     }
@@ -97,7 +97,7 @@ bool AnimationStack::removeChildren(int pos, int count)
 
 bool AnimationStack::insertAnimation(int pos, QString type)
 {
-    if (pos < 0 || pos > this->animations.size())
+    if (pos < 0 || pos > int(this->animations.size()))
         return false;
 
     this->addAnimationFromString(type, pos);
@@ -109,7 +109,7 @@ bool AnimationStack::renderStack(Frame &output, RenderMemory &renderMemory)
 {
     output.clearFrame();
 
-    for (int i = 0; i < this->animations.size(); i++)
+    for (unsigned i = 0; i < unsigned(this->animations.size()); i++)
     {
         auto animation = this->animations[i];
         if (renderMemory.imageMap.count(i) == 0)

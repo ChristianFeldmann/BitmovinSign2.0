@@ -37,7 +37,7 @@ bool AnimationPlaylist::savePlaylist(QDomElement &root) const
 
 std::shared_ptr<AnimationStack> AnimationPlaylist::getAnimationStack(unsigned idx) const
 {
-    if (idx < 0 || idx >= this->animationStackList.size())
+    if (idx >= this->animationStackList.size())
     {
         return nullptr;
     }
@@ -58,7 +58,7 @@ int AnimationPlaylist::getAnimationStackIndex(AnimationTreeBase *stack) const
 
 bool AnimationPlaylist::insertStack(int pos)
 {
-    if (pos < 0 || pos > this->animationStackList.size())
+    if (pos < 0 || pos > int(this->animationStackList.size()))
         return false;
 
     auto newStack = std::make_shared<AnimationStack>(this);
@@ -97,7 +97,7 @@ QVariant AnimationPlaylist::data(int column) const
 
 bool AnimationPlaylist::removeChildren(int pos, int count)
 {
-    if (pos < 0 || pos > this->animationStackList.size())
+    if (pos < 0 || pos > int(this->animationStackList.size()))
     {
         return false;
     }
