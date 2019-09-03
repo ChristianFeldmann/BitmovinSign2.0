@@ -3,6 +3,8 @@
 #include "AnimationBase.h"
 #include "AnimationTreeBase.h"
 
+#include <QDomElement>
+
 /* A stack of multiple animations. Rendering the stack will render all animations
  * in the order they were added.
  */
@@ -28,6 +30,8 @@ public:
     
     // Get a list with all names of all known animations
     static QStringList getAnimationList();
+
+    bool savePlaylist(QDomElement &plist) const;
 
 private:
     void addAnimationFromString(QString &name, int position=-1);

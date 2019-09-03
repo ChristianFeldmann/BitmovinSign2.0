@@ -3,6 +3,7 @@
 #include "Constants.h"
 
 #include <QDebug>
+#include <QDomDocument>
 
 Player::Player(QObject *parent) : QObject(parent)
 {
@@ -83,6 +84,26 @@ void Player::play()
 void Player::step()
 {
     this->timerEvent(nullptr);
+}
+
+bool Player::loadPlaylistFile(QString fileList)
+{
+    // TODO
+    return false;
+}
+
+QString Player::getPlaylistString()
+{
+    // Create the XML document structure
+    QDomDocument document;
+    document.appendChild(document.createProcessingInstruction(QStringLiteral("xml"), QStringLiteral("version=\"1.0\" encoding=\"UTF-8\"")));
+    QDomElement plist = document.createElement(QStringLiteral("playlistItems"));
+    plist.setAttribute(QStringLiteral("version"), QStringLiteral("2.0"));
+    document.appendChild(plist);
+
+    this->playlist.savePlaylist(plist);
+
+    return document.toString();
 }
 
 void Player::setTargetFPS(int value)

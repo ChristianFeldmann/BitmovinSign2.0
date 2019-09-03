@@ -32,6 +32,9 @@ public:
 
     bool isPlaying() { return this->playing; }
 
+    bool loadPlaylistFile(QString filePath);
+    QString getPlaylistString();
+
 public slots:
     void setTargetFPS(int value);
 

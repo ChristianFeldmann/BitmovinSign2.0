@@ -4,6 +4,8 @@
 #include "Player.h"
 
 #include <QMainWindow>
+#include <QAction>
+#include <QPointer>
 
 class DebuggerMainWindow : public QMainWindow
 {
@@ -11,6 +13,8 @@ class DebuggerMainWindow : public QMainWindow
 
 public:
     explicit DebuggerMainWindow(Player *player, QWidget *parent = 0);
+
+    void closeEvent(QCloseEvent *event) override;
 
 private slots:
     void updateDebugger(QStringList animationNames, Frame *outputFrame, RenderMemory *renderMemory);
@@ -24,6 +28,10 @@ private slots:
     void addItem();
     void deleteItem();
 
+    void showFileOpenDialog();
+    void savePlaylistToFile();
+    void openRecentFile();
+
 private:
     Ui::DebuggerMainWindow ui;
 
@@ -32,4 +40,11 @@ private:
     Player *player{ nullptr };
 
     QModelIndex currentItemContextMenu;
+
+    // We save the recent file actions so that we can change them (their text) later
+    QPointer<QAction> recentFileActions[MAX_RECENT_FILES];
+    void updateRecentFileActions();
+
+    bool isSaved{ true };
+    void loadFiles(QStringList files);
 };

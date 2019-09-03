@@ -189,3 +189,13 @@ void AnimationStack::addAnimationFromString(QString &name, int position)
         }
     }
 }
+
+bool AnimationStack::savePlaylist(QDomElement &root) const
+{
+    QDomElementSign d = root.ownerDocument().createElement("playlistItemRawFile");
+
+    d.appendProperiteChild("test", "testttttest");
+    
+    root.appendChild(d);
+    return true;
+}

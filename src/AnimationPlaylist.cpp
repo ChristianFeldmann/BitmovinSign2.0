@@ -1,5 +1,40 @@
 #include "AnimationPlaylist.h"
 
+#include <QFile>
+#include <QTextStream>
+
+bool AnimationPlaylist::loadPlaylistFile(QString filename)
+{
+    QFile file("testPlaylist.playlist");
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        return false;
+    }
+
+    QTextStream in(&file);
+    while (!in.atEnd()) 
+    {
+        QString line = in.readLine();
+        QStringList stack = line.split(" ");
+        auto newStack = std::make_shared<AnimationStack>(this, stack);
+        this->animationStackList.push_back(newStack);
+    }
+
+    return true;
+}
+
+bool AnimationPlaylist::savePlaylist(QDomElement &root) const
+{
+    for (auto &stack : this->animationStackList)
+    {
+        if (!stack->savePlaylist(root))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
 std::shared_ptr<AnimationStack> AnimationPlaylist::getAnimationStack(unsigned idx) const
 {
     if (idx < 0 || idx >= this->animationStackList.size())

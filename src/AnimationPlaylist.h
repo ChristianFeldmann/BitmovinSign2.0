@@ -5,6 +5,8 @@
 #include "AnimationStack.h"
 #include "AnimationTreeBase.h"
 
+#include <QDomElement>
+
 /* The AnimationPlaylist is the root of our tree
  */
 class AnimationPlaylist : public AnimationTreeBase
@@ -12,6 +14,9 @@ class AnimationPlaylist : public AnimationTreeBase
 public:
     AnimationPlaylist() : AnimationTreeBase(nullptr) {};
     ~AnimationPlaylist() = default;
+
+    bool loadPlaylistFile(QString filename);
+    bool savePlaylist(QDomElement &plist) const;
 
     std::shared_ptr<AnimationStack> getAnimationStack(unsigned idx) const;
     int getAnimationStackIndex(AnimationTreeBase *stack) const;

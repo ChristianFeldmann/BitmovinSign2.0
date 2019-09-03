@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <QColor>
+#include <QDomElement>
 #include <QImage>
 #include <QPointF>
 #include <QSize>
@@ -41,6 +42,8 @@ const std::vector<unsigned> OFFSET_LIST = {0, OFFSET_PART_LEFT, OFFSET_PART_MIDD
 
 const QColor BITMOVIN_BLUE = QColor(30, 171, 226);
 
+const unsigned MAX_RECENT_FILES = 10;
+
 template <typename T>
 T clip(const T& n, const T& lower, const T& upper) {
     return std::max(lower, std::min(n, upper));
@@ -55,4 +58,32 @@ struct RenderMemory
 {
     std::map<int, Frame> frameMap;
     std::map<int, QImage> imageMap;
+};
+
+// Identical to a QDomElement, but we add some convenience functions (findChildValue and appendProperiteChild)
+// for putting values into the playlist and reading them from the playlist.
+typedef QPair<QString, QString> QStringPair;
+typedef QList<QStringPair> QStringPairList;
+class QDomElementSign : public QDomElement
+{
+public:
+    // Copy constructor so we can initialize from a QDomElement
+    QDomElementSign(const QDomElement &a) : QDomElement(a) {}
+    // Look through all the child items. If one child element exists with the given tagName, return it's text node.
+    // All attributes of the child (if found) are appended to attributes.
+    QString findChildValue(const QString &tagName) const { QStringPairList b; return findChildValue(tagName, b); }
+    QString findChildValue(const QString &tagName, QStringPairList &attributeList) const;
+    // Some convenient find functions that do casting and can return a default value if the key was not found
+    int findChildValueInt(const QString &tagName, int defaultValue) const { QString r = findChildValue(tagName); return r.isEmpty() ? defaultValue : r.toInt(); };
+    double findChildValueDouble(const QString &tagName, double defaultValue) const { QString r = findChildValue(tagName); return r.isEmpty() ? defaultValue : r.toDouble(); };
+    // Append a new child to this element with the given type, and name (as text node).
+    // All QString pairs in ValuePairList are appended as attributes.
+    void appendProperiteChild(const QString &type, const QString &name, const QStringPairList &attributes = QStringPairList())
+    {
+        QDomElement newChild = ownerDocument().createElement(type);
+        newChild.appendChild(ownerDocument().createTextNode(name));
+        for (int i = 0; i < attributes.length(); i++)
+            newChild.setAttribute(attributes[i].first, attributes[i].second);
+        appendChild(newChild);
+    }
 };
