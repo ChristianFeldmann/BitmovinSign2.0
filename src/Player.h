@@ -4,6 +4,7 @@
 #include <QTimer>
 
 #include "AnimationPlaylist.h"
+#include "AnimationTreeModel.h"
 #include "Frame.h"
 #include "Output.h"
 #include "DebuggerWidget.h"
@@ -22,8 +23,6 @@ public:
     Player(const Player&) = delete;
     Player& operator =(const Player&) = delete;
 
-    AnimationPlaylist *getPlaylist() { return &this->playlist; }
-
     void setCurrentAnimation(AnimationTreeBase *item);
 
     void pause();
@@ -33,7 +32,9 @@ public:
     bool isPlaying() { return this->playing; }
 
     bool loadPlaylistFile(QString filePath);
-    QString getPlaylistString();
+    QString getPlaylistString() { return this->model.getPlaylistString(); }
+
+    AnimationTreeModel *getAnimationTreeMode() { return &this->model; }
 
 public slots:
     void setTargetFPS(int value);
@@ -52,7 +53,6 @@ private:
     Output output;
     virtual void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE; // Overloaded from QObject. Called when the timer fires.
 
-    AnimationPlaylist playlist;
     unsigned currentAnimationStackIndex{ 0 };
     unsigned currentAnimationRuntime{ 0 };
 
@@ -64,4 +64,6 @@ private:
 
     bool autoSwitchStacks{ false };
     bool playing{ false };
+
+    AnimationTreeModel model;
 };

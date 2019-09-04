@@ -11,14 +11,15 @@
 class AnimationStack : public AnimationTreeBase
 {
 public:
-    AnimationStack(AnimationTreeBase *rootPlaylist, QStringList animations = {});
+    AnimationStack(AnimationTreeBase *rootPlaylist);
+    AnimationStack(AnimationTreeBase *rootPlaylist, QDomElementSign &root);
     ~AnimationStack() = default;
 
     bool renderStack(Frame &output, RenderMemory &renderMemory);
     void resetAnimations();
 
     // Overload from AnimationTreeBase
-    virtual AnimationTreeBase *child(int number) override;
+    virtual AnimationTreeBase *child(int number) const override;
     virtual size_t childCount() const override;
     virtual int childNumber(AnimationTreeBase *child) const override;
     virtual QVariant data(int column) const override;
@@ -34,7 +35,8 @@ public:
     bool savePlaylist(QDomElement &plist) const;
 
 private:
-    void addAnimationFromString(QString &name, int position=-1);
+    std::shared_ptr<AnimationBase> createNewAnimation(QString animationName);
+
     std::vector<std::shared_ptr<AnimationBase>> animations;
 
     unsigned animationsFinished{ 0 };

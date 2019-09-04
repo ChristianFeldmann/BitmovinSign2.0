@@ -17,14 +17,14 @@ public:
     AnimationTreeBase(AnimationTreeBase *parent) { this->parent = parent; }
     ~AnimationTreeBase() = default;
 
-    virtual AnimationTreeBase *child(int number) = 0;
+    virtual AnimationTreeBase *child(int number) const = 0;
     virtual size_t childCount() const = 0;
     virtual int childNumber(AnimationTreeBase *child) const = 0;
     virtual QVariant data(int column) const = 0;
 
     virtual bool removeChildren(int pos, int rows) = 0;
 
-    AnimationTreeBase *getParent() { return this->parent; }
+    AnimationTreeBase *getParent() const { return this->parent; }
 
     QWidget *getPropertiesWidget() { if (propertiesWidget == nullptr) createPropertiesWidget(); return propertiesWidget; }
 

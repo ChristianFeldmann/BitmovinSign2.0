@@ -6,7 +6,7 @@ AnimationImageColorWipe::AnimationImageColorWipe(AnimationTreeBase *parentStack)
     AnimationBase(parentStack)
 {
     this->addParameter("color", &this->color);
-    this->addParameter("direction", (int*)&this->direction, QStringList() << "LEFT_TO_RIGHT" << "RIGHT_TO_LEFT" << "TOP_TO_BOTTOM" << "BOTTOM_TO_TOP");
+    this->addParameter("direction", (int*)&this->direction, QStringList() << "LEFT_TO_RIGHT" << "RIGHT_TO_LEFT" << "TOP_TO_BOTTOM" << "BOTTOM_TO_TOP" << "RANDOM");
 }
 
 void AnimationImageColorWipe::reset()

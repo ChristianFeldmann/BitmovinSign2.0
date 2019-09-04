@@ -64,38 +64,6 @@ QWidget *AnimationParameter::createParameterWidget()
     return new QLabel("Error");
 }
 
-void AnimationParameter::setValue(QString value)
-{
-    if (this->type == Color)
-    {
-        *this->color = QColor(value);
-        if (!(*this->color).isValid())
-        {
-            qDebug() << "Unable to set property '" << this->name << "' to value '" << value << "'. Unable to convert value to QColor.";
-        }
-    }
-    if (this->type == Enum)
-    {
-        if (this->enumValues.contains(value))
-        {
-            *this->enumInt = this->enumValues.indexOf(value);
-        }
-        else
-        {
-            qDebug() << "Unable to set property '" << this->name << "' to value '" << value << "'. Could not find the enum value.";
-        }
-    }
-    if (this->type == Int)
-    {
-        bool ok;
-        *this->integer = value.toInt(&ok);
-        if (!ok)
-        {
-            qDebug() << "Unable to set property '" << this->name << "' to value '" << value << "'. Unable to convert value to int.";
-        }
-    }
-}
-
 void AnimationParameter::onColorButtonPressed(bool checked)
 {
     Q_UNUSED(checked);
@@ -129,4 +97,82 @@ void AnimationParameter::setColorForButton()
     pixmap.convertFromImage(image);
     QIcon ico(pixmap);
     this->colorPushButton->setIcon(ico);
+}
+
+bool AnimationParameter::appendProperty(QDomElementSign &plist) const
+{
+    QString typeName = this->type == Enum ? "Enum" : (this->type == Int) ? "Int" : "Color";
+    QString valueString;
+
+    if (this->type == Color)
+    {
+        typeName = "Color";
+        valueString = this->color->name();
+    }
+    else if (this->type == Enum)
+    {
+        typeName = "Enum";
+        valueString = QString("%1").arg(this->enumValues[*this->enumInt]);
+    }
+    else if (this->type == Int)
+    {
+        typeName = "Int";
+        valueString = QString("%1").arg(*this->integer);
+    }
+    else
+    {
+        return false;
+    }
+    
+    QStringPairList l;
+    l.append(QStringPair("Name", this->name));
+    plist.appendProperiteChild(typeName, valueString, l);
+
+    return true;
+}
+
+bool AnimationParameter::loadFromElement(QDomElementSign &plist)
+{
+    if (this->name.isEmpty() || this->name != plist.attribute("Name"))
+    {
+        return false;
+    }
+    QString typeString = plist.tagName();
+    QString nodeText = plist.text();
+    if (typeString == "Color")
+    {
+        this->type = Color;
+        *this->color = QColor(nodeText);
+        if (!(*this->color).isValid())
+        {
+            qDebug() << "Unable to set property '" << this->name << "' to value '" << nodeText << "'. Unable to convert value to QColor.";
+            return false;
+        }
+    }
+    else if (typeString == "Enum")
+    {
+        this->type = Enum;
+        if (this->enumValues.contains(nodeText))
+        {
+            *this->enumInt = this->enumValues.indexOf(nodeText);
+        }
+        else
+        {
+            qDebug() << "Unable to set property '" << this->name << "' to value '" << nodeText << "'. Could not find the enum value.";
+            return false;
+        }
+    }
+    else if (typeString == "Int")
+    {
+        this->type = Int;
+        bool ok;
+        *this->integer = nodeText.toInt(&ok);
+        if (!ok)
+        {
+            qDebug() << "Unable to set property '" << this->name << "' to value '" << nodeText << "'. Unable to convert value to int.";
+            return false;
+        }
+    }
+
+    return true;
 }

@@ -15,7 +15,7 @@ public:
     virtual ~AnimationBase() = default;
 
     // Overload from AnimationTreeBase
-    virtual AnimationTreeBase *child(int number) override;
+    virtual AnimationTreeBase *child(int number) const override;
     virtual size_t childCount() const override;
     virtual int childNumber(AnimationTreeBase *child) const override;
     virtual QVariant data(int column) const override;
@@ -30,9 +30,11 @@ public:
     virtual bool renderFrame(Frame &frame, QImage &image) = 0;
 
     virtual QString getName() const = 0;
-    void setPropertie(QString propertieName, QString value);
 
     virtual void reset() {};
+
+    bool savePlaylist(QDomElementSign &plist) const;
+    bool loadProperties(QDomElementSign &plist);
 
 protected:
     void convertImageToFrame(Frame &frame, QImage &image);

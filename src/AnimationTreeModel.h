@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AnimationTreeBase.h"
+#include "AnimationPlaylist.h"
 
 #include <QAbstractItemModel>
 
@@ -9,7 +10,7 @@ class AnimationTreeModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
-    AnimationTreeModel(AnimationTreeBase *treeRoot, QObject *parent = 0);
+    AnimationTreeModel(QObject *parent = 0);
     ~AnimationTreeModel() = default;
     
     // Needed for a read only mode
@@ -19,21 +20,21 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
 
-    AnimationTreeBase *getItem(const QModelIndex &index) const;
+    int getAnimationStackIndex(AnimationTreeBase *stack) const { return this->playlist.getAnimationStackIndex(stack); }
+    std::shared_ptr<AnimationStack> getAnimationStack(unsigned index) const { return this->playlist.getAnimationStack(index); }
+    
+    bool loadPlaylistFile(QString filePath);
+    QString getPlaylistString() const { return this->playlist.getPlaylistString(); }
 
     // Optional? 
-    /*QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
-
-    Qt::ItemFlags flags(const QModelIndex &index) const override;
-    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
-    bool setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role = Qt::EditRole) override;
-
-    bool insertColumns(int position, int columns, const QModelIndex &parent = QModelIndex()) override;
-    bool removeColumns(int position, int columns, const QModelIndex &parent = QModelIndex()) override;*/
-
+    // QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override; 
+    
     bool insertRows(int position, int rows, const QModelIndex &parent = QModelIndex()) override;
     bool removeRows(int position, int rows, const QModelIndex &parent = QModelIndex()) override;
 
 private:
-    AnimationTreeBase *rootItem{ nullptr };
+    const AnimationTreeBase *getItem(const QModelIndex &index) const;
+    AnimationTreeBase *getItemNonConst(const QModelIndex &index);
+
+    AnimationPlaylist playlist;
 };

@@ -12,7 +12,6 @@ Player::Player(QObject *parent) : QObject(parent)
     connect(&this->fpsTimer, &QTimer::timeout, this, &Player::fpsTimerTimeout);
     this->fpsTimer.start(1000);
 
-    playlist.createDefaultPlaylist();
     this->play();
 }
 
@@ -20,7 +19,7 @@ void Player::timerEvent(QTimerEvent *event)
 {
     Q_UNUSED(event);
 
-    auto animationStack = this->playlist.getAnimationStack(this->currentAnimationStackIndex);
+    auto animationStack = this->model.getAnimationStack(this->currentAnimationStackIndex);
     if (animationStack == nullptr)
     {
         return;
@@ -33,12 +32,12 @@ void Player::timerEvent(QTimerEvent *event)
         if (autoSwitchStacks && currentAnimationRuntime > minimumAnimationRuntime)
         {
             this->currentAnimationStackIndex++;
-            if (this->currentAnimationStackIndex >= this->playlist.childCount())
+            if (this->currentAnimationStackIndex >= unsigned(this->model.rowCount()))
             {
                 this->currentAnimationStackIndex = 0;
             }
             currentAnimationRuntime = 0;
-            this->playlist.getAnimationStack(this->currentAnimationStackIndex)->resetAnimations();
+            this->model.getAnimationStack(this->currentAnimationStackIndex)->resetAnimations();
         }
     }
     currentAnimationRuntime++;
@@ -58,12 +57,12 @@ void Player::fpsTimerTimeout()
 
 void Player::setCurrentAnimation(AnimationTreeBase *item)
 {
-    int index = this->playlist.getAnimationStackIndex(item);
+    int index = this->model.getAnimationStackIndex(item);
     if (index >= 0)
     {
         this->currentAnimationStackIndex = index;
         currentAnimationRuntime = 0;
-        this->playlist.getAnimationStack(this->currentAnimationStackIndex)->resetAnimations();
+        this->model.getAnimationStack(this->currentAnimationStackIndex)->resetAnimations();
         autoSwitchStacks = false;
     }
 }
@@ -86,24 +85,9 @@ void Player::step()
     this->timerEvent(nullptr);
 }
 
-bool Player::loadPlaylistFile(QString fileList)
+bool Player::loadPlaylistFile(QString filename)
 {
-    // TODO
-    return false;
-}
-
-QString Player::getPlaylistString()
-{
-    // Create the XML document structure
-    QDomDocument document;
-    document.appendChild(document.createProcessingInstruction(QStringLiteral("xml"), QStringLiteral("version=\"1.0\" encoding=\"UTF-8\"")));
-    QDomElement plist = document.createElement(QStringLiteral("playlistItems"));
-    plist.setAttribute(QStringLiteral("version"), QStringLiteral("2.0"));
-    document.appendChild(plist);
-
-    this->playlist.savePlaylist(plist);
-
-    return document.toString();
+    return this->model.loadPlaylistFile(filename);
 }
 
 void Player::setTargetFPS(int value)

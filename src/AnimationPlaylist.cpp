@@ -1,38 +1,43 @@
 #include "AnimationPlaylist.h"
 
+#include <QBuffer>
 #include <QFile>
 #include <QTextStream>
+#include <QFileInfo>
+#include <QDebug>
 
 bool AnimationPlaylist::loadPlaylistFile(QString filename)
 {
-    QFile file("testPlaylist.playlist");
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
+    QFile file(filename);
+    QFileInfo fileInfo(file);
+    if (!file.open(QIODevice::ReadOnly))
         return false;
-    }
 
-    QTextStream in(&file);
-    while (!in.atEnd()) 
-    {
-        QString line = in.readLine();
-        QStringList stack = line.split(" ");
-        auto newStack = std::make_shared<AnimationStack>(this, stack);
-        this->animationStackList.push_back(newStack);
-    }
+    // Load the playlist file to buffer
+    QByteArray fileBytes = file.readAll();
+    return this->loadPlaylistFromByteArray(fileBytes);
 
     return true;
 }
 
-bool AnimationPlaylist::savePlaylist(QDomElement &root) const
+QString AnimationPlaylist::getPlaylistString() const
 {
+    // Create the XML document structure
+    QDomDocument document;
+    document.appendChild(document.createProcessingInstruction(QStringLiteral("xml"), QStringLiteral("version=\"1.0\" encoding=\"UTF-8\"")));
+    QDomElement plist = document.createElement(QStringLiteral("playlistItems"));
+    plist.setAttribute(QStringLiteral("version"), QStringLiteral("2.0"));
+    document.appendChild(plist);
+
     for (auto &stack : this->animationStackList)
     {
-        if (!stack->savePlaylist(root))
+        if (!stack->savePlaylist(plist))
         {
-            return false;
+            // Error saving item
         }
     }
-    return true;
+
+    return document.toString();
 }
 
 std::shared_ptr<AnimationStack> AnimationPlaylist::getAnimationStack(unsigned idx) const
@@ -67,9 +72,13 @@ bool AnimationPlaylist::insertStack(int pos)
     return true;
 }
 
-AnimationTreeBase *AnimationPlaylist::child(int number)
+AnimationTreeBase *AnimationPlaylist::child(int number) const
 {
-    return this->animationStackList.at(number).get();
+    if (number >= 0 && number < this->animationStackList.size())
+    {
+        return this->animationStackList.at(number).get();
+    }
+    return nullptr;
 }
 
 size_t AnimationPlaylist::childCount() const 
@@ -106,18 +115,44 @@ bool AnimationPlaylist::removeChildren(int pos, int count)
     return true;
 }
 
-void AnimationPlaylist::createDefaultPlaylist()
+bool AnimationPlaylist::loadPlaylistFromByteArray(QByteArray data)
 {
-    const std::vector<QStringList> playlist({
-        {"ConstantColor|color=#0a394b", "HighlightSparkling"},
-        {"ConstantColor|color=#0a394b", "HighlightRotation|color=#FFFFFF"},
-        {"Fire", "HighlightRotation|color=#FFFFFF"},
-        {"ColorWipe|direction=left_to_right"},
-    });
+    QBuffer buffer(&data);
 
-    for (QStringList stack : playlist)
+    // Try to open the DOM document
+    QDomDocument doc;
+    QString errorMessage;
+    int errorLine;
+    int errorColumn;
+    bool success = doc.setContent(&buffer, false, &errorMessage, &errorLine, &errorColumn);
+    if (!success)
     {
-        auto newStack = std::make_shared<AnimationStack>(this, stack);
-        this->animationStackList.push_back(newStack);
+        qDebug() << "Error loading playlist - The playlist file format could not be recognized.";
+        return false;
     }
+
+    // Get the root and parser the header
+    QDomElement root = doc.documentElement();
+    QString tmp1 = root.tagName();
+    QString tmp2 = root.attribute("version");
+    if (root.tagName() != "playlistItems" || root.attribute("version") != "2.0")
+    {
+        qDebug() << "Error loading playlist - The playlist file format could not be recognized.";
+        return false;
+    }
+
+    // Iterate over all items in the playlist
+    QDomNode n = root.firstChild();
+    while (!n.isNull())
+    {
+        QDomElementSign elem = n.toElement();
+        if (n.isElement())
+        {
+            auto newStack = std::make_shared<AnimationStack>(this, elem);
+            this->animationStackList.push_back(newStack);
+        }
+        n = n.nextSibling();
+    }
+
+    return true;
 }

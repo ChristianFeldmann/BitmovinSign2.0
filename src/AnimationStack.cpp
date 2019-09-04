@@ -39,16 +39,35 @@ namespace
     });
 }
 
-AnimationStack::AnimationStack(AnimationTreeBase *rootPlaylist, QStringList animations) :
+AnimationStack::AnimationStack(AnimationTreeBase *rootPlaylist) :
     AnimationTreeBase(rootPlaylist)
 {
-    for (QString &animation : animations)
+}
+
+AnimationStack::AnimationStack(AnimationTreeBase *rootPlaylist, QDomElementSign &root) :
+    AnimationTreeBase(rootPlaylist)
+{
+    if (root.tagName() != "stack")
     {
-        addAnimationFromString(animation);
+        return;
+    }
+
+    QDomNodeList children = root.childNodes();
+    for (int i = 0; i < children.length(); i++)
+    {
+        // Parse the child items
+        QDomElementSign childElem = children.item(i).toElement();
+        QString animationName = childElem.tagName();
+        auto newAnimation = this->createNewAnimation(animationName);
+        if (newAnimation)
+        {
+            newAnimation->loadProperties(childElem);
+        }
+        this->animations.push_back(newAnimation);
     }
 }
 
-AnimationTreeBase *AnimationStack::child(int number)
+AnimationTreeBase *AnimationStack::child(int number) const
 {
     if (number >= 0 && number < int(this->animations.size()))
     {
@@ -100,7 +119,15 @@ bool AnimationStack::insertAnimation(int pos, QString type)
     if (pos < 0 || pos > int(this->animations.size()))
         return false;
 
-    this->addAnimationFromString(type, pos);
+    auto newAnimation = this->createNewAnimation(type);
+    if (pos == -1)
+    {
+        this->animations.push_back(newAnimation);
+    }
+    else
+    {
+        this->animations.insert(this->animations.begin() + pos, newAnimation);
+    }
     
     return true;
 }
@@ -160,41 +187,27 @@ QStringList AnimationStack::getAnimationList()
     return names;
 }
 
-void AnimationStack::addAnimationFromString(QString &name, int position)
+std::shared_ptr<AnimationBase> AnimationStack::createNewAnimation(QString animationName)
 {
-    auto nameAndParameters = name.split("|");
-    QString animationName = nameAndParameters[0];
-
     for (size_t i = 0; i < factoryList.size(); i++)
     {
         auto a = factoryList[i]->create(this);
         if (a->getName() == animationName)
         {
-            for (int i = 1; i < nameAndParameters.size(); i++)
-            {
-                auto parameterAndValue = nameAndParameters[i].split("=");
-                if (parameterAndValue.count() == 2)
-                {
-                    a->setPropertie(parameterAndValue[0], parameterAndValue[1]);
-                }
-            }
-            if (position == -1)
-            {
-                this->animations.push_back(a);
-            }
-            else
-            {
-                this->animations.insert(this->animations.begin() + position, a);
-            }
+            return a;
         }
     }
+    return {};
 }
 
 bool AnimationStack::savePlaylist(QDomElement &root) const
 {
-    QDomElementSign d = root.ownerDocument().createElement("playlistItemRawFile");
+    QDomElementSign d = root.ownerDocument().createElement("stack");
 
-    d.appendProperiteChild("test", "testttttest");
+    for (auto animation : this->animations)
+    {
+        animation->savePlaylist(d);
+    }
     
     root.appendChild(d);
     return true;

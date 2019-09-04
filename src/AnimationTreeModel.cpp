@@ -7,10 +7,9 @@
 #include <QColor>
 #include <QInputDialog>
 
-AnimationTreeModel::AnimationTreeModel(AnimationTreeBase *treeRoot, QObject *parent) :
+AnimationTreeModel::AnimationTreeModel(QObject *parent) :
     QAbstractItemModel(parent)
 {
-    this->rootItem = treeRoot;
 }
 
 QModelIndex AnimationTreeModel::index(int row, int column, const QModelIndex &parent) const
@@ -33,7 +32,7 @@ QModelIndex AnimationTreeModel::index(int row, int column, const QModelIndex &pa
 
 int AnimationTreeModel::rowCount(const QModelIndex &parent) const
 {
-    AnimationTreeBase *parentItem = getItem(parent);
+    const AnimationTreeBase *parentItem = this->getItem(parent);
     return int(parentItem->childCount());
 }
 
@@ -59,7 +58,7 @@ QVariant AnimationTreeModel::data(const QModelIndex &index, int role) const
     return item->data(index.column());
 }
 
-AnimationTreeBase *AnimationTreeModel::getItem(const QModelIndex &index) const
+const AnimationTreeBase *AnimationTreeModel::getItem(const QModelIndex &index) const
 {
     if (index.isValid()) 
     {
@@ -69,7 +68,20 @@ AnimationTreeBase *AnimationTreeModel::getItem(const QModelIndex &index) const
             return item;
         }
     }
-    return this->rootItem;
+    return &this->playlist;
+}
+
+AnimationTreeBase *AnimationTreeModel::getItemNonConst(const QModelIndex &index)
+{
+    if (index.isValid())
+    {
+        AnimationTreeBase *item = static_cast<AnimationTreeBase*>(index.internalPointer());
+        if (item)
+        {
+            return item;
+        }
+    }
+    return &this->playlist;
 }
 
 //QVariant AnimationTreeModel::headerData(int section, Qt::Orientation orientation,
@@ -83,15 +95,23 @@ AnimationTreeBase *AnimationTreeModel::getItem(const QModelIndex &index) const
 //    return QVariant();
 //}
 
+bool AnimationTreeModel::loadPlaylistFile(QString filePath)
+{
+    beginResetModel();
+    bool success = this->playlist.loadPlaylistFile(filePath);
+    endResetModel();
+    return success;
+}
+
 bool AnimationTreeModel::insertRows(int position, int rows, const QModelIndex &parent)
 {
-    auto parentItem = getItem(parent);
+    auto parentItem = getItemNonConst(parent);
     if (position == -1)
     {
         parentItem->childCount();
     }
     
-    AnimationStack *stack = dynamic_cast<AnimationStack*>(parentItem);
+    auto stack = dynamic_cast<AnimationStack*>(parentItem);
     if (stack)
     {
         auto animationList = AnimationStack::getAnimationList();
@@ -121,7 +141,7 @@ bool AnimationTreeModel::insertRows(int position, int rows, const QModelIndex &p
 
 bool AnimationTreeModel::removeRows(int position, int rows, const QModelIndex &parent)
 {
-    auto parentItem = getItem(parent);
+    auto parentItem = getItemNonConst(parent);
     bool success = true;
 
     beginRemoveRows(parent, position, position + rows - 1);
@@ -141,7 +161,7 @@ QModelIndex AnimationTreeModel::parent(const QModelIndex &index) const
     auto childItem = getItem(index);
     auto parentItem = childItem->getParent();
 
-    if (parentItem == rootItem || parentItem == nullptr)
+    if (parentItem == &this->playlist || parentItem == nullptr)
     {
         return QModelIndex();
     }

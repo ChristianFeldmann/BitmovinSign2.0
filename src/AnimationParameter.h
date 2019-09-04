@@ -20,8 +20,10 @@ public:
 
     QWidget *createParameterWidget();
 
-    void setValue(QString value);
     QString getName() { return this->name; }
+
+    bool appendProperty(QDomElementSign &plist) const;
+    bool loadFromElement(QDomElementSign &plist);
 
 private slots:
     void onColorButtonPressed(bool checked);

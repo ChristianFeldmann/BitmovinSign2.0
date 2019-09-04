@@ -10,7 +10,7 @@ AnimationBase::AnimationBase(AnimationTreeBase *parentStack) :
     this->calculateLedsCoord();
 }
 
-AnimationTreeBase *AnimationBase::child(int number)
+AnimationTreeBase *AnimationBase::child(int number) const
 {
     Q_UNUSED(number);
     return nullptr;
@@ -43,20 +43,6 @@ bool AnimationBase::removeChildren(int pos, int rows)
     Q_UNUSED(rows);
     return false;
 }
-
-void AnimationBase::setPropertie(QString propertyName, QString value)
-{
-    for (auto &parameter : this->animationParameters)
-    {
-        if (parameter->getName() == propertyName)
-        {
-            parameter->setValue(value);
-            return;
-        }
-    }
-
-    qDebug() << "Unable to set property '" << propertyName << "' to value '" << value << "'. Unknown option for class " << this->getName();
-};
 
 void AnimationBase::convertImageToFrame(Frame &frame, QImage &image)
 {
@@ -124,4 +110,50 @@ void AnimationBase::draw_dots_line(QPointF start, QPointF end, unsigned num_of_d
         point.setY(start.y() + (end.y() - start.y()) * s);
         this->ledsCoord.push_back(point);
     }
+}
+
+bool AnimationBase::savePlaylist(QDomElementSign &root) const
+{
+    QDomElementSign d = root.ownerDocument().createElement(this->getName());
+
+    for (auto &parameter : this->animationParameters)
+    {
+        parameter->appendProperty(d);
+    }
+
+    root.appendChild(d);
+    return true;
+}
+
+bool AnimationBase::loadProperties(QDomElementSign &root)
+{
+    QDomNodeList children = root.childNodes();
+    bool success = true;
+    for (int i = 0; i < children.length(); i++)
+    {
+        QDomElementSign childElem = children.item(i).toElement();
+        QString paramName = childElem.attribute("Name");
+        if (paramName.isEmpty())
+        {
+            return false;
+        }
+        
+        bool paramFound = false;
+        for (auto &param : this->animationParameters)
+        {
+            if (param->getName() == paramName)
+            {
+                success &= param->loadFromElement(childElem);
+                paramFound = true;
+                break;
+            }
+        }
+        if (!paramFound)
+        {
+            qDebug() << "Unable to find parameter " << paramName;
+            success = false;
+        }
+    }
+
+    return success;
 }

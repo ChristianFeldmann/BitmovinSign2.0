@@ -22,17 +22,7 @@ DebuggerMainWindow::DebuggerMainWindow(Player *player, QWidget *parent) :
         QStringList headers;
         headers << tr("Title") << tr("Description");
 
-        QFile file("default.txt");
-        file.open(QIODevice::ReadOnly);
-        AnimationTreeModel *model = new AnimationTreeModel(player->getPlaylist());
-        file.close();
-
-        this->ui.animationStacksView->setModel(model);
-
-        for (int column = 0; column < model->columnCount(); ++column)
-        {
-            this->ui.animationStacksView->resizeColumnToContents(column);
-        }
+        this->ui.animationStacksView->setModel(player->getAnimationTreeMode());
         this->ui.animationStacksView->setStyleSheet(QString("QTreeView { show-decoration-selected: 1; }"));
     }
 
@@ -191,7 +181,7 @@ void DebuggerMainWindow::addItem()
     }
     else
     {
-        row = this->player->getPlaylist()->childCount();
+        row = this->player->getAnimationTreeMode()->rowCount();
     }
     this->ui.animationStacksView->model()->insertRow(int(row), this->currentItemContextMenu);
 }
