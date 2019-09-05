@@ -13,8 +13,9 @@ public:
     void reset() override;
 
 private:
-    unsigned int counter{0};
+    float counter{ 0.0 };
+    float speed{ 1.0 };
 
-    QColor colors[5];
+    QColor colors[5]{ QColor(255, 150, 0), QColor(255, 0, 100), QColor(150, 0, 255), QColor(0, 150, 255), QColor(0, 0, 0) };
 };
 

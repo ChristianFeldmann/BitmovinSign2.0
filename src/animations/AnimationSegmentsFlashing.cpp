@@ -3,6 +3,7 @@
 AnimationSegmentsFlashing::AnimationSegmentsFlashing(AnimationTreeBase *parentStack) :
     AnimationBase(parentStack)
 {
+    this->addParameter("speed", &this->speed);
     this->addParameter("color", &this->color);
     this->addParameter("timeOffsetBetweenSegments", &this->timeOffsetBetweenSegments);
     this->addParameter("timeToWaitFullColor", &this->timeToWaitFullColor);
@@ -16,23 +17,24 @@ void AnimationSegmentsFlashing::reset()
 bool AnimationSegmentsFlashing::renderFrame(Frame &frame, QImage &image)
 {
     Q_UNUSED(image);
+    frame.clearFrame();
     for (int i = 0; i < 4; i++)
     {
-        int partCounter = this->counter - this->timeOffsetBetweenSegments * i;
+        float partCounter = this->counter - this->timeOffsetBetweenSegments * i;
         if (partCounter > 0 && partCounter < 100 + this->timeToWaitFullColor)
         {
-            double intensity = 0;
+            float intensity = 0;
             if (partCounter < 50)
             {
-                intensity = double(partCounter) / 50.0;
+                intensity = partCounter / 50.0;
             }
             else if (partCounter < 50 + this->timeToWaitFullColor)
             {
-                intensity = 1;
+                intensity = 1.0;
             }
             else
             {
-                intensity = double(100 + this->timeToWaitFullColor - partCounter) / 50;
+                intensity = (100.0 + float(this->timeToWaitFullColor) - partCounter) / 50;
             }
             QColor c = this->color;
             c.setAlpha(int(intensity * 255));
@@ -40,11 +42,11 @@ bool AnimationSegmentsFlashing::renderFrame(Frame &frame, QImage &image)
         }
     }
 
-    this->counter++;
+    this->counter += this->speed;
     const unsigned animationDuration = 100 + this->timeToWaitFullColor + 4 * this->timeOffsetBetweenSegments;
     if (this->counter > animationDuration)
     {
-        this->counter = 0;
+        this->counter = 0.0;
         return true;
     }
 

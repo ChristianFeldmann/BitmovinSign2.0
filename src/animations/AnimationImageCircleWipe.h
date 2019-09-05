@@ -14,8 +14,9 @@ public:
     void reset() override;
 
 private:
+    float counter{ 0 };
 
-    unsigned counter{ 0 };
+    float speed{ 1.0 };
     unsigned waitFull{ 20 };
     QColor color{ BITMOVIN_BLUE };
 };

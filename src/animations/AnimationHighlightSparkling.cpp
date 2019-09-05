@@ -6,12 +6,14 @@ AnimationHighlightSparkling::AnimationHighlightSparkling(AnimationTreeBase *pare
     AnimationBase(parentStack)
 {
     this->addParameter("color", &this->sparkColor);
+    this->addParameter("speed", &this->sparkSpeed);
+    this->addParameter("rate", &this->sparkRate);
 }
 
 void AnimationHighlightSparkling::reset()
 {
     this->sparks.clear();
-    this->offsetCounter = 0;
+    this->sparkCreationCounter = 0.0;
 }
 
 bool AnimationHighlightSparkling::renderFrame(Frame &frame, QImage &image)
@@ -22,7 +24,8 @@ bool AnimationHighlightSparkling::renderFrame(Frame &frame, QImage &image)
 
     frame.clearFrame();
 
-    if (this->offsetCounter > offset)
+    const float timeBetweenSparks = 1 / sparkRate;
+    if (this->sparkCreationCounter > timeBetweenSparks)
     {
         // Add a new spark
         Spark s;
@@ -33,14 +36,14 @@ bool AnimationHighlightSparkling::renderFrame(Frame &frame, QImage &image)
 
         s.position = dist(mt);
         this->sparks.push_back(s);
-        this->offsetCounter = 0;
+        this->sparkCreationCounter = 0.0;
     }
-    this->offsetCounter++;
+    this->sparkCreationCounter += 0.02;
 
     // Render sparks
     for (auto it = this->sparks.begin(); it != this->sparks.end(); it++)
     {
-        double sparkleIntensity = ((*it).counter < 50) ? (double((*it).counter) / 50.0) : (double(100 - (*it).counter) / 50);
+        double sparkleIntensity = ((*it).counter < 50) ? ((*it).counter / 50.0) : ((100.0 - (*it).counter) / 50);
 
         static const double offsetRatios[] = { 0.25, 0.5, 1.0, 0.5, 0.25 };
         for (int i = -2; i < 3; i++)
@@ -60,7 +63,7 @@ bool AnimationHighlightSparkling::renderFrame(Frame &frame, QImage &image)
                 frame.data[idx].setAlpha(newAlpha);
             }
         }
-        (*it).counter++;
+        (*it).counter += this->sparkSpeed;
     }
 
     this->sparks.erase(std::remove_if(this->sparks.begin(),

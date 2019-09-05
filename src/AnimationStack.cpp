@@ -2,6 +2,7 @@
 
 #include <QImage>
 
+#include "animations/AnimationAlarm.h"
 #include "animations/AnimationConstantColor.h"
 #include "animations/AnimationHighlightRotation.h"
 #include "animations/AnimationRunningDot.h"
@@ -26,6 +27,7 @@ namespace
     };
 
     const std::vector<IFactory*> factoryList({
+        new Factory< AnimationAlarm>,
         new Factory<AnimationConstantColor>,
         new Factory<AnimationHighlightRotation>,
         new Factory<AnimationRunningDot>,

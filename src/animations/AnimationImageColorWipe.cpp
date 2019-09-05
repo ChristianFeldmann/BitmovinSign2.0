@@ -7,11 +7,13 @@ AnimationImageColorWipe::AnimationImageColorWipe(AnimationTreeBase *parentStack)
 {
     this->addParameter("color", &this->color);
     this->addParameter("direction", (int*)&this->direction, QStringList() << "LEFT_TO_RIGHT" << "RIGHT_TO_LEFT" << "TOP_TO_BOTTOM" << "BOTTOM_TO_TOP" << "RANDOM");
+    this->addParameter("speed", &this->speed);
+    this->addParameter("waitFull", &this->waitFull);
 }
 
 void AnimationImageColorWipe::reset()
 {
-    this->counter = 0;
+    this->counter = 0.0;
     this->direction = RANDOM;
     this->currentDirection = RANDOM;
 }
@@ -38,7 +40,7 @@ bool AnimationImageColorWipe::renderFrame(Frame &frame, QImage &image)
     }
     else
     {
-        unsigned linePos = this->counter;
+        unsigned linePos = unsigned(this->counter);
         bool colorInvert = false;
         if (this->counter > sizeInDirection)
         {
@@ -63,11 +65,11 @@ bool AnimationImageColorWipe::renderFrame(Frame &frame, QImage &image)
 
     AnimationBase::convertImageToFrame(frame, image);
     
-    this->counter++;
+    this->counter += this->speed;
     if (this->counter > sizeInDirection * 2 + this->waitFull)
     {
-        this->counter = 0;
+        this->counter = 0.0;
         this->currentDirection = this->direction;
     }
-    return this->counter == 0;
+    return this->counter < this->speed;
 }

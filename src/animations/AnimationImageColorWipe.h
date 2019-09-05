@@ -23,9 +23,11 @@ public:
     void reset() override;
 
 private:
-    unsigned counter{ 0 };
-    unsigned waitFull{ 20 };
+    float counter{ 0.0 };
+    Direction currentDirection{ RANDOM };
+
     QColor color{ BITMOVIN_BLUE };
     Direction direction{ RANDOM };
-    Direction currentDirection{ RANDOM };
+    unsigned waitFull{ 20 };
+    float speed{ 1.0 };
 };

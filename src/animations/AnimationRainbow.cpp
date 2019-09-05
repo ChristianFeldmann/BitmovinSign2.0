@@ -3,11 +3,12 @@
 AnimationRainbow::AnimationRainbow(AnimationTreeBase *parentStack) :
     AnimationBase(parentStack)
 {
+    this->addParameter("speed", &this->speed);
 }
 
 void AnimationRainbow::reset()
 {
-    this->counter = 0;
+    this->counter = 0.0;
 }
 
 bool AnimationRainbow::renderFrame(Frame &frame, QImage &image)
@@ -34,7 +35,7 @@ bool AnimationRainbow::renderFrame(Frame &frame, QImage &image)
 
     for (unsigned int j = 0; j < 4; j++)
     {
-        double timeOffset = double(this->counter) / 250.0;
+        double timeOffset = this->counter / 250.0;
 
         for (unsigned int i = 0; i < NR_LED_LIST[j]; i++)
         {
@@ -45,10 +46,10 @@ bool AnimationRainbow::renderFrame(Frame &frame, QImage &image)
         }
     }
 
-    this->counter++;
-    if (this->counter > 250) 
+    this->counter += this->speed;
+    if (this->counter > 250)
     {
-        this->counter = 0;
+        this->counter = 0.0;
     }
 
     return true;

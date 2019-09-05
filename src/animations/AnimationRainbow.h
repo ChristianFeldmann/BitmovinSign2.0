@@ -13,6 +13,8 @@ public:
     void reset() override;
 
 private:
-    unsigned int counter{ 0 };
+    float speed{ 1.0 };
+
+    float counter{ 0 };
 };
 

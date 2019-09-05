@@ -15,8 +15,10 @@ public:
 private:
     QColor color{ BITMOVIN_BLUE };
 
-    unsigned counter{ 0 };
-    int timeOffsetBetweenSegments{ 0 };
-    int timeToWaitFullColor{ 0 };
+    float counter{ 0 };
+
+    float speed{ 1.0 };
+    int timeOffsetBetweenSegments{ 50 };
+    int timeToWaitFullColor{ 50 };
 };
 

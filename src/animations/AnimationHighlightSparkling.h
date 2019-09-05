@@ -16,13 +16,16 @@ private:
     struct Spark
     {
         unsigned int position{ 0 };
-        unsigned int counter{ 0 };
+        float counter{ 0 };
     };
     std::vector<Spark> sparks;
 
     unsigned getRelativeIndexWrap(unsigned int idx, int offset);
 
     QColor sparkColor{ Qt::white };
-    unsigned int offsetCounter{ 0 };
+    float sparkSpeed{ 1.0 };
+    float sparkRate{ 20.0 };
+
+    float sparkCreationCounter{ 0.0 };
 };
 

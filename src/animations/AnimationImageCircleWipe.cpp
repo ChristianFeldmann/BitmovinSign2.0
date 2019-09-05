@@ -7,11 +7,12 @@ AnimationImageCircleWipe::AnimationImageCircleWipe(AnimationTreeBase *parentStac
     AnimationBase(parentStack)
 {
     this->addParameter("color", &this->color);
+    this->addParameter("speed", &this->speed);
 }
 
 void AnimationImageCircleWipe::reset()
 {
-    this->counter = 0;
+    this->counter = 0.0;
 }
 
 bool AnimationImageCircleWipe::renderFrame(Frame &frame, QImage &image)
@@ -27,6 +28,10 @@ bool AnimationImageCircleWipe::renderFrame(Frame &frame, QImage &image)
     {
         image.fill(this->color);
     }
+    else
+    {
+        image.fill(Qt::black);
+    }
 
     if (this->counter < fullRadius || this->counter > fullRadius + this->waitFull)
     {
@@ -35,13 +40,13 @@ bool AnimationImageCircleWipe::renderFrame(Frame &frame, QImage &image)
         {
             qp.setPen(this->color);
             qp.setBrush(this->color);
-            radius = this->counter;
+            radius = int(this->counter);
         }
         else
         {
             qp.setPen(Qt::black);
             qp.setBrush(Qt::black);
-            radius = this->counter - fullRadius - this->waitFull;
+            radius = int(this->counter) - fullRadius - this->waitFull;
         }
 
         QRect centeredRect = QRect(0, 0, radius*2, radius*2);
@@ -51,10 +56,10 @@ bool AnimationImageCircleWipe::renderFrame(Frame &frame, QImage &image)
 
     AnimationBase::convertImageToFrame(frame, image);
     
-    this->counter++;
+    this->counter += this->speed;
     if (this->counter > fullRadius * 2 + this->waitFull)
     {
-        this->counter = 0;
+        this->counter = 0.0;
     }
-    return this->counter == 0;
+    return this->counter < this->speed;
 }
