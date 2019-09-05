@@ -13,7 +13,10 @@ public:
     void reset() override;
 
 private:
-    unsigned int rotationCounters[4] {0, 0, 0, 0};
+    float rotationCounters[4] {0, 0, 0, 0};
+    float runSpeed[4]{ 1.0, 1.0, 1.0, 1.0 };
 
-    QColor color{ BITMOVIN_BLUE };
+    unsigned nrStripes[4]{ 20, 4, 8, 14 };
+    float stripeLength[4]{ 5, 5, 5, 5 };
+    QColor color[4]{ Qt::white, Qt::white, Qt::white, Qt::white };
 };

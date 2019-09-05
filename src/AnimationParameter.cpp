@@ -33,6 +33,20 @@ AnimationParameter::AnimationParameter(QString name, int *integer) : QObject()
     this->integer = integer;
 };
 
+AnimationParameter::AnimationParameter(QString name, unsigned *unsignedInt) : QObject()
+{
+    this->name = name;
+    this->type = UInt;
+    this->unsignedInt = unsignedInt;
+};
+
+AnimationParameter::AnimationParameter(QString name, float *floatValue) : QObject()
+{
+    this->name = name;
+    this->type = Float;
+    this->floatValue = floatValue;
+}
+
 QWidget *AnimationParameter::createParameterWidget()
 {
     if (this->type == Enum)
@@ -46,12 +60,29 @@ QWidget *AnimationParameter::createParameterWidget()
         connect(this->enumComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &AnimationParameter::onEnumComboBoxIndexChanged);
         return this->enumComboBox;
     }
-    if (this->type == Int)
+    if (this->type == Int || this->type == UInt)
     {
         this->intSpinBox = new QSpinBox();
-        this->intSpinBox->setValue(*this->integer);
+        if (this->type == Int)
+        {
+            this->intSpinBox->setValue(*this->integer);
+            this->intSpinBox->setRange(0, 10000);
+        }
+        else
+        {
+            this->intSpinBox->setValue(*this->unsignedInt);
+            this->intSpinBox->setRange(-10000, 10000);
+        }
         connect(this->intSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &AnimationParameter::onIntSpinBoxValueChanged);
         return this->intSpinBox;
+    }
+    if (this->type == Float)
+    {
+        this->doubleSpinBox = new QDoubleSpinBox();
+        this->doubleSpinBox->setValue(*this->floatValue);
+        this->doubleSpinBox->setRange(-1000.0, 1000.0);
+        connect(this->doubleSpinBox, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &AnimationParameter::onDoubleSpinBoxValueChanged);
+        return this->doubleSpinBox;
     }
     if (this->type == Color)
     {
@@ -85,7 +116,23 @@ void AnimationParameter::onEnumComboBoxIndexChanged(int index)
 
 void AnimationParameter::onIntSpinBoxValueChanged(int value)
 {
-    *this->integer = value;
+    if (this->type == Int)
+    {
+        *this->integer = value;
+    }
+    else if (this->type == UInt)
+    {
+        *this->unsignedInt = unsigned(value);
+    }
+    else
+    {
+        assert(false);
+    }
+}
+
+void AnimationParameter::onDoubleSpinBoxValueChanged(double value)
+{
+    *this->floatValue = float(value);
 }
 
 void AnimationParameter::setColorForButton()
@@ -118,6 +165,16 @@ bool AnimationParameter::appendProperty(QDomElementSign &plist) const
     {
         typeName = "Int";
         valueString = QString("%1").arg(*this->integer);
+    }
+    else if (this->type == UInt)
+    {
+        typeName = "UInt";
+        valueString = QString("%1").arg(*this->unsignedInt);
+    }
+    else if (this->type == Float)
+    {
+        typeName = "Float";
+        valueString = QString("%1").arg(*this->floatValue);
     }
     else
     {
@@ -170,6 +227,28 @@ bool AnimationParameter::loadFromElement(QDomElementSign &plist)
         if (!ok)
         {
             qDebug() << "Unable to set property '" << this->name << "' to value '" << nodeText << "'. Unable to convert value to int.";
+            return false;
+        }
+    }
+    else if (typeString == "UInt")
+    {
+        this->type = UInt;
+        bool ok;
+        *this->unsignedInt = unsigned(nodeText.toInt(&ok));
+        if (!ok)
+        {
+            qDebug() << "Unable to set property '" << this->name << "' to value '" << nodeText << "'. Unable to convert value to unsigned int.";
+            return false;
+        }
+    }
+    else if (typeString == "Float")
+    {
+        this->type = Float;
+        bool ok;
+        *this->floatValue = nodeText.toFloat(&ok);
+        if (!ok)
+        {
+            qDebug() << "Unable to set property '" << this->name << "' to value '" << nodeText << "'. Unable to convert value to float.";
             return false;
         }
     }

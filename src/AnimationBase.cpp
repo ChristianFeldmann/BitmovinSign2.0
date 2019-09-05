@@ -58,9 +58,19 @@ void AnimationBase::addParameter(QString name, QColor *color)
     this->animationParameters.push_back(std::make_shared<AnimationParameter>(name, color));
 }
 
-void AnimationBase::addParameter(QString name, int *integer)
+void AnimationBase::addParameter(QString name, int *value)
 {
-    this->animationParameters.push_back(std::make_shared<AnimationParameter>(name, integer));
+    this->animationParameters.push_back(std::make_shared<AnimationParameter>(name, value));
+}
+
+void AnimationBase::addParameter(QString name, unsigned *value)
+{
+    this->animationParameters.push_back(std::make_shared<AnimationParameter>(name, value));
+}
+
+void AnimationBase::addParameter(QString name, float *value)
+{
+    this->animationParameters.push_back(std::make_shared<AnimationParameter>(name, value));
 }
 
 void AnimationBase::addParameter(QString name, int *enumInteger, QStringList enumValues)

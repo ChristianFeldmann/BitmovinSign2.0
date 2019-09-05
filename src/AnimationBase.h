@@ -42,7 +42,9 @@ protected:
 
     std::vector<std::shared_ptr<AnimationParameter>> animationParameters;
     void addParameter(QString name, QColor *color);
-    void addParameter(QString name, int *integer);
+    void addParameter(QString name, int *value);
+    void addParameter(QString name, unsigned *value);
+    void addParameter(QString name, float *value);
     void addParameter(QString name, int *enumInteger, QStringList enumValues);
 
     virtual void createPropertiesWidget() override;

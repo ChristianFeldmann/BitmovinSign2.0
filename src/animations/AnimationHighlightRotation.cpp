@@ -5,74 +5,84 @@
 AnimationHighlightRotation::AnimationHighlightRotation(AnimationTreeBase *parentStack) :
     AnimationBase(parentStack)
 {
-    this->addParameter("color", &this->color);
+    QStringList names = QStringList() << "Background" << "Left" << "Middle" << "Right";
+    for (size_t i = 0; i < 4; i++)
+    {
+        this->addParameter("speed" + names[i], &this->runSpeed[i]);
+        this->addParameter("color " + names[i], &this->color[i]);
+        this->addParameter("stripes " + names[i], &this->nrStripes[i]);
+        this->addParameter("length " + names[i], &this->stripeLength[i]);
+    }
 }
 
 void AnimationHighlightRotation::reset()
 {
-    rotationCounters[0] = 0;
-    rotationCounters[1] = 0;
-    rotationCounters[2] = 0;
-    rotationCounters[3] = 0;
+    this->rotationCounters[0] = 0;
+    this->rotationCounters[1] = 0;
+    this->rotationCounters[2] = 0;
+    this->rotationCounters[3] = 0;
 }
 
 bool AnimationHighlightRotation::renderFrame(Frame &frame, QImage &image)
 {
     Q_UNUSED(image);
+    frame.clearFrame();
 
-    auto setLeds = [&](unsigned int ledStartOffset, unsigned int nrLed, unsigned int shift, const unsigned int lengths[], int lengthsSize)
+    auto eps = std::numeric_limits<float>::epsilon();
+
+    for (size_t j = 0; j < 4; j++)
     {
-        unsigned int idx = shift;
-        for (int i = 0; i < lengthsSize; i++)
+        const unsigned ledStartOffset = OFFSET_LIST[j];
+        const unsigned nrLed = NR_LED_LIST[j];
+        const float internalShift = this->rotationCounters[j];
+        const unsigned nrStripes = this->nrStripes[j];
+        const float stripeLength = this->stripeLength[j];
+
+        const float distance = float(nrLed) / nrStripes;
+        for (size_t stripeIndex = 0; stripeIndex < nrStripes; stripeIndex++)
         {
-            for (unsigned int j = 0; j < lengths[i]; j++)
+            float startPos = distance * stripeIndex + internalShift;
+
+            int lengthLedRender = int(std::ceil(stripeLength)) + 1;
+            for (unsigned i = 0; i < lengthLedRender; i++)
             {
-                if (i % 2 == 0)
+                unsigned ledPos = unsigned(std::floor(startPos)) + i;
+
+                QColor c = this->color[j];
+                if (i == 0 || i == lengthLedRender - 1)
                 {
-                    assert(ledStartOffset + idx < NR_LED_TOTAL);
-                    frame.data[ledStartOffset + idx] = this->color;
+                    float factor;
+                    if (i == 0)
+                    {
+                        factor = std::ceil(startPos + eps) - startPos;
+                    }
+                    else
+                    {
+                        factor = startPos - std::floor(startPos);
+                    }
+                    assert(factor >= 0 && factor <= 1);
+                    float alpha = float(c.alpha());
+                    int newAlpha = clip(int(alpha * factor), 0, 255);
+                    c.setAlpha(newAlpha);
                 }
-                else
+                
+                if (ledPos >= nrLed)
                 {
-                    frame.data[ledStartOffset + idx] = Qt::transparent;
+                    ledPos -= nrLed;
                 }
-                idx++;
-                idx = idx % nrLed;
+                frame.data[ledStartOffset + ledPos] = c;
             }
         }
-    };
 
-    // Background
-    static const unsigned int lengthsBackground[] = {11, 10, 10, 10, 11, 10, 10, 11, 10, 10, 11, 10, 10, 11, 10, 10, 10, 11, 10, 10};
-    setLeds(0, NR_LED_BACKGROUND, this->rotationCounters[0], lengthsBackground, 20);
-
-    // Part left
-    static const unsigned int lengthsLeft[] = {11, 12, 11, 12};
-    setLeds(OFFSET_PART_LEFT, NR_LED_PART_LEFT, this->rotationCounters[1], lengthsLeft, 4);
-
-    // Middle
-    static const unsigned int lengthsMiddle[] = {11, 12, 11, 11, 11, 12, 11, 11};
-    setLeds(OFFSET_PART_MIDDLE, NR_LED_PART_MIDDLE, this->rotationCounters[2], lengthsMiddle, 8);
-
-    // Right
-    static const unsigned int lengthsRight[] = {10, 11, 10, 11, 10, 11, 10, 11, 10, 11, 10, 11, 10, 11};
-    setLeds(OFFSET_PART_RIGHT, NR_LED_PART_RIGHT, this->rotationCounters[3], lengthsRight, 14);
-
-    if (++this->rotationCounters[0] >= NR_LED_BACKGROUND)
-    {
-        this->rotationCounters[0] = 0;
-    }
-    if (++this->rotationCounters[1] >= NR_LED_PART_LEFT)
-    {
-        this->rotationCounters[1] = 0;
-    }
-    if (++this->rotationCounters[2] >= NR_LED_PART_MIDDLE)
-    {
-        this->rotationCounters[2] = 0;
-    }
-    if (++this->rotationCounters[3] >= NR_LED_PART_RIGHT)
-    {
-        this->rotationCounters[3] = 0;
+        this->rotationCounters[j] += this->runSpeed[j];
+        if (this->runSpeed[j] < 0 && this->rotationCounters[j] < 0)
+        {
+            this->rotationCounters[j] += nrLed;
+        }
+        if (this->runSpeed[j] > 0 && this->rotationCounters[j] > nrLed)
+        {
+            this->rotationCounters[j] -= nrLed;
+        }
     }
 
     return true;
