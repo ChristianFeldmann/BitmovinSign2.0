@@ -148,6 +148,7 @@ bool AnimationStack::renderStack(Frame &output, RenderMemory &renderMemory)
             this->animationsFinished++;
         }
         output.blendWithFrame(renderMemory.frameMap[i]);
+        renderMemory.imageUsed[i] = animation->usesImage();
     }
 
     if (this->animationsFinished > 0 && this->animationsFinished == this->animations.size())

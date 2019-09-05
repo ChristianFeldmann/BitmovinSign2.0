@@ -50,6 +50,7 @@ void AnimationBase::convertImageToFrame(Frame &frame, QImage &image)
     {
         frame.data[i] = image.pixelColor(this->ledsCoord[i]);
     }
+    this->imageUsed = true;
 }
 
 void AnimationBase::addParameter(QString name, QColor *color)

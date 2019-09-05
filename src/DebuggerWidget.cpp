@@ -25,7 +25,14 @@ void DebuggerWidget::paintEvent(QPaintEvent *event)
         if (i < this->animationNames.size())
         {
             DebuggerWidget::drawPoints(painter, QRect(0, i * wh3, wh3, wh3), this->renderMemory->frameMap[i], this->animationNames[i]);
-            DebuggerWidget::drawImage(painter, QRect(wh3, i * wh3, wh3, wh3), this->renderMemory->imageMap[i]);
+            if (this->renderMemory->imageUsed[i])
+            {
+                DebuggerWidget::drawImage(painter, QRect(wh3, i * wh3, wh3, wh3), this->renderMemory->imageMap[i]);
+            }
+            else
+            {
+                DebuggerWidget::drawRect(painter, QRect(wh3, i * wh3, wh3, wh3), "", true);
+            }
         }
         else
         {

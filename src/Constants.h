@@ -58,6 +58,7 @@ struct RenderMemory
 {
     std::map<unsigned, Frame> frameMap;
     std::map<unsigned, QImage> imageMap;
+    std::map<unsigned, bool> imageUsed;
 };
 
 // Identical to a QDomElement, but we add some convenience functions (findChildValue and appendProperiteChild)

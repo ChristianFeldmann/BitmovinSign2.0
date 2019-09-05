@@ -30,6 +30,7 @@ public:
     virtual bool renderFrame(Frame &frame, QImage &image) = 0;
 
     virtual QString getName() const = 0;
+    bool usesImage() { return this->imageUsed; }
 
     virtual void reset() {};
 
@@ -48,6 +49,7 @@ protected:
 
 private:
     std::vector<QPoint> ledsCoord;
+    bool imageUsed{ false };
 
     void calculateLedsCoord();
 
