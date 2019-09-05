@@ -46,7 +46,7 @@ void DebuggerWidget::paintEvent(QPaintEvent *event)
     painter.end();
 }
 
-void DebuggerWidget::drawDotsLine(QPainter &painter, Frame &frame, QPointF start, QPointF end, unsigned num_of_dots, int &counter)
+void DebuggerWidget::drawDotsLine(QPainter &painter, Frame &frame, QPointF start, QPointF end, unsigned num_of_dots, int &counter, int radius)
 {
     auto &data = frame.data;
     for(unsigned i = 0; i < num_of_dots; i++)
@@ -58,13 +58,13 @@ void DebuggerWidget::drawDotsLine(QPainter &painter, Frame &frame, QPointF start
             int y = start.y() + (end.y() - start.y()) * s;
             painter.setPen(data[counter]);
             painter.setBrush(data[counter]);
-            painter.drawEllipse(x, y, 10, 10);
+            painter.drawEllipse(x, y, radius, radius);
             counter++;
         }
     }
 }
 
-void DebuggerWidget::drawLinesFromPoints(QPainter &painter, QRect where, Frame &frame, std::vector<QPointF> point_list, std::vector<unsigned> led_list, int &counter)
+void DebuggerWidget::drawLinesFromPoints(QPainter &painter, QRect where, Frame &frame, std::vector<QPointF> point_list, std::vector<unsigned> led_list, int &counter, int radius)
 {
     auto num_of_lines = point_list.size();
     for (size_t i = 0; i < num_of_lines; i++)
@@ -76,7 +76,7 @@ void DebuggerWidget::drawLinesFromPoints(QPainter &painter, QRect where, Frame &
         QPointF end = where.topLeft() + endRelative * where.width();
 
         unsigned num_of_led = led_list[i];
-        DebuggerWidget::drawDotsLine(painter, frame, start, end, num_of_led, counter);
+        DebuggerWidget::drawDotsLine(painter, frame, start, end, num_of_led, counter, radius);
     }
 }
 
@@ -84,10 +84,12 @@ void DebuggerWidget::drawPoints(QPainter &painter, QRect where, Frame &frame, QS
 {
     int led_counter = 0;
 
-    DebuggerWidget::drawLinesFromPoints(painter, where, frame, POINTS_BASE , LED_PARTS_BACKGROUND, led_counter);
-    DebuggerWidget::drawLinesFromPoints(painter, where, frame, POINTS_PART_L, LED_PARTS_PART_LEFT, led_counter);
-    DebuggerWidget::drawLinesFromPoints(painter, where, frame, POINTS_PART_M, LED_PARTS_PART_MIDDLE, led_counter);
-    DebuggerWidget::drawLinesFromPoints(painter, where, frame, POINTS_PART_R, LED_PARTS_PART_RIGHT, led_counter);
+    int radius = std::max(1, where.width() / 70);
+
+    DebuggerWidget::drawLinesFromPoints(painter, where, frame, POINTS_BASE , LED_PARTS_BACKGROUND, led_counter, radius);
+    DebuggerWidget::drawLinesFromPoints(painter, where, frame, POINTS_PART_L, LED_PARTS_PART_LEFT, led_counter, radius);
+    DebuggerWidget::drawLinesFromPoints(painter, where, frame, POINTS_PART_M, LED_PARTS_PART_MIDDLE, led_counter, radius);
+    DebuggerWidget::drawLinesFromPoints(painter, where, frame, POINTS_PART_R, LED_PARTS_PART_RIGHT, led_counter, radius);
 
     DebuggerWidget::drawRect(painter, where, lable);
 }
