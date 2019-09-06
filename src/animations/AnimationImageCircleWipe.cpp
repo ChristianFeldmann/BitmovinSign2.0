@@ -17,9 +17,6 @@ void AnimationImageCircleWipe::reset()
 
 bool AnimationImageCircleWipe::renderFrame(Frame &frame, QImage &image)
 {
-    QPainter qp;
-    qp.begin(&image);
-
     const int x = image.size().width() / 2;
     const int y = image.size().height() / 2;
     const unsigned fullRadius = unsigned(std::sqrt(x*x + y * y));
@@ -30,8 +27,12 @@ bool AnimationImageCircleWipe::renderFrame(Frame &frame, QImage &image)
     }
     else
     {
-        image.fill(Qt::black);
+        image.fill(Qt::transparent);
     }
+
+    QPainter qp;
+    qp.begin(&image);
+    qp.setCompositionMode(QPainter::CompositionMode_Source);
 
     if (this->counter < fullRadius || this->counter > fullRadius + this->waitFull)
     {
@@ -44,8 +45,8 @@ bool AnimationImageCircleWipe::renderFrame(Frame &frame, QImage &image)
         }
         else
         {
-            qp.setPen(Qt::black);
-            qp.setBrush(Qt::black);
+            qp.setPen(Qt::transparent);
+            qp.setBrush(Qt::transparent);
             radius = int(this->counter) - fullRadius - this->waitFull;
         }
 

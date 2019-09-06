@@ -12,7 +12,7 @@ AnimationAlarm::AnimationAlarm(AnimationTreeBase *parentStack) :
 
 bool AnimationAlarm::renderFrame(Frame &frame, QImage &image)
 {
-    image.fill(Qt::black);
+    image.fill(Qt::transparent);
 
     QPainter qp;
     qp.begin(&image);
