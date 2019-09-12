@@ -178,8 +178,6 @@ void DebuggerMainWindow::onTreeViewCustomContextMenu(const QPoint &point)
 
 void DebuggerMainWindow::addItem()
 {
-    qDebug() << "Add item";
-
     size_t row;
     if (this->currentItemContextMenu.isValid())
     {
@@ -195,8 +193,6 @@ void DebuggerMainWindow::addItem()
 
 void DebuggerMainWindow::deleteItem()
 {
-    qDebug() << "Delete item";
-
     if (this->currentItemContextMenu.isValid())
     {
         int row = this->currentItemContextMenu.row();

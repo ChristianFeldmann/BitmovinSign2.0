@@ -57,7 +57,7 @@ bool AnimationImageColorWipe::renderFrame(Frame &frame, QImage &image)
                 const int x = (horizontal) ? iInverted : j;
                 const int y = (horizontal) ? j : iInverted;
                 bool overLine = i > linePos;
-                const QColor c = (overLine ^ colorInvert) ? Qt::black : this->color;
+                const QColor c = (overLine ^ colorInvert) ? Qt::transparent : this->color;
                 image.setPixelColor(x, y, c);
             }
         }
