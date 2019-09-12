@@ -31,8 +31,13 @@ public:
 
     virtual bool removeChildren(int pos, int rows) override;
 
+    bool savePlaylist(QDomElement &root) const override;
+    void addStackFromDomElement(QDomElement &elem, int position = -1);
+
 private:
     bool loadPlaylistFromByteArray(QByteArray byteArray);
 
     std::vector<std::shared_ptr<AnimationStack>> animationStackList;
+
+    virtual ItemType getItemType() const { return Playlist; }
 };

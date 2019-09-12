@@ -28,15 +28,7 @@ QString AnimationPlaylist::getPlaylistString() const
     QDomElement plist = document.createElement(QStringLiteral("playlistItems"));
     plist.setAttribute(QStringLiteral("version"), QStringLiteral("2.0"));
     document.appendChild(plist);
-
-    for (auto &stack : this->animationStackList)
-    {
-        if (!stack->savePlaylist(plist))
-        {
-            // Error saving item
-        }
-    }
-
+    this->savePlaylist(plist);
     return document.toString();
 }
 
@@ -115,6 +107,18 @@ bool AnimationPlaylist::removeChildren(int pos, int count)
     return true;
 }
 
+bool AnimationPlaylist::savePlaylist(QDomElement &root) const
+{
+    QDomElement d = root.ownerDocument().createElement("playlist");
+    bool success = true;
+    for (auto &stack : this->animationStackList)
+    {
+        success &= stack->savePlaylist(d);
+    }
+    root.appendChild(d);
+    return success;
+}
+
 bool AnimationPlaylist::loadPlaylistFromByteArray(QByteArray data)
 {
     QBuffer buffer(&data);
@@ -145,14 +149,27 @@ bool AnimationPlaylist::loadPlaylistFromByteArray(QByteArray data)
     QDomNode n = root.firstChild();
     while (!n.isNull())
     {
-        QDomElementSign elem = n.toElement();
         if (n.isElement())
         {
-            auto newStack = std::make_shared<AnimationStack>(this, elem);
-            this->animationStackList.push_back(newStack);
+            QDomElement elem = n.toElement();
+            this->addStackFromDomElement(elem);
         }
         n = n.nextSibling();
     }
 
     return true;
+}
+
+void AnimationPlaylist::addStackFromDomElement(QDomElement &elem, int position)
+{
+    auto newStack = std::make_shared<AnimationStack>(this, elem);
+    if (position >= 0)
+    {
+        auto it = this->animationStackList.begin();
+        this->animationStackList.insert(it + position, newStack);
+    }
+    else
+    {
+        this->animationStackList.push_back(newStack);
+    }
 }

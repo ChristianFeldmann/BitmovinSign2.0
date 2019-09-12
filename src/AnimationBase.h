@@ -34,8 +34,8 @@ public:
 
     virtual void reset() {};
 
-    bool savePlaylist(QDomElementSign &plist) const;
-    bool loadProperties(QDomElementSign &plist);
+    bool savePlaylist(QDomElement &plist) const override;
+    bool loadProperties(QDomElement &plist);
 
 protected:
     void convertImageToFrame(Frame &frame, QImage &image);
@@ -57,4 +57,6 @@ private:
 
     void draw_lines_from_points(std::vector<QPointF> point_list, std::vector<unsigned> led_list, int factor);
     void draw_dots_line(QPointF start, QPointF end, unsigned num_of_dots);
+
+    virtual ItemType getItemType() const { return Animation; }
 };

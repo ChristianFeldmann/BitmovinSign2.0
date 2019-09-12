@@ -51,6 +51,13 @@ DebuggerMainWindow::DebuggerMainWindow(Player *player, QWidget *parent) :
     }
     fileMenu->addSeparator();
     fileMenu->addAction("&Save Playlist...", this, &DebuggerMainWindow::savePlaylistToFile, Qt::CTRL + Qt::Key_S);
+
+    this->ui.animationStacksView->setSelectionMode(QAbstractItemView::SingleSelection);
+    this->ui.animationStacksView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    this->ui.animationStacksView->setDragEnabled(true);
+    this->ui.animationStacksView->setAcceptDrops(true);
+    this->ui.animationStacksView->setDropIndicatorShown(true);
+    this->ui.animationStacksView->setHeaderHidden(true);
 }
 
 void DebuggerMainWindow::closeEvent(QCloseEvent *event)

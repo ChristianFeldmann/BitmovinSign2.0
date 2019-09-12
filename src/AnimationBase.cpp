@@ -123,26 +123,25 @@ void AnimationBase::draw_dots_line(QPointF start, QPointF end, unsigned num_of_d
     }
 }
 
-bool AnimationBase::savePlaylist(QDomElementSign &root) const
+bool AnimationBase::savePlaylist(QDomElement &root) const
 {
-    QDomElementSign d = root.ownerDocument().createElement(this->getName());
-
+    QDomElement d = root.ownerDocument().createElement(this->getName());
+    bool success = true;
     for (auto &parameter : this->animationParameters)
     {
-        parameter->appendProperty(d);
+        success &= parameter->appendProperty(d);
     }
-
     root.appendChild(d);
-    return true;
+    return success;
 }
 
-bool AnimationBase::loadProperties(QDomElementSign &root)
+bool AnimationBase::loadProperties(QDomElement &root)
 {
     QDomNodeList children = root.childNodes();
     bool success = true;
     for (int i = 0; i < children.length(); i++)
     {
-        QDomElementSign childElem = children.item(i).toElement();
+        QDomElement childElem = children.item(i).toElement();
         QString paramName = childElem.attribute("Name");
         if (paramName.isEmpty())
         {

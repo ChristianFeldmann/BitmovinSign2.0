@@ -146,7 +146,7 @@ void AnimationParameter::setColorForButton()
     this->colorPushButton->setIcon(ico);
 }
 
-bool AnimationParameter::appendProperty(QDomElementSign &plist) const
+bool AnimationParameter::appendProperty(QDomElement &plist) const
 {
     QString typeName = this->type == Enum ? "Enum" : (this->type == Int) ? "Int" : "Color";
     QString valueString;
@@ -180,15 +180,16 @@ bool AnimationParameter::appendProperty(QDomElementSign &plist) const
     {
         return false;
     }
-    
-    QStringPairList l;
-    l.append(QStringPair("Name", this->name));
-    plist.appendProperiteChild(typeName, valueString, l);
+
+    QDomElement newChild = plist.ownerDocument().createElement(typeName);
+    newChild.appendChild(plist.ownerDocument().createTextNode(valueString));
+    newChild.setAttribute("Name", this->name);
+    plist.appendChild(newChild);
 
     return true;
 }
 
-bool AnimationParameter::loadFromElement(QDomElementSign &plist)
+bool AnimationParameter::loadFromElement(QDomElement &plist)
 {
     if (this->name.isEmpty() || this->name != plist.attribute("Name"))
     {

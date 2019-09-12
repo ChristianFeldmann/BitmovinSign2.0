@@ -61,30 +61,3 @@ struct RenderMemory
     std::map<unsigned, bool> imageUsed;
 };
 
-// Identical to a QDomElement, but we add some convenience functions (findChildValue and appendProperiteChild)
-// for putting values into the playlist and reading them from the playlist.
-typedef QPair<QString, QString> QStringPair;
-typedef QList<QStringPair> QStringPairList;
-class QDomElementSign : public QDomElement
-{
-public:
-    // Copy constructor so we can initialize from a QDomElement
-    QDomElementSign(const QDomElement &a) : QDomElement(a) {}
-    // Look through all the child items. If one child element exists with the given tagName, return it's text node.
-    // All attributes of the child (if found) are appended to attributes.
-    QString findChildValue(const QString &tagName) const { QStringPairList b; return findChildValue(tagName, b); }
-    QString findChildValue(const QString &tagName, QStringPairList &attributeList) const;
-    // Some convenient find functions that do casting and can return a default value if the key was not found
-    int findChildValueInt(const QString &tagName, int defaultValue) const { QString r = findChildValue(tagName); return r.isEmpty() ? defaultValue : r.toInt(); };
-    double findChildValueDouble(const QString &tagName, double defaultValue) const { QString r = findChildValue(tagName); return r.isEmpty() ? defaultValue : r.toDouble(); };
-    // Append a new child to this element with the given type, and name (as text node).
-    // All QString pairs in ValuePairList are appended as attributes.
-    void appendProperiteChild(const QString &type, const QString &name, const QStringPairList &attributes = QStringPairList())
-    {
-        QDomElement newChild = ownerDocument().createElement(type);
-        newChild.appendChild(ownerDocument().createTextNode(name));
-        for (int i = 0; i < attributes.length(); i++)
-            newChild.setAttribute(attributes[i].first, attributes[i].second);
-        appendChild(newChild);
-    }
-};

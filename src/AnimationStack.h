@@ -12,7 +12,7 @@ class AnimationStack : public AnimationTreeBase
 {
 public:
     AnimationStack(AnimationTreeBase *rootPlaylist);
-    AnimationStack(AnimationTreeBase *rootPlaylist, QDomElementSign &root);
+    AnimationStack(AnimationTreeBase *rootPlaylist, QDomElement &root);
     ~AnimationStack() = default;
 
     bool renderStack(Frame &output, RenderMemory &renderMemory);
@@ -32,7 +32,8 @@ public:
     // Get a list with all names of all known animations
     static QStringList getAnimationList();
 
-    bool savePlaylist(QDomElement &plist) const;
+    bool savePlaylist(QDomElement &root) const override;
+    void addAnimationFromDomElement(QDomElement &elem, int position = -1);
 
 private:
     std::shared_ptr<AnimationBase> createNewAnimation(QString animationName);
@@ -40,4 +41,6 @@ private:
     std::vector<std::shared_ptr<AnimationBase>> animations;
 
     unsigned animationsFinished{ 0 };
+
+    virtual ItemType getItemType() const { return Stack; }
 };

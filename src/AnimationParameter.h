@@ -25,8 +25,8 @@ public:
 
     QString getName() { return this->name; }
 
-    bool appendProperty(QDomElementSign &plist) const;
-    bool loadFromElement(QDomElementSign &plist);
+    bool appendProperty(QDomElement &plist) const;
+    bool loadFromElement(QDomElement &plist);
 
 private slots:
     void onColorButtonPressed(bool checked);

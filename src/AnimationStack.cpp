@@ -46,7 +46,7 @@ AnimationStack::AnimationStack(AnimationTreeBase *rootPlaylist) :
 {
 }
 
-AnimationStack::AnimationStack(AnimationTreeBase *rootPlaylist, QDomElementSign &root) :
+AnimationStack::AnimationStack(AnimationTreeBase *rootPlaylist, QDomElement &root) :
     AnimationTreeBase(rootPlaylist)
 {
     if (root.tagName() != "stack")
@@ -58,14 +58,8 @@ AnimationStack::AnimationStack(AnimationTreeBase *rootPlaylist, QDomElementSign 
     for (int i = 0; i < children.length(); i++)
     {
         // Parse the child items
-        QDomElementSign childElem = children.item(i).toElement();
-        QString animationName = childElem.tagName();
-        auto newAnimation = this->createNewAnimation(animationName);
-        if (newAnimation)
-        {
-            newAnimation->loadProperties(childElem);
-        }
-        this->animations.push_back(newAnimation);
+        QDomElement childElem = children.item(i).toElement();
+        this->addAnimationFromDomElement(childElem);
     }
 }
 
@@ -205,13 +199,31 @@ std::shared_ptr<AnimationBase> AnimationStack::createNewAnimation(QString animat
 
 bool AnimationStack::savePlaylist(QDomElement &root) const
 {
-    QDomElementSign d = root.ownerDocument().createElement("stack");
-
+    QDomElement d = root.ownerDocument().createElement("stack");
+    bool success = true;
     for (auto animation : this->animations)
     {
-        animation->savePlaylist(d);
+        success &= animation->savePlaylist(d);
     }
-    
     root.appendChild(d);
-    return true;
+    return success;
+}
+
+void AnimationStack::addAnimationFromDomElement(QDomElement &elem, int position)
+{
+    QString animationName = elem.tagName();
+    auto newAnimation = this->createNewAnimation(animationName);
+    if (newAnimation)
+    {
+        newAnimation->loadProperties(elem);
+    }
+    if (position >= 0)
+    {
+        auto it = this->animations.begin();
+        this->animations.insert(it + position, newAnimation);
+    }
+    else
+    {
+        this->animations.push_back(newAnimation);
+    }
 }

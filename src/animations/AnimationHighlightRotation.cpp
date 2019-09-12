@@ -6,7 +6,7 @@ AnimationHighlightRotation::AnimationHighlightRotation(AnimationTreeBase *parent
     AnimationBase(parentStack)
 {
     QStringList names = QStringList() << "Background" << "Left" << "Middle" << "Right";
-    for (size_t i = 0; i < 4; i++)
+    for (unsigned i = 0; i < 4; i++)
     {
         this->addParameter("speed" + names[i], &this->runSpeed[i]);
         this->addParameter("color " + names[i], &this->color[i]);
