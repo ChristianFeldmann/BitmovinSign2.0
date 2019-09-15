@@ -2,6 +2,7 @@
 
 #include "AnimationBase.h"
 #include "AnimationTreeBase.h"
+#include "RenderMemory.h"
 
 #include <QDomElement>
 
@@ -15,7 +16,7 @@ public:
     AnimationStack(AnimationTreeBase *rootPlaylist, QDomElement &root);
     ~AnimationStack() = default;
 
-    bool renderStack(Frame &output, RenderMemory &renderMemory);
+    bool renderStack(RenderMemory &renderMemory);
     void resetAnimations();
 
     // Overload from AnimationTreeBase
@@ -43,4 +44,6 @@ private:
     unsigned animationsFinished{ 0 };
 
     virtual ItemType getItemType() const { return Stack; }
+
+    bool asyncRenderAnimation(unsigned i, RenderMemory &renderMemory);
 };

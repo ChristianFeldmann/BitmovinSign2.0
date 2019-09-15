@@ -52,12 +52,3 @@ T clip(const T& n, const T& lower, const T& upper) {
 const unsigned imageWidth = 120;
 const unsigned imageHeight = 120;
 const QSize imageSize = QSize(imageWidth, imageHeight);
-
-class Frame;
-struct RenderMemory
-{
-    std::map<unsigned, Frame> frameMap;
-    std::map<unsigned, QImage> imageMap;
-    std::map<unsigned, bool> imageUsed;
-};
-

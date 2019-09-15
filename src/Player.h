@@ -9,7 +9,9 @@
 #include "Output.h"
 #include "DebuggerWidget.h"
 #include "Constants.h"
+#include "RenderMemory.h"
 
+#include <future>
 #include <memory>
 
 class Player : public QObject
@@ -40,7 +42,7 @@ public slots:
     void setTargetFPS(int value);
 
 signals:
-    void updateDebugger(QStringList animationNames, Frame *outputFrame, RenderMemory *renderMemory);
+    void updateDebugger(QStringList animationNames, RenderMemory *renderMemory);
     void updateFPS(int fps);
 
 private slots:
@@ -56,8 +58,12 @@ private:
     unsigned currentAnimationStackIndex{ 0 };
     unsigned currentAnimationRuntime{ 0 };
 
-    Frame outputFrame;
-    RenderMemory renderMemory;
+    RenderMemory renderMemory[2];
+    unsigned currentRenderIndex{ 0 };
+    std::future<void> renderFuture;
+    void waitForLastRender();
+    void startNextRender();
+    void asyncRenderFunction();
     
     QTimer fpsTimer;
     unsigned fpsDrawCounter{ 0 };

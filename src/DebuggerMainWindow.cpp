@@ -83,9 +83,9 @@ void DebuggerMainWindow::closeEvent(QCloseEvent *event)
     event->accept();
 }
 
-void DebuggerMainWindow::updateDebugger(QStringList animationNames, Frame *outputFrame, RenderMemory *renderMemory)
+void DebuggerMainWindow::updateDebugger(QStringList animationNames, RenderMemory *renderMemory)
 {
-    this->ui.debuggerWidget->draw(animationNames, outputFrame, renderMemory);
+    this->ui.debuggerWidget->draw(animationNames, renderMemory);
 }
 
 void DebuggerMainWindow::setFPSLabel(int fps)

@@ -7,6 +7,7 @@
 
 #include "AnimationStack.h"
 #include "Constants.h"
+#include "RenderMemory.h"
 
 class DebuggerWidget : public QWidget
 {
@@ -15,7 +16,7 @@ class DebuggerWidget : public QWidget
 public:
     DebuggerWidget(QWidget *parent = nullptr);
     
-    void draw(QStringList animationNames, Frame *outputFrame, RenderMemory *renderMemory);
+    void draw(QStringList animationNames, RenderMemory *renderMemory);
 
 protected:
     std::vector<QPointF> points_base = {QPointF{0.5, 0.98}, QPointF{0.03 , 0.75}, QPointF{0.03 , 0.27}, QPointF{0.5, 0.03}, QPointF{0.97, 0.27}, QPointF{0.97, 0.75}};
@@ -30,7 +31,6 @@ protected:
     static void drawImage(QPainter &painter, QRect where, const QImage &image);
     static void drawRect(QPainter &painter, QRect where, QString lable = "", bool fillBlack=false);
     
-    Frame *outputFrame{ nullptr };
     RenderMemory *renderMemory{ nullptr };
     QStringList animationNames;
 };

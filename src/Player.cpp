@@ -25,25 +25,29 @@ void Player::timerEvent(QTimerEvent *event)
         return;
     }
 
-    QStringList animationNames = animationStack->getChildAnimationNames();
-    if (animationStack->renderStack(this->outputFrame, this->renderMemory))
+    const auto renderIndex = this->currentRenderIndex;
+
+    this->waitForLastRender();
+    
+    // Switch to the next animation?
+    static const int minimumAnimationRuntime = 500;
+    if (autoSwitchStacks && currentAnimationRuntime > minimumAnimationRuntime)
     {
-        static const int minimumAnimationRuntime = 500;
-        if (autoSwitchStacks && currentAnimationRuntime > minimumAnimationRuntime)
+        this->currentAnimationStackIndex++;
+        if (this->currentAnimationStackIndex >= unsigned(this->model.rowCount()))
         {
-            this->currentAnimationStackIndex++;
-            if (this->currentAnimationStackIndex >= unsigned(this->model.rowCount()))
-            {
-                this->currentAnimationStackIndex = 0;
-            }
-            currentAnimationRuntime = 0;
-            this->model.getAnimationStack(this->currentAnimationStackIndex)->resetAnimations();
+            this->currentAnimationStackIndex = 0;
         }
+        currentAnimationRuntime = 0;
+        this->model.getAnimationStack(this->currentAnimationStackIndex)->resetAnimations();
     }
     currentAnimationRuntime++;
 
-    emit this->updateDebugger(animationNames, &this->outputFrame, &this->renderMemory);
-    this->output.pushData(this->outputFrame);
+    this->startNextRender();
+
+    QStringList animationNames = animationStack->getChildAnimationNames();
+    emit this->updateDebugger(animationNames, &this->renderMemory[renderIndex]);
+    this->output.pushData(this->renderMemory[renderIndex].outputFrame);
     
     this->fpsDrawCounter++;
 }
@@ -98,4 +102,35 @@ void Player::setTargetFPS(int value)
         this->pause();
         this->play();
     }
+}
+
+void Player::waitForLastRender()
+{
+    if (this->renderFuture.valid())
+    {
+        this->renderFuture.wait();
+    }
+    
+    this->currentRenderIndex++;
+    if (this->currentRenderIndex > 1)
+    {
+        this->currentRenderIndex = 0;
+    }
+}
+
+void Player::startNextRender()
+{
+    this->renderFuture = std::async(&Player::asyncRenderFunction, this);
+}
+
+void Player::asyncRenderFunction()
+{
+    auto animationStack = this->model.getAnimationStack(this->currentAnimationStackIndex);
+    if (animationStack == nullptr)
+    {
+        return;
+    }
+    
+    const auto idx = this->currentRenderIndex;
+    animationStack->renderStack(this->renderMemory[idx]);
 }

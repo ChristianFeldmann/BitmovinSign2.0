@@ -14,6 +14,8 @@
 #include "animations/AnimationImageColorWipe.h"
 #include "animations/AnimationImageCircleWipe.h"
 
+#include <future>
+
 namespace
 {
     // For easy creation of ne animations
@@ -128,23 +130,33 @@ bool AnimationStack::insertAnimation(int pos, QString type)
     return true;
 }
 
-bool AnimationStack::renderStack(Frame &output, RenderMemory &renderMemory)
+bool AnimationStack::renderStack(RenderMemory &renderMemory)
 {
-    output.clearFrame();
+    renderMemory.outputFrame.clearFrame();
+
+    std::vector<std::future<bool>> futureList;
 
     for (unsigned i = 0; i < unsigned(this->animations.size()); i++)
     {
-        auto animation = this->animations[i];
         if (renderMemory.imageMap.count(i) == 0)
         {
             renderMemory.imageMap.insert(std::map<int, QImage>::value_type(i, QImage(imageSize, QImage::Format_ARGB32)));
         }
-        if (animation->renderFrame(renderMemory.frameMap[i], renderMemory.imageMap[i]))
+
+        auto f = std::async(&AnimationStack::asyncRenderAnimation, this, i, std::ref(renderMemory));
+        futureList.push_back(std::move(f));
+    }
+
+    // Wait for all renders
+    for (unsigned i=0; i<futureList.size(); i++)
+    {
+        if (futureList[i].get())
         {
             this->animationsFinished++;
         }
-        output.blendWithFrame(renderMemory.frameMap[i]);
-        renderMemory.imageUsed[i] = animation->usesImage();
+
+        renderMemory.outputFrame.blendWithFrame(renderMemory.frameMap[i]);
+        renderMemory.imageUsed[i] = this->animations[i]->usesImage();
     }
 
     if (this->animationsFinished > 0 && this->animationsFinished == this->animations.size())
@@ -226,4 +238,10 @@ void AnimationStack::addAnimationFromDomElement(QDomElement &elem, int position)
     {
         this->animations.push_back(newAnimation);
     }
+}
+
+bool AnimationStack::asyncRenderAnimation(unsigned i, RenderMemory &renderMemory)
+{
+    auto animation = this->animations[i];
+    return animation->renderFrame(renderMemory.frameMap[i], renderMemory.imageMap[i]);
 }

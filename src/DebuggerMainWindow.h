@@ -2,6 +2,7 @@
 
 #include "ui_DebuggerMainWindow.h"
 #include "Player.h"
+#include "RenderMemory.h"
 
 #include <QMainWindow>
 #include <QAction>
@@ -17,7 +18,7 @@ public:
     void closeEvent(QCloseEvent *event) override;
 
 private slots:
-    void updateDebugger(QStringList animationNames, Frame *outputFrame, RenderMemory *renderMemory);
+    void updateDebugger(QStringList animationNames, RenderMemory *renderMemory);
     void setFPSLabel(int fps);
     void viewSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 

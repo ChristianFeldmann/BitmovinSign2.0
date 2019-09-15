@@ -9,7 +9,7 @@ void DebuggerWidget::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
 
-    if (this->outputFrame == nullptr || this->renderMemory == nullptr || this->animationNames.empty())
+    if (this->renderMemory == nullptr || this->animationNames.empty())
     {
         return;
     }
@@ -42,7 +42,7 @@ void DebuggerWidget::paintEvent(QPaintEvent *event)
     }
 
     // Draw the output frame into the square in the right middle
-    DebuggerWidget::drawPoints(painter, QRect(2 * wh3, wh3, wh3, wh3), *this->outputFrame, "Output");
+    DebuggerWidget::drawPoints(painter, QRect(2 * wh3, wh3, wh3, wh3), this->renderMemory->outputFrame, "Output");
     painter.end();
 }
 
@@ -112,9 +112,8 @@ void DebuggerWidget::drawRect(QPainter &painter, QRect where, QString lable, boo
     }
 }
 
-void DebuggerWidget::draw(QStringList animationNames, Frame *outputFrame, RenderMemory *renderMemory)
+void DebuggerWidget::draw(QStringList animationNames, RenderMemory *renderMemory)
 {
-    this->outputFrame = outputFrame;
     this->renderMemory = renderMemory;
     this->animationNames = animationNames;
     this->update();
