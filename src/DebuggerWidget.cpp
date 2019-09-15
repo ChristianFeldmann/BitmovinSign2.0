@@ -58,7 +58,8 @@ void DebuggerWidget::drawDotsLine(QPainter &painter, Frame &frame, QPointF start
             int y = start.y() + (end.y() - start.y()) * s;
             painter.setPen(data[counter]);
             painter.setBrush(data[counter]);
-            painter.drawEllipse(x, y, radius, radius);
+            //painter.drawEllipse(x, y, radius, radius);
+            painter.drawRect(x, y, radius, radius);
             counter++;
         }
     }
