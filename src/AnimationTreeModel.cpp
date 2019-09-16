@@ -188,7 +188,7 @@ bool AnimationTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction acti
     AnimationTreeBase *dropItem = this->getItemNonConst(parent);
     if (dropItem == nullptr)
     {
-        return nullptr;
+        return false;
     }
 
     // A row of >= 0 means we are appending into parent item just above the row "row"

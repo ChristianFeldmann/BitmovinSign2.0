@@ -1,6 +1,7 @@
 #include "AnimationHighlightRotation.h"
 
 #include<assert.h>
+#include<cmath>
 
 AnimationHighlightRotation::AnimationHighlightRotation(AnimationTreeBase *parentStack) :
     AnimationBase(parentStack)
