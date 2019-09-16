@@ -25,9 +25,7 @@ protected:
     std::vector<QPointF> points_partR = {QPointF{0.37, 0.16}, QPointF{0.93, 0.50}, QPointF{0.37, 0.85}, QPointF{0.37, 0.69}, QPointF{0.67, 0.5}, QPointF{0.37 , 0.32}};
 
     void paintEvent(QPaintEvent *event) override;
-    static void drawDotsLine(QPainter &painter, Frame &frame, QPointF start, QPointF end, unsigned num_of_dots, int &counter, int radius);
-    static void drawLinesFromPoints(QPainter &painter, QRect where, Frame &frame, std::vector<QPointF> point_list, std::vector<unsigned> led_list, int &counter, int radius);
-    static void drawPoints(QPainter &painter, QRect where, Frame &frame, QString lable);
+
     static void drawImage(QPainter &painter, QRect where, const QImage &image);
     static void drawRect(QPainter &painter, QRect where, QString lable = "", bool fillBlack=false);
     

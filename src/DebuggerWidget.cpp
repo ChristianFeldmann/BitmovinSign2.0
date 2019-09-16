@@ -1,5 +1,7 @@
 #include "DebuggerWidget.h"
 
+#include "SignRenderHelper.h"
+
 DebuggerWidget::DebuggerWidget(QWidget *parent) : 
     QWidget(parent)
 {
@@ -24,7 +26,10 @@ void DebuggerWidget::paintEvent(QPaintEvent *event)
     {
         if (i < this->animationNames.size())
         {
-            DebuggerWidget::drawPoints(painter, QRect(0, i * wh3, wh3, wh3), this->renderMemory->frameMap[i], this->animationNames[i]);
+            QRect where = QRect(0, i * wh3, wh3, wh3);
+            SignRenderHelper::drawSignFromFrame(painter, where, this->renderMemory->frameMap[i]);
+            DebuggerWidget::drawRect(painter, where, this->animationNames[i]);
+
             if (this->renderMemory->imageUsed[i])
             {
                 DebuggerWidget::drawImage(painter, QRect(wh3, i * wh3, wh3, wh3), this->renderMemory->imageMap[i]);
@@ -42,58 +47,13 @@ void DebuggerWidget::paintEvent(QPaintEvent *event)
     }
 
     // Draw the output frame into the square in the right middle
-    DebuggerWidget::drawPoints(painter, QRect(2 * wh3, wh3, wh3, wh3), this->renderMemory->outputFrame, "Output");
+    QRect where = QRect(2 * wh3, wh3, wh3, wh3);
+    SignRenderHelper::drawSignFromFrame(painter, where, this->renderMemory->outputFrame);
+    DebuggerWidget::drawRect(painter, where, "Output");
     painter.end();
 }
 
-void DebuggerWidget::drawDotsLine(QPainter &painter, Frame &frame, QPointF start, QPointF end, unsigned num_of_dots, int &counter, int radius)
-{
-    auto &data = frame.data;
-    for(unsigned i = 0; i < num_of_dots; i++)
-    {
-        if (i < data.size())
-        {
-            float s = float(i + 1) / (num_of_dots + 1);
-            int x = start.x() + (end.x() - start.x()) * s;
-            int y = start.y() + (end.y() - start.y()) * s;
-            painter.setPen(data[counter]);
-            painter.setBrush(data[counter]);
-            //painter.drawEllipse(x, y, radius, radius);
-            painter.drawRect(x, y, radius, radius);
-            counter++;
-        }
-    }
-}
 
-void DebuggerWidget::drawLinesFromPoints(QPainter &painter, QRect where, Frame &frame, std::vector<QPointF> point_list, std::vector<unsigned> led_list, int &counter, int radius)
-{
-    auto num_of_lines = point_list.size();
-    for (size_t i = 0; i < num_of_lines; i++)
-    {
-        QPointF startRelative = point_list[i];
-        QPointF endRelative = point_list[(i+1) % num_of_lines];
-        
-        QPointF start = where.topLeft() + startRelative * where.width();
-        QPointF end = where.topLeft() + endRelative * where.width();
-
-        unsigned num_of_led = led_list[i];
-        DebuggerWidget::drawDotsLine(painter, frame, start, end, num_of_led, counter, radius);
-    }
-}
-
-void DebuggerWidget::drawPoints(QPainter &painter, QRect where, Frame &frame, QString lable)
-{
-    int led_counter = 0;
-
-    int radius = std::max(1, where.width() / 70);
-
-    DebuggerWidget::drawLinesFromPoints(painter, where, frame, POINTS_BASE , LED_PARTS_BACKGROUND, led_counter, radius);
-    DebuggerWidget::drawLinesFromPoints(painter, where, frame, POINTS_PART_L, LED_PARTS_PART_LEFT, led_counter, radius);
-    DebuggerWidget::drawLinesFromPoints(painter, where, frame, POINTS_PART_M, LED_PARTS_PART_MIDDLE, led_counter, radius);
-    DebuggerWidget::drawLinesFromPoints(painter, where, frame, POINTS_PART_R, LED_PARTS_PART_RIGHT, led_counter, radius);
-
-    DebuggerWidget::drawRect(painter, where, lable);
-}
 
 void DebuggerWidget::drawImage(QPainter &painter, QRect where, const QImage &image)
 {
