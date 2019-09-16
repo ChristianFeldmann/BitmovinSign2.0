@@ -4,6 +4,8 @@
 #include <QDebug>
 #include <QFormLayout>
 
+#include "SignRenderHelper.h"
+
 AnimationBase::AnimationBase(AnimationTreeBase *parentStack) : 
     AnimationTreeBase(parentStack)
 {
@@ -42,6 +44,16 @@ bool AnimationBase::removeChildren(int pos, int rows)
     Q_UNUSED(pos);
     Q_UNUSED(rows);
     return false;
+}
+
+bool AnimationBase::renderFrame(Frame &frame, QImage &image, QImage &debuggerOutputImage, bool renderDebuggerImage)
+{
+    bool res = this->renderAnimation(frame, image);
+    if (renderDebuggerImage && !debuggerOutputImage.isNull())
+    {
+        SignRenderHelper::drawSignFromFrame(debuggerOutputImage, frame);
+    }
+    return res;
 }
 
 void AnimationBase::convertImageToFrame(Frame &frame, QImage &image)

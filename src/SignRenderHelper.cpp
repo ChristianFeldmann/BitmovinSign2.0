@@ -48,4 +48,11 @@ namespace SignRenderHelper
         drawLinesFromPoints(painter, where, frame, POINTS_PART_M, LED_PARTS_PART_MIDDLE, led_counter, radius);
         drawLinesFromPoints(painter, where, frame, POINTS_PART_R, LED_PARTS_PART_RIGHT, led_counter, radius);
     }
+
+    void drawSignFromFrame(QImage &outputImage, Frame &frame)
+    {
+        QPainter painter(&outputImage);
+        const QRect where = outputImage.rect();
+        SignRenderHelper::drawSignFromFrame(painter, where, frame);
+    }
 }

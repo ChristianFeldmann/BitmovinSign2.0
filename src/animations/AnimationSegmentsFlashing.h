@@ -8,11 +8,12 @@ public:
     AnimationSegmentsFlashing() = delete;
     AnimationSegmentsFlashing(AnimationTreeBase *parentStack);
     
-    virtual bool renderFrame(Frame &frame, QImage &image) override;
     virtual QString getName() const override { return "SegmentsFlashing"; };
     void reset() override;
 
 private:
+    virtual bool renderAnimation(Frame &frame, QImage &image) override;
+
     QColor color{ BITMOVIN_BLUE };
 
     float counter{ 0 };

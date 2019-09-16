@@ -17,12 +17,12 @@ public:
     AnimationImageColorWipe() = delete;
     AnimationImageColorWipe(AnimationTreeBase *parentStack);
 
-    virtual bool renderFrame(Frame &frame, QImage &image) override;
-
     virtual QString getName() const override { return "ColorWipe"; };
     void reset() override;
 
 private:
+    virtual bool renderAnimation(Frame &frame, QImage &image) override;
+
     float counter{ 0.0 };
     Direction currentDirection{ RANDOM };
 

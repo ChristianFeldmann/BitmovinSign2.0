@@ -8,11 +8,12 @@ public:
     AnimationHighlightRotation() = delete;
     AnimationHighlightRotation(AnimationTreeBase *parentStack);
 
-    virtual bool renderFrame(Frame &frame, QImage &image) override;
     virtual QString getName() const override { return "HighlightRotation"; };
     void reset() override;
 
 private:
+    virtual bool renderAnimation(Frame &frame, QImage &image) override;
+
     float rotationCounters[4] {0, 0, 0, 0};
     float runSpeed[4]{ 1.0, 1.0, 1.0, 1.0 };
 

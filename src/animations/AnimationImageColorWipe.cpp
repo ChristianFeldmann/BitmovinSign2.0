@@ -18,7 +18,7 @@ void AnimationImageColorWipe::reset()
     this->currentDirection = RANDOM;
 }
 
-bool AnimationImageColorWipe::renderFrame(Frame &frame, QImage &image)
+bool AnimationImageColorWipe::renderAnimation(Frame &frame, QImage &image)
 {
     if (this->currentDirection == RANDOM)
     {

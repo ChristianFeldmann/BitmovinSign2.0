@@ -23,7 +23,7 @@ void AnimationHighlightRotation::reset()
     this->rotationCounters[3] = 0;
 }
 
-bool AnimationHighlightRotation::renderFrame(Frame &frame, QImage &image)
+bool AnimationHighlightRotation::renderAnimation(Frame &frame, QImage &image)
 {
     Q_UNUSED(image);
     frame.clearFrame();

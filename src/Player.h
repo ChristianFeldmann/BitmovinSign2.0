@@ -26,6 +26,7 @@ public:
     Player& operator =(const Player&) = delete;
 
     void setCurrentAnimation(AnimationTreeBase *item);
+    void setDebuggerWidget(DebuggerWidget *debuggerWidget) { this->debuggerWidget = debuggerWidget; }
 
     void pause();
     void play();
@@ -72,4 +73,6 @@ private:
     bool playing{ false };
 
     AnimationTreeModel model;
+
+    DebuggerWidget *debuggerWidget{ nullptr };
 };

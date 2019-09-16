@@ -10,7 +10,7 @@ AnimationAlarm::AnimationAlarm(AnimationTreeBase *parentStack) :
     this->addParameter("span", &this->degreeSpan);
 }
 
-bool AnimationAlarm::renderFrame(Frame &frame, QImage &image)
+bool AnimationAlarm::renderAnimation(Frame &frame, QImage &image)
 {
     image.fill(Qt::transparent);
 

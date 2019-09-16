@@ -11,7 +11,7 @@ void AnimationRunningDot::reset()
     this->counter = 0;
 }
 
-bool AnimationRunningDot::renderFrame(Frame &frame, QImage &image)
+bool AnimationRunningDot::renderAnimation(Frame &frame, QImage &image)
 {
     Q_UNUSED(image);
     for (unsigned i = 0; i < NR_LED_TOTAL; i++)

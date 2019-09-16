@@ -16,7 +16,7 @@ void AnimationUllas::reset()
     this->counter = 0.0;
 }
 
-bool AnimationUllas::renderFrame(Frame &frame, QImage &image)
+bool AnimationUllas::renderAnimation(Frame &frame, QImage &image)
 {
     Q_UNUSED(image);
     int count = 0;

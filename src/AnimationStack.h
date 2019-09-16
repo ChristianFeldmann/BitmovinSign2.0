@@ -16,7 +16,7 @@ public:
     AnimationStack(AnimationTreeBase *rootPlaylist, QDomElement &root);
     ~AnimationStack() = default;
 
-    bool renderStack(RenderMemory &renderMemory);
+    bool renderStack(RenderMemory &renderMemory, QSize renderImageSize);
     void resetAnimations();
 
     // Overload from AnimationTreeBase
@@ -45,5 +45,5 @@ private:
 
     virtual ItemType getItemType() const { return Stack; }
 
-    bool asyncRenderAnimation(unsigned i, RenderMemory &renderMemory);
+    bool asyncRenderAnimation(unsigned i, RenderMemory &renderMemory, bool renderDebuggerImages);
 };

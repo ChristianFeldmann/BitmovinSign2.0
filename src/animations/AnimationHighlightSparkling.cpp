@@ -16,7 +16,7 @@ void AnimationHighlightSparkling::reset()
     this->sparkCreationCounter = 0.0;
 }
 
-bool AnimationHighlightSparkling::renderFrame(Frame &frame, QImage &image)
+bool AnimationHighlightSparkling::renderAnimation(Frame &frame, QImage &image)
 {
     Q_UNUSED(image);
 

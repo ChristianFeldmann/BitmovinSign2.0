@@ -36,6 +36,7 @@ int main(int argc, char *argv[])
     if (enableDebugger)
     {
         debugger.reset(new DebuggerMainWindow(&player));
+        player.setDebuggerWidget(debugger->getDebuggerWidget());
     }
 
     if (debugger)

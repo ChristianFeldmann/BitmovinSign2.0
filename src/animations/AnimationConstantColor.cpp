@@ -6,7 +6,7 @@ AnimationConstantColor::AnimationConstantColor(AnimationTreeBase *parentStack) :
     this->addParameter("color", &this->color);
 }
 
-bool AnimationConstantColor::renderFrame(Frame &frame, QImage &image)
+bool AnimationConstantColor::renderAnimation(Frame &frame, QImage &image)
 {
     Q_UNUSED(image);
 

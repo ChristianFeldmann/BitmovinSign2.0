@@ -1,6 +1,7 @@
 #include "AnimationStack.h"
 
 #include <QImage>
+#include <QPainter>
 
 #include "animations/AnimationAlarm.h"
 #include "animations/AnimationConstantColor.h"
@@ -13,6 +14,7 @@
 #include "animations/AnimationImageFire.h"
 #include "animations/AnimationImageColorWipe.h"
 #include "animations/AnimationImageCircleWipe.h"
+#include "SignRenderHelper.h"
 
 #include <future>
 
@@ -130,24 +132,33 @@ bool AnimationStack::insertAnimation(int pos, QString type)
     return true;
 }
 
-bool AnimationStack::renderStack(RenderMemory &renderMemory)
+bool AnimationStack::renderStack(RenderMemory &renderMemory, QSize renderImageSize)
 {
-    renderMemory.outputFrame.clearFrame();
-
     std::vector<std::future<bool>> futureList;
+    const bool renderDebuggerImages = renderImageSize.isValid();
 
     for (unsigned i = 0; i < unsigned(this->animations.size()); i++)
     {
+        // Check the render memory
         if (renderMemory.imageMap.count(i) == 0)
         {
             renderMemory.imageMap.insert(std::map<int, QImage>::value_type(i, QImage(imageSize, QImage::Format_ARGB32)));
         }
+        if (renderDebuggerImages)
+        {
+            if (renderMemory.debuggerImageMap[i].size() != renderImageSize)
+            {
+                renderMemory.debuggerImageMap[i] = QImage(renderImageSize, QImage::Format_ARGB32);
+            }
+            renderMemory.debuggerImageMap[i].fill(Qt::transparent);
+        }
 
-        auto f = std::async(&AnimationStack::asyncRenderAnimation, this, i, std::ref(renderMemory));
+        auto f = std::async(&AnimationStack::asyncRenderAnimation, this, i, std::ref(renderMemory), renderDebuggerImages);
         futureList.push_back(std::move(f));
     }
 
-    // Wait for all renders
+    // Wait for all renders and blend together
+    renderMemory.outputFrame.clearFrame();
     for (unsigned i=0; i<futureList.size(); i++)
     {
         if (futureList[i].get())
@@ -157,6 +168,15 @@ bool AnimationStack::renderStack(RenderMemory &renderMemory)
 
         renderMemory.outputFrame.blendWithFrame(renderMemory.frameMap[i]);
         renderMemory.imageUsed[i] = this->animations[i]->usesImage();
+    }
+    if (renderDebuggerImages)
+    {
+        if (renderMemory.debuggerOutputFrame.size() != renderImageSize)
+        {
+            renderMemory.debuggerOutputFrame = QImage(renderImageSize, QImage::Format_ARGB32);
+        }
+        renderMemory.debuggerOutputFrame.fill(Qt::transparent);
+        SignRenderHelper::drawSignFromFrame(renderMemory.debuggerOutputFrame, renderMemory.outputFrame);
     }
 
     if (this->animationsFinished > 0 && this->animationsFinished == this->animations.size())
@@ -240,8 +260,8 @@ void AnimationStack::addAnimationFromDomElement(QDomElement &elem, int position)
     }
 }
 
-bool AnimationStack::asyncRenderAnimation(unsigned i, RenderMemory &renderMemory)
+bool AnimationStack::asyncRenderAnimation(unsigned i, RenderMemory &renderMemory, bool renderDebuggerImages)
 {
     auto animation = this->animations[i];
-    return animation->renderFrame(renderMemory.frameMap[i], renderMemory.imageMap[i]);
+    return animation->renderFrame(renderMemory.frameMap[i], renderMemory.imageMap[i], renderMemory.debuggerImageMap[i], renderDebuggerImages);
 }

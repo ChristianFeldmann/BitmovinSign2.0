@@ -22,13 +22,8 @@ public:
 
     virtual bool removeChildren(int pos, int rows) override;
 
-    // Reimplement this function and fill the LED data for the frame.
-    // The function should return true if the animation ended. Some animations
-    // may always return true because they don't have a specific beginning and end.
-    // If your animation uses the image to draw a 2D image, don't forget to call 
-    // convertImageToFrame to convert the output to a frame.
-    virtual bool renderFrame(Frame &frame, QImage &image) = 0;
-
+    bool renderFrame(Frame &frame, QImage &image, QImage &debuggerOutputImage, bool renderDebuggerImage);
+    
     virtual QString getName() const = 0;
     bool usesImage() { return this->imageUsed; }
 
@@ -38,6 +33,14 @@ public:
     bool loadProperties(QDomElement &plist);
 
 protected:
+
+    // Reimplement this function and fill the LED data for the frame.
+    // The function should return true if the animation ended. Some animations
+    // may always return true because they don't have a specific beginning and end.
+    // If your animation uses the image to draw a 2D image, don't forget to call 
+    // convertImageToFrame to convert the output to a frame.
+    virtual bool renderAnimation(Frame &frame, QImage &image) = 0;
+
     void convertImageToFrame(Frame &frame, QImage &image);
 
     std::vector<std::shared_ptr<AnimationParameter>> animationParameters;

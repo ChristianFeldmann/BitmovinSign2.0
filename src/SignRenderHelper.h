@@ -9,4 +9,5 @@
 namespace SignRenderHelper
 {
     void drawSignFromFrame(QPainter &painter, QRect where, Frame &frame);
+    void drawSignFromFrame(QImage &outputImage, Frame &frame);
 }

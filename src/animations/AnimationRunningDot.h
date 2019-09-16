@@ -8,11 +8,12 @@ public:
     AnimationRunningDot() = delete;
     AnimationRunningDot(AnimationTreeBase *parentStack);
     
-    virtual bool renderFrame(Frame &frame, QImage &image) override;
     virtual QString getName() const override { return "RunningDot"; };
     void reset() override;
 
 private:
+    virtual bool renderAnimation(Frame &frame, QImage &image) override;
+
     unsigned counter {0};
     QColor color{ Qt::red };
 };

@@ -53,7 +53,7 @@ void AnimationImageFire::reset()
     this->resetFireMatrix();
 }
 
-bool AnimationImageFire::renderFrame(Frame &frame, QImage &image)
+bool AnimationImageFire::renderAnimation(Frame &frame, QImage &image)
 {
     std::random_device rd;
     std::mt19937 mt(rd());

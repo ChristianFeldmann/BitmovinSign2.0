@@ -8,11 +8,12 @@ public:
     AnimationHighlightSparkling() = delete;
     AnimationHighlightSparkling(AnimationTreeBase *parentStack);
 
-    virtual bool renderFrame(Frame &frame, QImage &image) override;
     virtual QString getName() const override { return "HighlightSparkling"; }
     void reset() override;
 
 private:
+    virtual bool renderAnimation(Frame &frame, QImage &image) override;
+
     struct Spark
     {
         unsigned int position{ 0 };

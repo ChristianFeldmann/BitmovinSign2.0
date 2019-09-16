@@ -15,7 +15,7 @@ void AnimationImageCircleWipe::reset()
     this->counter = 0.0;
 }
 
-bool AnimationImageCircleWipe::renderFrame(Frame &frame, QImage &image)
+bool AnimationImageCircleWipe::renderAnimation(Frame &frame, QImage &image)
 {
     const int x = image.size().width() / 2;
     const int y = image.size().height() / 2;

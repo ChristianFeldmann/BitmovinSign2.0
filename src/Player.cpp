@@ -132,5 +132,10 @@ void Player::asyncRenderFunction()
     }
     
     const auto idx = this->currentRenderIndex;
-    animationStack->renderStack(this->renderMemory[idx]);
+    QSize renderImageSize;
+    if (this->debuggerWidget)
+    {
+        renderImageSize = this->debuggerWidget->getRenderSegmentSize();
+    }
+    animationStack->renderStack(this->renderMemory[idx], renderImageSize);
 }

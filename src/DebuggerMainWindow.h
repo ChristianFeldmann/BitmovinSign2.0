@@ -17,6 +17,8 @@ public:
 
     void closeEvent(QCloseEvent *event) override;
 
+    DebuggerWidget *getDebuggerWidget() { return this->ui.debuggerWidget; }
+
 private slots:
     void updateDebugger(QStringList animationNames, RenderMemory *renderMemory);
     void setFPSLabel(int fps);
