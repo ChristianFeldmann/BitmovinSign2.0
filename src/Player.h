@@ -33,6 +33,7 @@ public:
 
     bool loadPlaylistFile(QString filePath);
     QString getPlaylistString() { return this->model.getPlaylistString(); }
+    bool createDefaultPlaylist() { return this->model.createDefaultPlaylist(); }
 
     AnimationTreeModel *getAnimationTreeMode() { return &this->model; }
 
