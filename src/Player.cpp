@@ -28,8 +28,7 @@ void Player::timerEvent(QTimerEvent *event)
     QStringList animationNames = animationStack->getChildAnimationNames();
     if (animationStack->renderStack(this->outputFrame, this->renderMemory))
     {
-        static const int minimumAnimationRuntime = 500;
-        if (autoSwitchStacks && currentAnimationRuntime > minimumAnimationRuntime)
+        if (this->animationSwitchFrames > 0 && currentAnimationRuntime > this->animationSwitchFrames)
         {
             this->currentAnimationStackIndex++;
             if (this->currentAnimationStackIndex >= unsigned(this->model.rowCount()))
@@ -63,7 +62,7 @@ void Player::setCurrentAnimation(AnimationTreeBase *item)
         this->currentAnimationStackIndex = index;
         currentAnimationRuntime = 0;
         this->model.getAnimationStack(this->currentAnimationStackIndex)->resetAnimations();
-        autoSwitchStacks = false;
+        this->animationSwitchFrames = 0;
     }
 }
 
@@ -88,6 +87,11 @@ void Player::step()
 bool Player::loadPlaylistFile(QString filename)
 {
     return this->model.loadPlaylistFile(filename);
+}
+
+void Player::enableAnimationSwitch(unsigned timeoutSeconds)
+{
+    this->animationSwitchFrames = timeoutSeconds * 50;
 }
 
 void Player::setTargetFPS(int value)

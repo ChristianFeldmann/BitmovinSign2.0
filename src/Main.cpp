@@ -51,6 +51,10 @@ int main(int argc, char *argv[])
         editor.reset(new DebuggerMainWindow(&player));
         editor->show();
     }
+    else
+    {
+        player.enableAnimationSwitch(10);
+    }
 
     std::unique_ptr<DebuggerWidget> output;
     if (mode == Mode::OutputView)

@@ -33,11 +33,7 @@ bool AnimationAlarm::renderFrame(Frame &frame, QImage &image)
     AnimationBase::convertImageToFrame(frame, image);
 
     this->counter += this->speed;
-    if (this->counter > 5760)
-    {
-        this->counter = 0.0;
-    }
-    return this->counter < this->speed;
+    return true;
 }
 
 void AnimationAlarm::reset()

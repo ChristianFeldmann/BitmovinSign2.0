@@ -36,6 +36,7 @@ public:
     bool createDefaultPlaylist() { return this->model.createDefaultPlaylist(); }
 
     AnimationTreeModel *getAnimationTreeMode() { return &this->model; }
+    void enableAnimationSwitch(unsigned timeoutSeconds = 60);
 
 public slots:
     void setTargetFPS(int value);
@@ -56,6 +57,7 @@ private:
 
     unsigned currentAnimationStackIndex{ 0 };
     unsigned currentAnimationRuntime{ 0 };
+    unsigned animationSwitchFrames{ 0 };
 
     Frame outputFrame;
     RenderMemory renderMemory;
@@ -63,7 +65,6 @@ private:
     QTimer fpsTimer;
     unsigned fpsDrawCounter{ 0 };
 
-    bool autoSwitchStacks{ false };
     bool playing{ false };
 
     AnimationTreeModel model;
