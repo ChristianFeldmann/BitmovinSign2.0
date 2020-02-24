@@ -3,6 +3,7 @@
 
 #ifdef __arm__
 #include <QDebug>
+#include <algorithm>
 #endif
 
 Output::Output()
@@ -51,9 +52,14 @@ void Output::pushData(Frame &f)
     for (int i = 0; i < NR_LED_TOTAL; i++)
     {
         ws2811_led_t v = 0;
-        v += ((f.data[i].green()) << 16);
-        v += ((f.data[i].red()) << 8);
-        v += (f.data[i].blue());
+        
+        int r = clip((f.data[i].red() * f.data[i].alpha() / 255), 0, 255);
+        int g = clip((f.data[i].green() * f.data[i].alpha() / 255), 0, 255);
+        int b = clip((f.data[i].blue() * f.data[i].alpha() / 255), 0, 255);
+        
+        v += (g << 16);
+        v += (r << 8);
+        v += b;
 
         ledstring.channel[0].leds[i] = v;
     }
