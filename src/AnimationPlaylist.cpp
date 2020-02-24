@@ -209,8 +209,21 @@ bool AnimationPlaylist::loadPlaylistFromByteArray(QByteArray data)
         return false;
     }
 
-    // Iterate over all items in the playlist
-    QDomNode n = root.firstChild();
+    QDomNode playlistNode = root.firstChild();
+    if (!playlistNode.isElement())
+    {
+        qDebug() << "Error loading playlist - The 'playlist' node could not be found.";
+        return false;
+    }
+
+    QDomElement playlistElement = playlistNode.toElement();
+    if (playlistElement.tagName() != "playlist")
+    {
+        qDebug() << "Error loading playlist - The 'playlist' node could not be found.";
+        return false;
+    }
+
+    QDomNode n = playlistElement.firstChild();
     while (!n.isNull())
     {
         if (n.isElement())

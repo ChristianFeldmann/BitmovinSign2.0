@@ -57,17 +57,20 @@ int main(int argc, char *argv[])
     {
         output.reset(new DebuggerWidget(DebuggerWidget::DrawMode::OutputOnly));
         QObject::connect(&player, &Player::updateDebugger, output.get(), &DebuggerWidget::draw);
+        output->resize(500, 500);
         output->show();
     }
 
     if (mode != Mode::AnimationEditor)
     {
-        if (!player.createDefaultPlaylist())
-            qDebug() << "Error creating default playlist";
-        // if (!player.loadPlaylistFile("Default.signPlaylist"))
-        // {
-        //     player.createDefaultPlaylist();
-        // }
+        qDebug() << "Trying to load default playlist file Default.singPlaylist";
+        if (!player.loadPlaylistFile("Default.signPlaylist"))
+        {
+            qDebug() << "Error loading default playlist file Default.singPlaylist";
+            qDebug() << "Trying to create default playlist";
+            if (!player.createDefaultPlaylist())
+                qDebug() << "Error creating default playlist";
+        }
     }
     
     return app.exec();

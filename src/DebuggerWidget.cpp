@@ -23,10 +23,11 @@ void DebuggerWidget::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     painter.fillRect(rect(), Qt::black);
 
+    const int widthHeight = std::min(this->size().width(), this->size().height());
+
     if (this->drawMode == DrawMode::MultipleAnimations)
     {
         // Split the widget area into a 3x3 "matrix" of square spaces
-        int widthHeight = std::min(this->size().width(), this->size().height());
         int wh3 = widthHeight / 3;
 
         for (int i = 0; i < 3; i++)
@@ -55,7 +56,8 @@ void DebuggerWidget::paintEvent(QPaintEvent *event)
     }
     else
     {
-        DebuggerWidget::drawPoints(painter, rect(), *this->outputFrame, "Output");
+
+        DebuggerWidget::drawPoints(painter, QRect(0, 0, widthHeight, widthHeight), *this->outputFrame, "Output");
     }
     
     painter.end();
