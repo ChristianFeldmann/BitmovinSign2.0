@@ -75,6 +75,7 @@ int main(int argc, char *argv[])
             if (!player.createDefaultPlaylist())
                 qDebug() << "Error creating default playlist";
         }
+        player.play();
     }
     
     return app.exec();

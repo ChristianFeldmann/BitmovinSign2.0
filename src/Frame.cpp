@@ -47,3 +47,15 @@ void Frame::blendWithFrame(Frame &other)
         }
     }
 }
+
+void Frame::scaleAlpha(unsigned alphaAdjust)
+{
+    unsigned adjust = clip(alphaAdjust, 0u, 255u);
+
+    for (auto &color : this->data)
+    {
+        auto a = color.alpha();
+        auto newAlpha = (a * adjust) / 255;
+        color.setAlpha(newAlpha);
+    }
+}

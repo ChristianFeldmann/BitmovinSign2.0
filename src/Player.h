@@ -54,6 +54,7 @@ private:
 
     Output output;
     virtual void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE; // Overloaded from QObject. Called when the timer fires.
+    void switchToNextAnimation();
 
     unsigned currentAnimationStackIndex{ 0 };
     unsigned currentAnimationRuntime{ 0 };
@@ -66,6 +67,19 @@ private:
     unsigned fpsDrawCounter{ 0 };
 
     bool playing{ false };
+
+    struct Fader
+    {
+        enum class State
+        {
+            FadeIn,
+            FadeOut,
+            NotFading
+        };
+        State state { State::NotFading };
+        unsigned fadeValue {0};
+    };
+    Fader fader;
 
     AnimationTreeModel model;
 };

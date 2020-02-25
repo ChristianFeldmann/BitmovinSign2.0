@@ -44,7 +44,7 @@ void AnimationHighlightRotation::renderFrame(Frame &frame, QImage &image)
         {
             float startPos = distance * stripeIndex + internalShift;
 
-            unsigned lengthLedRender = unsigned(std::min(float(0.0), std::ceil(stripeLength))) + 1;
+            unsigned lengthLedRender = unsigned(std::max(float(0.0), std::ceil(stripeLength))) + 1;
             for (unsigned i = 0; i < lengthLedRender; i++)
             {
                 unsigned ledPos = unsigned(std::floor(startPos)) + i;
