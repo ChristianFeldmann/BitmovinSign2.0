@@ -26,7 +26,10 @@ void Player::timerEvent(QTimerEvent *event)
     }
 
     QStringList animationNames = animationStack->getChildAnimationNames();
-    if (animationStack->renderStack(this->outputFrame, this->renderMemory))
+    animationStack->renderStack(this->outputFrame, this->renderMemory);
+    
+    // TODO. Get the state and switch animations or fade after a certain time.
+    if (true)
     {
         if (this->animationSwitchFrames > 0 && currentAnimationRuntime > this->animationSwitchFrames)
         {

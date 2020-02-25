@@ -14,7 +14,7 @@ void AnimationSegmentsFlashing::reset()
     this->counter = 0;
 }
 
-bool AnimationSegmentsFlashing::renderFrame(Frame &frame, QImage &image)
+void AnimationSegmentsFlashing::renderFrame(Frame &frame, QImage &image)
 {
     Q_UNUSED(image);
     frame.clearFrame();
@@ -47,8 +47,5 @@ bool AnimationSegmentsFlashing::renderFrame(Frame &frame, QImage &image)
     if (this->counter > animationDuration)
     {
         this->counter = 0.0;
-        return true;
     }
-
-    return false;
 }

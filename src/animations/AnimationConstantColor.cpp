@@ -6,10 +6,9 @@ AnimationConstantColor::AnimationConstantColor(AnimationTreeBase *parentStack) :
     this->addParameter("color", &this->color);
 }
 
-bool AnimationConstantColor::renderFrame(Frame &frame, QImage &image)
+void AnimationConstantColor::renderFrame(Frame &frame, QImage &image)
 {
     Q_UNUSED(image);
 
     std::fill(frame.data.begin(), frame.data.end(), this->color);
-    return true;
 }

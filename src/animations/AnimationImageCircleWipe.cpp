@@ -15,7 +15,7 @@ void AnimationImageCircleWipe::reset()
     this->counter = 0.0;
 }
 
-bool AnimationImageCircleWipe::renderFrame(Frame &frame, QImage &image)
+void AnimationImageCircleWipe::renderFrame(Frame &frame, QImage &image)
 {
     const int x = image.size().width() / 2;
     const int y = image.size().height() / 2;
@@ -62,5 +62,11 @@ bool AnimationImageCircleWipe::renderFrame(Frame &frame, QImage &image)
     {
         this->counter = 0.0;
     }
-    return this->counter < this->speed;
+}
+
+AnimationState AnimationImageCircleWipe::getState()
+{
+    if (this->counter < this->speed)
+        return AnimationState::Running;
+    return AnimationState::SwitchNow;
 }

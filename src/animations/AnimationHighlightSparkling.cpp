@@ -16,7 +16,7 @@ void AnimationHighlightSparkling::reset()
     this->sparkCreationCounter = 0.0;
 }
 
-bool AnimationHighlightSparkling::renderFrame(Frame &frame, QImage &image)
+void AnimationHighlightSparkling::renderFrame(Frame &frame, QImage &image)
 {
     Q_UNUSED(image);
 
@@ -38,7 +38,7 @@ bool AnimationHighlightSparkling::renderFrame(Frame &frame, QImage &image)
         this->sparks.push_back(s);
         this->sparkCreationCounter = 0.0;
     }
-    this->sparkCreationCounter += 0.02;
+    this->sparkCreationCounter += float(0.02);
 
     // Render sparks
     for (auto it = this->sparks.begin(); it != this->sparks.end(); it++)
@@ -70,8 +70,6 @@ bool AnimationHighlightSparkling::renderFrame(Frame &frame, QImage &image)
                                      this->sparks.end(),
                                      [](Spark s) {return s.counter >=100;}),
                        this->sparks.end());
-
-    return true;
 }
 
 unsigned AnimationHighlightSparkling::getRelativeIndexWrap(unsigned int idx, int offset)

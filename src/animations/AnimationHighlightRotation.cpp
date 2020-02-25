@@ -24,7 +24,7 @@ void AnimationHighlightRotation::reset()
     this->rotationCounters[3] = 0;
 }
 
-bool AnimationHighlightRotation::renderFrame(Frame &frame, QImage &image)
+void AnimationHighlightRotation::renderFrame(Frame &frame, QImage &image)
 {
     Q_UNUSED(image);
     frame.clearFrame();
@@ -44,7 +44,7 @@ bool AnimationHighlightRotation::renderFrame(Frame &frame, QImage &image)
         {
             float startPos = distance * stripeIndex + internalShift;
 
-            int lengthLedRender = int(std::ceil(stripeLength)) + 1;
+            unsigned lengthLedRender = unsigned(std::min(float(0.0), std::ceil(stripeLength))) + 1;
             for (unsigned i = 0; i < lengthLedRender; i++)
             {
                 unsigned ledPos = unsigned(std::floor(startPos)) + i;
@@ -85,6 +85,4 @@ bool AnimationHighlightRotation::renderFrame(Frame &frame, QImage &image)
             this->rotationCounters[j] -= nrLed;
         }
     }
-
-    return true;
 }

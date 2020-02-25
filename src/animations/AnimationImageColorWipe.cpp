@@ -18,7 +18,7 @@ void AnimationImageColorWipe::reset()
     this->currentDirection = RANDOM;
 }
 
-bool AnimationImageColorWipe::renderFrame(Frame &frame, QImage &image)
+void AnimationImageColorWipe::renderFrame(Frame &frame, QImage &image)
 {
     if (this->currentDirection == RANDOM)
     {
@@ -71,5 +71,11 @@ bool AnimationImageColorWipe::renderFrame(Frame &frame, QImage &image)
         this->counter = 0.0;
         this->currentDirection = this->direction;
     }
-    return this->counter < this->speed;
+}
+
+AnimationState AnimationImageColorWipe::getState()
+{
+    if (this->counter < this->speed)
+        return AnimationState::Running;
+    return AnimationState::SwitchNow;
 }

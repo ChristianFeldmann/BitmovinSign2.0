@@ -128,7 +128,7 @@ bool AnimationStack::insertAnimation(int pos, QString type)
     return true;
 }
 
-bool AnimationStack::renderStack(Frame &output, RenderMemory &renderMemory)
+void AnimationStack::renderStack(Frame &output, RenderMemory &renderMemory)
 {
     output.clearFrame();
 
@@ -139,20 +139,10 @@ bool AnimationStack::renderStack(Frame &output, RenderMemory &renderMemory)
         {
             renderMemory.imageMap.insert(std::map<int, QImage>::value_type(i, QImage(imageSize, QImage::Format_ARGB32)));
         }
-        if (animation->renderFrame(renderMemory.frameMap[i], renderMemory.imageMap[i]))
-        {
-            this->animationsFinished++;
-        }
+        animation->renderFrame(renderMemory.frameMap[i], renderMemory.imageMap[i]);
         output.blendWithFrame(renderMemory.frameMap[i]);
         renderMemory.imageUsed[i] = animation->usesImage();
     }
-
-    if (this->animationsFinished > 0 && this->animationsFinished == this->animations.size())
-    {
-        this->animationsFinished = 0;
-        return true;
-    }
-    return false;
 }
 
 void AnimationStack::resetAnimations()
@@ -161,6 +151,20 @@ void AnimationStack::resetAnimations()
     {
         animation->reset();
     }
+}
+
+AnimationState AnimationStack::getStackState()
+{
+    AnimationState state = AnimationState::SwitchNow;
+    for (auto &animation : this->animations)
+    {
+        auto animationState = animation->getState();
+        if (animationState == AnimationState::Infinite)
+            state = AnimationState::Infinite;
+        if (animationState == AnimationState::Running && state != AnimationState::Infinite)
+            state = AnimationState::Running;
+    }
+    return state;
 }
 
 QStringList AnimationStack::getChildAnimationNames()

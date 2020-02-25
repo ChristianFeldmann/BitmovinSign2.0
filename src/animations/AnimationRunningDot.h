@@ -8,7 +8,8 @@ public:
     AnimationRunningDot() = delete;
     AnimationRunningDot(AnimationTreeBase *parentStack);
     
-    virtual bool renderFrame(Frame &frame, QImage &image) override;
+    virtual void renderFrame(Frame &frame, QImage &image) override;
+    virtual AnimationState getState() override;
     virtual QString getName() const override { return "RunningDot"; };
     void reset() override;
 
