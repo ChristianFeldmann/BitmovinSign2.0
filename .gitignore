@@ -46,3 +46,6 @@ Makefile.Release
 # Vscode settings
 settings.json
 launch.json
+
+# Qt generated ui files
+ui_*

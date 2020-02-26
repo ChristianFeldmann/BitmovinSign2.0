@@ -15,8 +15,10 @@ public:
     AnimationStack(AnimationTreeBase *rootPlaylist, QDomElement &root);
     ~AnimationStack() = default;
 
-    bool renderStack(Frame &output, RenderMemory &renderMemory);
+    void renderStack(Frame &output, RenderMemory &renderMemory);
     void resetAnimations();
+
+    AnimationState getStackState();
 
     // Overload from AnimationTreeBase
     virtual AnimationTreeBase *child(int number) const override;
@@ -39,8 +41,6 @@ private:
     std::shared_ptr<AnimationBase> createNewAnimation(QString animationName);
 
     std::vector<std::shared_ptr<AnimationBase>> animations;
-
-    unsigned animationsFinished{ 0 };
 
     virtual ItemType getItemType() const { return Stack; }
 };

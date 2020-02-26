@@ -11,8 +11,6 @@ Player::Player(QObject *parent) : QObject(parent)
     
     connect(&this->fpsTimer, &QTimer::timeout, this, &Player::fpsTimerTimeout);
     this->fpsTimer.start(1000);
-
-    this->play();
 }
 
 void Player::timerEvent(QTimerEvent *event)
@@ -26,26 +24,64 @@ void Player::timerEvent(QTimerEvent *event)
     }
 
     QStringList animationNames = animationStack->getChildAnimationNames();
-    if (animationStack->renderStack(this->outputFrame, this->renderMemory))
+    animationStack->renderStack(this->outputFrame, this->renderMemory);
+    
+    if (this->animationSwitchFrames > 0)
     {
-        static const int minimumAnimationRuntime = 500;
-        if (autoSwitchStacks && currentAnimationRuntime > minimumAnimationRuntime)
+        if (currentAnimationRuntime > this->animationSwitchFrames)
         {
-            this->currentAnimationStackIndex++;
-            if (this->currentAnimationStackIndex >= unsigned(this->model.rowCount()))
+            if (animationStack->getStackState() == AnimationState::Infinite)
             {
-                this->currentAnimationStackIndex = 0;
+                fader.state = Fader::State::FadeOut;
             }
-            currentAnimationRuntime = 0;
-            this->model.getAnimationStack(this->currentAnimationStackIndex)->resetAnimations();
+            else if (animationStack->getStackState() == AnimationState::SwitchNow)
+            {
+                this->switchToNextAnimation();
+            }
         }
+        
+        currentAnimationRuntime++;
     }
-    currentAnimationRuntime++;
+
+    const unsigned fadeSpeed = 5;
+    if (fader.state != Fader::State::NotFading)
+    {
+        if (fader.state == Fader::State::FadeIn)
+        {
+            this->fader.fadeValue += fadeSpeed;
+            if (this->fader.fadeValue >= 255)
+            {
+                fader.state = Fader::State::NotFading;
+            }
+        }
+        else // FadeOut
+        {
+            this->fader.fadeValue -= std::min(fadeSpeed, this->fader.fadeValue);
+            if (this->fader.fadeValue == 0)
+            {
+                this->switchToNextAnimation();
+                fader.state = Fader::State::FadeIn;
+            }
+        }
+        
+        this->outputFrame.scaleAlpha(this->fader.fadeValue);
+    }
 
     emit this->updateDebugger(animationNames, &this->outputFrame, &this->renderMemory);
     this->output.pushData(this->outputFrame);
     
     this->fpsDrawCounter++;
+}
+
+void Player::switchToNextAnimation()
+{
+    this->currentAnimationStackIndex++;
+    if (this->currentAnimationStackIndex >= unsigned(this->model.rowCount()))
+    {
+        this->currentAnimationStackIndex = 0;
+    }
+    currentAnimationRuntime = 0;
+    this->model.getAnimationStack(this->currentAnimationStackIndex)->resetAnimations();
 }
 
 void Player::fpsTimerTimeout()
@@ -63,7 +99,7 @@ void Player::setCurrentAnimation(AnimationTreeBase *item)
         this->currentAnimationStackIndex = index;
         currentAnimationRuntime = 0;
         this->model.getAnimationStack(this->currentAnimationStackIndex)->resetAnimations();
-        autoSwitchStacks = false;
+        this->animationSwitchFrames = 0;
     }
 }
 
@@ -75,6 +111,18 @@ void Player::pause()
 
 void Player::play()
 {
+    auto animationStack = this->model.getAnimationStack(this->currentAnimationStackIndex);
+    if (!animationStack)
+    {
+        qDebug() << "Notiong to play";
+        return;
+    }
+
+    if (animationStack->getStackState() == AnimationState::Infinite)
+    {
+        this->fader.state = Fader::State::FadeIn;
+    }
+
     int millisecond = 1000 / this->targetFPS;
     this->timer.start(millisecond, Qt::PreciseTimer, this);
     this->playing = true;
@@ -88,6 +136,11 @@ void Player::step()
 bool Player::loadPlaylistFile(QString filename)
 {
     return this->model.loadPlaylistFile(filename);
+}
+
+void Player::enableAnimationSwitch(unsigned timeoutSeconds)
+{
+    this->animationSwitchFrames = timeoutSeconds * 50;
 }
 
 void Player::setTargetFPS(int value)

@@ -10,7 +10,7 @@ AnimationAlarm::AnimationAlarm(AnimationTreeBase *parentStack) :
     this->addParameter("span", &this->degreeSpan);
 }
 
-bool AnimationAlarm::renderFrame(Frame &frame, QImage &image)
+void AnimationAlarm::renderFrame(Frame &frame, QImage &image)
 {
     image.fill(Qt::transparent);
 
@@ -33,11 +33,6 @@ bool AnimationAlarm::renderFrame(Frame &frame, QImage &image)
     AnimationBase::convertImageToFrame(frame, image);
 
     this->counter += this->speed;
-    if (this->counter > 5760)
-    {
-        this->counter = 0.0;
-    }
-    return this->counter < this->speed;
 }
 
 void AnimationAlarm::reset()

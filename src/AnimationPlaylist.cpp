@@ -32,6 +32,70 @@ QString AnimationPlaylist::getPlaylistString() const
     return document.toString();
 }
 
+bool AnimationPlaylist::createDefaultPlaylist()
+{
+    QByteArray fileBytes = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                           "<playlistItems version=\"2.0\">\n"
+                           " <playlist>\n"
+                           "  <stack>\n"
+                           "   <HighlightRotation>\n"
+                           "    <Float Name=\"speedBackground\">0.1</Float>\n"
+                           "    <Color Name=\"color Background\">#1ebeb1</Color>\n"
+                           "    <UInt Name=\"stripes Background\">9</UInt>\n"
+                           "    <Float Name=\"length Background\">5</Float>\n"
+                           "    <Float Name=\"speedLeft\">0.1</Float>\n"
+                           "    <Color Name=\"color Left\">#1ebeb1</Color>\n"
+                           "    <UInt Name=\"stripes Left\">2</UInt>\n"
+                           "    <Float Name=\"length Left\">5</Float>\n"
+                           "    <Float Name=\"speedMiddle\">0.1</Float>\n"
+                           "    <Color Name=\"color Middle\">#1ebeb1</Color>\n"
+                           "    <UInt Name=\"stripes Middle\">5</UInt>\n"
+                           "    <Float Name=\"length Middle\">5</Float>\n"
+                           "    <Float Name=\"speedRight\">0.1</Float>\n"
+                           "    <Color Name=\"color Right\">#1ebeb1</Color>\n"
+                           "    <UInt Name=\"stripes Right\">7</UInt>\n"
+                           "    <Float Name=\"length Right\">5</Float>\n"
+                           "   </HighlightRotation>\n"
+                           "  </stack>\n"
+                           "  <stack>\n"
+                           "   <ConstantColor>\n"
+                           "    <Color Name=\"color\">#157da3</Color>\n"
+                           "   </ConstantColor>\n"
+                           "   <HighlightSparkling>\n"
+                           "    <Color Name=\"color\">#ffffff</Color>\n"
+                           "    <Float Name=\"speed\">1</Float>\n"
+                           "    <Float Name=\"rate\">20</Float>\n"
+                           "   </HighlightSparkling>\n"
+                           "  </stack>\n"
+                           "  <stack>\n"
+                           "   <ConstantColor>\n"
+                           "    <Color Name=\"color\">#bb3720</Color>\n"
+                           "   </ConstantColor>\n"
+                           "   <Alarm>\n"
+                           "    <Float Name=\"speed\">1</Float>\n"
+                           "    <Color Name=\"color\">#000000</Color>\n"
+                           "    <Float Name=\"span\">30</Float>\n"
+                           "   </Alarm>\n"
+                           "   <Alarm>\n"
+                           "    <Float Name=\"speed\">-1</Float>\n"
+                           "    <Color Name=\"color\">#000000</Color>\n"
+                           "    <Float Name=\"span\">40</Float>\n"
+                           "   </Alarm>\n"
+                           "  </stack>\n"
+                           "  <stack>\n"
+                           "   <SegmentsFlashing>\n"
+                           "    <Float Name=\"speed\">0.5</Float>\n"
+                           "    <Color Name=\"color\">#1eabe2</Color>\n"
+                           "    <Int Name=\"timeOffsetBetweenSegments\">50</Int>\n"
+                           "    <Int Name=\"timeToWaitFullColor\">50</Int>\n"
+                           "   </SegmentsFlashing>\n"
+                           "  </stack>\n"
+                           " </playlist>\n"
+                           "</playlistItems>\n"
+                           "";
+    return this->loadPlaylistFromByteArray(fileBytes);
+}
+
 std::shared_ptr<AnimationStack> AnimationPlaylist::getAnimationStack(unsigned idx) const
 {
     if (idx >= this->animationStackList.size())
@@ -145,8 +209,21 @@ bool AnimationPlaylist::loadPlaylistFromByteArray(QByteArray data)
         return false;
     }
 
-    // Iterate over all items in the playlist
-    QDomNode n = root.firstChild();
+    QDomNode playlistNode = root.firstChild();
+    if (!playlistNode.isElement())
+    {
+        qDebug() << "Error loading playlist - The 'playlist' node could not be found.";
+        return false;
+    }
+
+    QDomElement playlistElement = playlistNode.toElement();
+    if (playlistElement.tagName() != "playlist")
+    {
+        qDebug() << "Error loading playlist - The 'playlist' node could not be found.";
+        return false;
+    }
+
+    QDomNode n = playlistElement.firstChild();
     while (!n.isNull())
     {
         if (n.isElement())

@@ -8,7 +8,8 @@ public:
     AnimationRainbow() = delete;
     AnimationRainbow(AnimationTreeBase *parentStack);
     
-    virtual bool renderFrame(Frame &frame, QImage &image) override;
+    virtual void renderFrame(Frame &frame, QImage &image) override;
+    virtual AnimationState getState() override { return AnimationState::Infinite; }
     virtual QString getName() const override { return "Rainbow"; };
     void reset() override;
 

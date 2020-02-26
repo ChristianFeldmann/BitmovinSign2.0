@@ -61,3 +61,11 @@ struct RenderMemory
     std::map<unsigned, bool> imageUsed;
 };
 
+// Animations can be either infinitely running or they can have an animation that ends at some point.
+// If they end, the end should be a completely black frame. Then we can switch to a new animation here.
+enum class AnimationState
+{
+    Infinite,   // The animation is infinite. We need to fade out and to a new animation
+    Running,    // The animation is running. Let it run further.
+    SwitchNow   // The animation is done. You can switch to a new one now.
+};

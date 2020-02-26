@@ -11,7 +11,7 @@ void AnimationRunningDot::reset()
     this->counter = 0;
 }
 
-bool AnimationRunningDot::renderFrame(Frame &frame, QImage &image)
+void AnimationRunningDot::renderFrame(Frame &frame, QImage &image)
 {
     Q_UNUSED(image);
     for (unsigned i = 0; i < NR_LED_TOTAL; i++)
@@ -24,6 +24,11 @@ bool AnimationRunningDot::renderFrame(Frame &frame, QImage &image)
     {
         this->counter = 0;
     }
+}
 
-    return this->counter == 0;
+AnimationState AnimationRunningDot::getState()
+{
+    if (this->counter == 0)
+        return AnimationState::SwitchNow;
+    return AnimationState::Running;
 }

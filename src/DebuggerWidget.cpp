@@ -5,44 +5,61 @@ DebuggerWidget::DebuggerWidget(QWidget *parent) :
 {
 }
 
+DebuggerWidget::DebuggerWidget(DrawMode drawMode, QWidget *parent) :
+    QWidget(parent)
+{
+    this->drawMode = drawMode;
+}
+
 void DebuggerWidget::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
 
-    if (this->outputFrame == nullptr || this->renderMemory == nullptr || this->animationNames.empty())
-    {
+    if (this->outputFrame == nullptr)
         return;
-    }
+    if (this->drawMode == DrawMode::MultipleAnimations && (this->animationNames.empty() || this->renderMemory == nullptr))
+        return;
 
     QPainter painter(this);
     painter.fillRect(rect(), Qt::black);
-    // Split the widget area into a 3x3 "matrix" of square spaces
-    int widthHeight = std::min(this->size().width(), this->size().height());
-    int wh3 = widthHeight / 3;
 
-    for (int i = 0; i < 3; i++)
+    const int widthHeight = std::min(this->size().width(), this->size().height());
+
+    if (this->drawMode == DrawMode::MultipleAnimations)
     {
-        if (i < this->animationNames.size())
+        // Split the widget area into a 3x3 "matrix" of square spaces
+        int wh3 = widthHeight / 3;
+
+        for (int i = 0; i < 3; i++)
         {
-            DebuggerWidget::drawPoints(painter, QRect(0, i * wh3, wh3, wh3), this->renderMemory->frameMap[i], this->animationNames[i]);
-            if (this->renderMemory->imageUsed[i])
+            if (i < this->animationNames.size())
             {
-                DebuggerWidget::drawImage(painter, QRect(wh3, i * wh3, wh3, wh3), this->renderMemory->imageMap[i]);
+                DebuggerWidget::drawPoints(painter, QRect(0, i * wh3, wh3, wh3), this->renderMemory->frameMap[i], this->animationNames[i]);
+                if (this->renderMemory->imageUsed[i])
+                {
+                    DebuggerWidget::drawImage(painter, QRect(wh3, i * wh3, wh3, wh3), this->renderMemory->imageMap[i]);
+                }
+                else
+                {
+                    DebuggerWidget::drawRect(painter, QRect(wh3, i * wh3, wh3, wh3), "", true);
+                }
             }
             else
             {
+                DebuggerWidget::drawRect(painter, QRect(0, i * wh3, wh3, wh3), "", true);
                 DebuggerWidget::drawRect(painter, QRect(wh3, i * wh3, wh3, wh3), "", true);
             }
         }
-        else
-        {
-            DebuggerWidget::drawRect(painter, QRect(0, i * wh3, wh3, wh3), "", true);
-            DebuggerWidget::drawRect(painter, QRect(wh3, i * wh3, wh3, wh3), "", true);
-        }
-    }
 
-    // Draw the output frame into the square in the right middle
-    DebuggerWidget::drawPoints(painter, QRect(2 * wh3, wh3, wh3, wh3), *this->outputFrame, "Output");
+        // Draw the output frame into the square in the right middle
+        DebuggerWidget::drawPoints(painter, QRect(2 * wh3, wh3, wh3, wh3), *this->outputFrame, "Output");
+    }
+    else
+    {
+
+        DebuggerWidget::drawPoints(painter, QRect(0, 0, widthHeight, widthHeight), *this->outputFrame, "Output");
+    }
+    
     painter.end();
 }
 

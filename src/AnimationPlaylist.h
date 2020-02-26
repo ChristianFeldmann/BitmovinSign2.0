@@ -17,6 +17,7 @@ public:
 
     bool loadPlaylistFile(QString filename);
     QString getPlaylistString() const;
+    bool createDefaultPlaylist();
 
     std::shared_ptr<AnimationStack> getAnimationStack(unsigned idx) const;
     int getAnimationStackIndex(AnimationTreeBase *stack) const;

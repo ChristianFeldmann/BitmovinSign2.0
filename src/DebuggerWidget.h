@@ -13,8 +13,17 @@ class DebuggerWidget : public QWidget
     Q_OBJECT
 
 public:
+
+    enum class DrawMode
+    {
+        OutputOnly,
+        MultipleAnimations
+    };
+
     DebuggerWidget(QWidget *parent = nullptr);
+    DebuggerWidget(DrawMode drawMode, QWidget *parent = nullptr);
     
+public slots:
     void draw(QStringList animationNames, Frame *outputFrame, RenderMemory *renderMemory);
 
 protected:
@@ -33,4 +42,5 @@ protected:
     Frame *outputFrame{ nullptr };
     RenderMemory *renderMemory{ nullptr };
     QStringList animationNames;
+    DrawMode drawMode{DrawMode::OutputOnly};
 };

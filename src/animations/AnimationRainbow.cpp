@@ -11,7 +11,7 @@ void AnimationRainbow::reset()
     this->counter = 0.0;
 }
 
-bool AnimationRainbow::renderFrame(Frame &frame, QImage &image)
+void AnimationRainbow::renderFrame(Frame &frame, QImage &image)
 {
     Q_UNUSED(image);
     auto getColorForPos = [](double pos) -> QColor
@@ -51,6 +51,4 @@ bool AnimationRainbow::renderFrame(Frame &frame, QImage &image)
     {
         this->counter = 0.0;
     }
-
-    return true;
 }
