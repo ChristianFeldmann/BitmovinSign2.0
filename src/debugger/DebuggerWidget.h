@@ -21,7 +21,8 @@ public:
     };
 
     DebuggerWidget(QWidget *parent = nullptr);
-    DebuggerWidget(DrawMode drawMode, QWidget *parent = nullptr);
+
+    void setDrawMode(DrawMode drawMode) { this->drawMode = drawMode; }
     
 public slots:
     void draw(QStringList animationNames, Frame *outputFrame, RenderMemory *renderMemory);

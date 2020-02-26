@@ -21,9 +21,9 @@ int main(int argc, char *argv[])
     };
 
 #ifdef __arm__
-    Mode mode = Mode::SignOnly;
-#else
     Mode mode = Mode::OutputView;
+#else
+    Mode mode = Mode::AnimationEditor;
 #endif
 
     if (argc == 2)
@@ -39,9 +39,9 @@ int main(int argc, char *argv[])
     
     qDebug() << "Hello from the Bitmovin Sign";
     qDebug() << "Options:";
-    qDebug() << "  Sign:   Only show animations on the sign (default on arm)";
-    qDebug() << "  Output: Show the output also in a debugger window (default on non arm)";
-    qDebug() << "  Editor: Show the animation editor";
+    qDebug() << "  Sign:   Only show animations on the sign";
+    qDebug() << "  Output: Show the output also in a debugger window (default on arm)";
+    qDebug() << "  Editor: Show the animation editor (default on non arm)";
     
     Player player;
 
@@ -59,7 +59,8 @@ int main(int argc, char *argv[])
     std::unique_ptr<DebuggerWidget> output;
     if (mode == Mode::OutputView)
     {
-        output.reset(new DebuggerWidget(DebuggerWidget::DrawMode::OutputOnly));
+        output.reset(new DebuggerWidget());
+        output->setDrawMode(DebuggerWidget::DrawMode::OutputOnly);
         QObject::connect(&player, &Player::updateDebugger, output.get(), &DebuggerWidget::draw);
         output->resize(500, 500);
         output->show();

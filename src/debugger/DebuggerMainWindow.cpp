@@ -59,6 +59,8 @@ DebuggerMainWindow::DebuggerMainWindow(Player *player, QWidget *parent) :
     this->ui.animationStacksView->setAcceptDrops(true);
     this->ui.animationStacksView->setDropIndicatorShown(true);
     this->ui.animationStacksView->setHeaderHidden(true);
+
+    this->ui.debuggerWidget->setDrawMode(DebuggerWidget::DrawMode::MultipleAnimations);
 }
 
 void DebuggerMainWindow::closeEvent(QCloseEvent *event)

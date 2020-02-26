@@ -5,12 +5,6 @@ DebuggerWidget::DebuggerWidget(QWidget *parent) :
 {
 }
 
-DebuggerWidget::DebuggerWidget(DrawMode drawMode, QWidget *parent) :
-    QWidget(parent)
-{
-    this->drawMode = drawMode;
-}
-
 void DebuggerWidget::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
