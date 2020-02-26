@@ -5,8 +5,8 @@
 #include <QPointF>
 #include <QTimer>
 
-#include "AnimationStack.h"
-#include "Constants.h"
+#include "animation/AnimationStack.h"
+#include "common/Constants.h"
 
 class DebuggerWidget : public QWidget
 {

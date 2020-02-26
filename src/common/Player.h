@@ -3,12 +3,11 @@
 #include <QBasicTimer>
 #include <QTimer>
 
-#include "AnimationPlaylist.h"
-#include "AnimationTreeModel.h"
-#include "Frame.h"
-#include "Output.h"
-#include "DebuggerWidget.h"
-#include "Constants.h"
+#include "animation/AnimationPlaylist.h"
+#include "animation/AnimationTreeModel.h"
+#include "common/Frame.h"
+#include "common/Output.h"
+#include "common/Constants.h"
 
 #include <memory>
 
@@ -26,7 +25,7 @@ public:
     void setCurrentAnimation(AnimationTreeBase *item);
 
     void pause();
-    void play();
+    void play(bool enableFPSOutput = false);
     void step();
 
     bool isPlaying() { return this->playing; }

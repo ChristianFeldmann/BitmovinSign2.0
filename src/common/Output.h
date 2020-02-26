@@ -2,7 +2,7 @@
 /* The actual output which pushes the data to the sign
  */
 
-#include "Constants.h"
+#include "common/Constants.h"
 #include "Frame.h"
 
 #ifdef __arm__

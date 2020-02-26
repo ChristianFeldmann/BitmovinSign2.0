@@ -3,7 +3,7 @@
 #include <QColor>
 #include <vector>
 
-#include "Constants.h"
+#include "common/Constants.h"
 
 class Frame
 {

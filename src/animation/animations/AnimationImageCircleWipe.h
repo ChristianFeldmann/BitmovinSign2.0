@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AnimationBase.h"
+#include "../AnimationBase.h"
 
 class AnimationImageCircleWipe : public AnimationBase
 {

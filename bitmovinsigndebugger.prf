@@ -1,0 +1,11 @@
+QT += widgets
+
+CONFIG -= console
+
+FORMS += $$files(ui/*.ui, true)
+
+HEADERS += $$files(src/debugger/*.h, true)
+SOURCES += $$files(src/debugger/*.cpp, true)
+
+SOURCES -= "src/Main.cpp"
+SOURCES += "src/MainDebugger.cpp"

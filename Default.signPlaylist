@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<playlistItems version="2.0">
+ <playlist>
+  <stack>
+   <HighlightRotation>
+    <Float Name="speedBackground">0.1</Float>
+    <Color Name="color Background">#1ebeb1</Color>
+    <UInt Name="stripes Background">9</UInt>
+    <Float Name="length Background">5</Float>
+    <Float Name="speedLeft">0.1</Float>
+    <Color Name="color Left">#1ebeb1</Color>
+    <UInt Name="stripes Left">2</UInt>
+    <Float Name="length Left">5</Float>
+    <Float Name="speedMiddle">0.1</Float>
+    <Color Name="color Middle">#1ebeb1</Color>
+    <UInt Name="stripes Middle">5</UInt>
+    <Float Name="length Middle">5</Float>
+    <Float Name="speedRight">0.1</Float>
+    <Color Name="color Right">#1ebeb1</Color>
+    <UInt Name="stripes Right">7</UInt>
+    <Float Name="length Right">5</Float>
+   </HighlightRotation>
+  </stack>
+  <stack>
+   <ConstantColor>
+    <Color Name="color">#157da3</Color>
+   </ConstantColor>
+   <HighlightSparkling>
+    <Color Name="color">#ffffff</Color>
+    <Float Name="speed">1</Float>
+    <Float Name="rate">20</Float>
+   </HighlightSparkling>
+  </stack>
+  <stack>
+   <ConstantColor>
+    <Color Name="color">#bb3720</Color>
+   </ConstantColor>
+   <Alarm>
+    <Float Name="speed">1</Float>
+    <Color Name="color">#000000</Color>
+    <Float Name="span">30</Float>
+   </Alarm>
+   <Alarm>
+    <Float Name="speed">-1</Float>
+    <Color Name="color">#000000</Color>
+    <Float Name="span">40</Float>
+   </Alarm>
+  </stack>
+  <stack>
+   <SegmentsFlashing>
+    <Float Name="speed">0.5</Float>
+    <Color Name="color">#1eabe2</Color>
+    <Int Name="timeOffsetBetweenSegments">50</Int>
+    <Int Name="timeToWaitFullColor">50</Int>
+   </SegmentsFlashing>
+  </stack>
+ </playlist>
+</playlistItems>

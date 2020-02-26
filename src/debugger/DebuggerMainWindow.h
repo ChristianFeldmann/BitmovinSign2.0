@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ui_DebuggerMainWindow.h"
-#include "Player.h"
+#include "common/Player.h"
 
 #include <QMainWindow>
 #include <QAction>

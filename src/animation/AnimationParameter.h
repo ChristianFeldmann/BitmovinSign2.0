@@ -1,7 +1,7 @@
 #pragma once
 
-#include "AnimationTreeBase.h"
-#include "Constants.h"
+#include "animation/AnimationTreeBase.h"
+#include "common/Constants.h"
 
 #include <QComboBox>
 #include <QDoubleSpinBox>

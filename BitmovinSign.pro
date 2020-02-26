@@ -3,27 +3,31 @@ QT += widgets xml
 TARGET = bin/BitmovinSign
 TEMPLATE = app
 CONFIG += c++14
+CONFIG += console
 CONFIG -= flat
 
-INCLUDEPATH += $$PWD/lib
-INCLUDEPATH += $$PWD/src
+INCLUDEPATH += lib
+INCLUDEPATH += src
 
+# The output library
 HEADERS += $$files(lib/*.h, true)
-HEADERS += $$files(src/*.h, true)
-
 SOURCES += $$files(lib/*.c, true)
-SOURCES += $$files(lib/*.cpp, true)
-SOURCES += $$files(src/*.c, true)
-SOURCES += $$files(src/*.cpp, true)
 
-FORMS += $$files(ui/*.ui, true)
+HEADERS += $$files(src/animation/*.h, true)
+SOURCES += $$files(src/animation/*.cpp, true)
+HEADERS += $$files(src/common/*.h, true)
+SOURCES += $$files(src/common/*.cpp, true)
+
+SOURCES += "src/Main.cpp"
 
 macx {
 HEADERS -= $$files(lib/ws2811/*.h, true)
 SOURCES -= $$files(lib/ws2811/*.c, true)
+INCLUDEPATH -= lib
 }
 
 win32 {
 HEADERS -= $$files(lib/ws2811/*.h, true)
 SOURCES -= $$files(lib/ws2811/*.c, true)
+INCLUDEPATH -= lib
 }

@@ -2,8 +2,8 @@
 
 #include "AnimationTreeBase.h"
 #include "AnimationParameter.h"
-#include "Constants.h"
-#include "Frame.h"
+#include "common/Constants.h"
+#include "common/Frame.h"
 
 #include <QImage>
 

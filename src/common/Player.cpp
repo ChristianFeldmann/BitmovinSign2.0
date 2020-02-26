@@ -1,16 +1,12 @@
 #include "Player.h"
 
-#include "Constants.h"
+#include "common/Constants.h"
 
 #include <QDebug>
 #include <QDomDocument>
 
 Player::Player(QObject *parent) : QObject(parent)
 {
-    this->currentAnimationStackIndex = 0;
-    
-    connect(&this->fpsTimer, &QTimer::timeout, this, &Player::fpsTimerTimeout);
-    this->fpsTimer.start(1000);
 }
 
 void Player::timerEvent(QTimerEvent *event)
@@ -109,7 +105,7 @@ void Player::pause()
     this->playing = false;
 }
 
-void Player::play()
+void Player::play(bool enableFPSOutput)
 {
     auto animationStack = this->model.getAnimationStack(this->currentAnimationStackIndex);
     if (!animationStack)
@@ -126,6 +122,14 @@ void Player::play()
     int millisecond = 1000 / this->targetFPS;
     this->timer.start(millisecond, Qt::PreciseTimer, this);
     this->playing = true;
+
+    if (enableFPSOutput)
+    {
+        connect(&this->fpsTimer, &QTimer::timeout, this, &Player::fpsTimerTimeout);
+        this->fpsTimer.start(1000);
+    }
+
+    qDebug() << "Playback stated";
 }
 
 void Player::step()

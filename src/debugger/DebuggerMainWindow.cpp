@@ -1,5 +1,6 @@
 #include "DebuggerMainWindow.h"
-#include "AnimationTreeModel.h"
+
+#include "animation/AnimationTreeModel.h"
 
 #include <QFile>
 #include <QDebug>
