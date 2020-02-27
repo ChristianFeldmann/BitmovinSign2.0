@@ -55,40 +55,27 @@ void AnimationBase::convertImageToFrame(Frame &frame, QImage &image)
 
 void AnimationBase::addParameter(QString name, QColor *color)
 {
-    this->animationParameters.push_back(std::make_shared<AnimationParameter>(name, color));
+    this->animationParameters.push_back(new AnimationParameter(name, color));
 }
 
 void AnimationBase::addParameter(QString name, int *value)
 {
-    this->animationParameters.push_back(std::make_shared<AnimationParameter>(name, value));
+    this->animationParameters.push_back(new AnimationParameter(name, value));
 }
 
 void AnimationBase::addParameter(QString name, unsigned *value)
 {
-    this->animationParameters.push_back(std::make_shared<AnimationParameter>(name, value));
+    this->animationParameters.push_back(new AnimationParameter(name, value));
 }
 
 void AnimationBase::addParameter(QString name, float *value)
 {
-    this->animationParameters.push_back(std::make_shared<AnimationParameter>(name, value));
+    this->animationParameters.push_back(new AnimationParameter(name, value));
 }
 
 void AnimationBase::addParameter(QString name, int *enumInteger, QStringList enumValues)
 {
-    this->animationParameters.push_back(std::make_shared<AnimationParameter>(name, enumInteger, enumValues));
-}
-
-void AnimationBase::createPropertiesWidget()
-{
-    assert(this->propertiesWidget == nullptr);
-
-    this->preparePropertiesWidget(QStringLiteral("Animation"));
-    QFormLayout *form = new QFormLayout(this->propertiesWidget);
-
-    for (auto &parameter : this->animationParameters)
-    {
-        form->addRow(parameter->getName(), parameter->createParameterWidget());
-    }
+    this->animationParameters.push_back(new AnimationParameter(name, enumInteger, enumValues));
 }
 
 void AnimationBase::calculateLedsCoord()
@@ -149,7 +136,7 @@ bool AnimationBase::loadProperties(QDomElement &root)
         }
         
         bool paramFound = false;
-        for (auto &param : this->animationParameters)
+        for (auto param : this->animationParameters)
         {
             if (param->getName() == paramName)
             {

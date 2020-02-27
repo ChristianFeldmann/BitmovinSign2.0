@@ -2,12 +2,14 @@
 
 #include "animation/AnimationTreeModel.h"
 
-#include <QFile>
-#include <QDebug>
-#include <QSettings>
-#include <QFileDialog>
-#include <QMessageBox>
 #include <QCloseEvent>
+#include <QDebug>
+#include <QFile>
+#include <QFileDialog>
+#include <QFormLayout>
+#include <QMessageBox>
+#include <QSettings>
+#include <QVBoxLayout>
 
 DebuggerMainWindow::DebuggerMainWindow(Player *player, QWidget *parent) :
     QMainWindow(parent)
@@ -108,7 +110,7 @@ void DebuggerMainWindow::viewSelectionChanged(const QItemSelection &selected, co
         if (item)
         {
             this->player->setCurrentAnimation(item);
-            QWidget *propertiesWidget = item->getPropertiesWidget();
+            QWidget *propertiesWidget = createPropertiesWidgetForTreeItem(item);
             if (this->ui.stackedWidgetProperties->indexOf(propertiesWidget) == -1)
             {
                 this->ui.stackedWidgetProperties->addWidget(propertiesWidget);
@@ -320,4 +322,30 @@ void DebuggerMainWindow::loadFiles(QStringList filesToOpen)
             }
         }
     }
+}
+
+QWidget *DebuggerMainWindow::createPropertiesWidgetForTreeItem(AnimationTreeBase *item)
+{
+    QWidget *propertiesWidget = new QWidget;
+    propertiesWidget->setObjectName(item->getWidgetName());
+
+    auto animations = item->getAnimationParameters();
+    if (animations.empty())
+    {
+        QVBoxLayout *vAllLaout = new QVBoxLayout(propertiesWidget);
+        QLabel *label = new QLabel(nullptr);
+        label->setText("No properties");
+        vAllLaout->addWidget(label);
+        vAllLaout->insertStretch(2, 1);
+    }
+    else
+    {
+        QFormLayout *form = new QFormLayout(propertiesWidget);
+        for (auto parameter : animations)
+        {
+            form->addRow(parameter->getName(), parameter->createParameterWidget());
+        }
+    }
+    
+    return propertiesWidget;
 }

@@ -47,4 +47,6 @@ private:
 
     bool isSaved{ true };
     void loadFiles(QStringList files);
+
+    QWidget *createPropertiesWidgetForTreeItem(AnimationTreeBase *item);
 };

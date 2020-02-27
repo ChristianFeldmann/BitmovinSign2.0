@@ -1,10 +1,10 @@
 #pragma once
 
-#include "animation/AnimationTreeBase.h"
 #include "common/Constants.h"
 
 #include <QComboBox>
 #include <QDoubleSpinBox>
+#include <QPointer>
 #include <QPushButton>
 #include <QSpinBox>
 #include <QStringList>

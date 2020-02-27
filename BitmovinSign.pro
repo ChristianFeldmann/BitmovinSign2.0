@@ -1,4 +1,4 @@
-QT += widgets xml
+QT += xml
 
 TARGET = bin/BitmovinSign
 TEMPLATE = app

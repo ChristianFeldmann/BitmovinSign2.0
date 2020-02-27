@@ -6,6 +6,7 @@
 #include "common/Frame.h"
 
 #include <QImage>
+#include <QPointer>
 
 class AnimationBase : public AnimationTreeBase
 {
@@ -37,17 +38,18 @@ public:
     bool savePlaylist(QDomElement &plist) const override;
     bool loadProperties(QDomElement &plist);
 
+    virtual QString getWidgetName() const override { return "Animation"; }
+    QList<QPointer<AnimationParameter>> getAnimationParameters() override { return this->animationParameters; }
+
 protected:
     void convertImageToFrame(Frame &frame, QImage &image);
 
-    std::vector<std::shared_ptr<AnimationParameter>> animationParameters;
+    QList<QPointer<AnimationParameter>> animationParameters;
     void addParameter(QString name, QColor *color);
     void addParameter(QString name, int *value);
     void addParameter(QString name, unsigned *value);
     void addParameter(QString name, float *value);
     void addParameter(QString name, int *enumInteger, QStringList enumValues);
-
-    virtual void createPropertiesWidget() override;
 
 private:
     std::vector<QPoint> ledsCoord;
