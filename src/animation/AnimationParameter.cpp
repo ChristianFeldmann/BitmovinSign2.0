@@ -4,21 +4,20 @@
 #include <QColor>
 #include <QColorDialog>
 #include <QDebug>
-#include <QLabel>
 #include <QPainter>
 #include <QVariant>
 
 AnimationParameter::AnimationParameter(QString name, QColor *color) : QObject()
 {
     this->name = name;
-    this->type = Color;
+    this->type = Type::Color;
     this->color = color;
 };
 
 AnimationParameter::AnimationParameter(QString name, int *enumInt, QStringList enumValues) : QObject()
 {
     this->name = name;
-    this->type = Enum;
+    this->type = Type::Enum;
     for (QString s : enumValues)
     {
         this->enumValues.append(s.toLower());
@@ -29,70 +28,22 @@ AnimationParameter::AnimationParameter(QString name, int *enumInt, QStringList e
 AnimationParameter::AnimationParameter(QString name, int *integer) : QObject()
 {
     this->name = name;
-    this->type = Int;
+    this->type = Type::Int;
     this->integer = integer;
 };
 
 AnimationParameter::AnimationParameter(QString name, unsigned *unsignedInt) : QObject()
 {
     this->name = name;
-    this->type = UInt;
+    this->type = Type::UInt;
     this->unsignedInt = unsignedInt;
 };
 
 AnimationParameter::AnimationParameter(QString name, float *floatValue) : QObject()
 {
     this->name = name;
-    this->type = Float;
+    this->type = Type::Float;
     this->floatValue = floatValue;
-}
-
-QWidget *AnimationParameter::createParameterWidget()
-{
-    if (this->type == Enum)
-    {
-        assert(this->enumComboBox == nullptr);
-        this->enumComboBox = new QComboBox();
-        for (auto &enumItem : this->enumValues)
-        {
-            this->enumComboBox->addItem(enumItem);
-        }
-        connect(this->enumComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &AnimationParameter::onEnumComboBoxIndexChanged);
-        return this->enumComboBox;
-    }
-    if (this->type == Int || this->type == UInt)
-    {
-        this->intSpinBox = new QSpinBox();
-        if (this->type == Int)
-        {
-            this->intSpinBox->setValue(*this->integer);
-            this->intSpinBox->setRange(0, 10000);
-        }
-        else
-        {
-            this->intSpinBox->setValue(*this->unsignedInt);
-            this->intSpinBox->setRange(-10000, 10000);
-        }
-        connect(this->intSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &AnimationParameter::onIntSpinBoxValueChanged);
-        return this->intSpinBox;
-    }
-    if (this->type == Float)
-    {
-        this->doubleSpinBox = new QDoubleSpinBox();
-        this->doubleSpinBox->setValue(*this->floatValue);
-        this->doubleSpinBox->setRange(-1000.0, 1000.0);
-        connect(this->doubleSpinBox, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &AnimationParameter::onDoubleSpinBoxValueChanged);
-        return this->doubleSpinBox;
-    }
-    if (this->type == Color)
-    {
-        this->colorPushButton = new QPushButton();
-        this->setColorForButton();
-        connect(this->colorPushButton, &QPushButton::clicked, this, &AnimationParameter::onColorButtonPressed);
-        return this->colorPushButton;
-    }
-
-    return new QLabel("Error");
 }
 
 void AnimationParameter::onColorButtonPressed(bool checked)
@@ -102,7 +53,7 @@ void AnimationParameter::onColorButtonPressed(bool checked)
     if (newColor.isValid())
     {
         *this->color = newColor;
-        setColorForButton();
+        //setColorForButton();
     }
 }
 
@@ -116,11 +67,11 @@ void AnimationParameter::onEnumComboBoxIndexChanged(int index)
 
 void AnimationParameter::onIntSpinBoxValueChanged(int value)
 {
-    if (this->type == Int)
+    if (this->type == Type::Int)
     {
         *this->integer = value;
     }
-    else if (this->type == UInt)
+    else if (this->type == Type::UInt)
     {
         *this->unsignedInt = unsigned(value);
     }
@@ -135,43 +86,32 @@ void AnimationParameter::onDoubleSpinBoxValueChanged(double value)
     *this->floatValue = float(value);
 }
 
-void AnimationParameter::setColorForButton()
-{
-    QImage image(50, 50, QImage::Format_ARGB32);
-    QPainter painter(&image);
-    painter.fillRect(0, 0, 50, 50, *this->color);
-    QPixmap pixmap;
-    pixmap.convertFromImage(image);
-    QIcon ico(pixmap);
-    this->colorPushButton->setIcon(ico);
-}
-
 bool AnimationParameter::appendProperty(QDomElement &plist) const
 {
-    QString typeName = this->type == Enum ? "Enum" : (this->type == Int) ? "Int" : "Color";
+    QString typeName = this->type == Type::Enum ? "Enum" : (this->type == Type::Int) ? "Int" : "Color";
     QString valueString;
 
-    if (this->type == Color)
+    if (this->type == Type::Color)
     {
         typeName = "Color";
         valueString = this->color->name();
     }
-    else if (this->type == Enum)
+    else if (this->type == Type::Enum)
     {
         typeName = "Enum";
         valueString = QString("%1").arg(this->enumValues[*this->enumInt]);
     }
-    else if (this->type == Int)
+    else if (this->type == Type::Int)
     {
         typeName = "Int";
         valueString = QString("%1").arg(*this->integer);
     }
-    else if (this->type == UInt)
+    else if (this->type == Type::UInt)
     {
         typeName = "UInt";
         valueString = QString("%1").arg(*this->unsignedInt);
     }
-    else if (this->type == Float)
+    else if (this->type == Type::Float)
     {
         typeName = "Float";
         valueString = QString("%1").arg(*this->floatValue);
@@ -199,7 +139,7 @@ bool AnimationParameter::loadFromElement(QDomElement &plist)
     QString nodeText = plist.text();
     if (typeString == "Color")
     {
-        this->type = Color;
+        this->type = Type::Color;
         *this->color = QColor(nodeText);
         if (!(*this->color).isValid())
         {
@@ -209,7 +149,7 @@ bool AnimationParameter::loadFromElement(QDomElement &plist)
     }
     else if (typeString == "Enum")
     {
-        this->type = Enum;
+        this->type = Type::Enum;
         if (this->enumValues.contains(nodeText))
         {
             *this->enumInt = this->enumValues.indexOf(nodeText);
@@ -222,7 +162,7 @@ bool AnimationParameter::loadFromElement(QDomElement &plist)
     }
     else if (typeString == "Int")
     {
-        this->type = Int;
+        this->type = Type::Int;
         bool ok;
         *this->integer = nodeText.toInt(&ok);
         if (!ok)
@@ -233,7 +173,7 @@ bool AnimationParameter::loadFromElement(QDomElement &plist)
     }
     else if (typeString == "UInt")
     {
-        this->type = UInt;
+        this->type = Type::UInt;
         bool ok;
         *this->unsignedInt = unsigned(nodeText.toInt(&ok));
         if (!ok)
@@ -244,7 +184,7 @@ bool AnimationParameter::loadFromElement(QDomElement &plist)
     }
     else if (typeString == "Float")
     {
-        this->type = Float;
+        this->type = Type::Float;
         bool ok;
         *this->floatValue = nodeText.toFloat(&ok);
         if (!ok)

@@ -138,7 +138,7 @@ bool AnimationBase::loadProperties(QDomElement &root)
         bool paramFound = false;
         for (auto param : this->animationParameters)
         {
-            if (param->getName() == paramName)
+            if (param->name == paramName)
             {
                 success &= param->loadFromElement(childElem);
                 paramFound = true;

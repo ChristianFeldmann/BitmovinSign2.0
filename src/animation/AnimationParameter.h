@@ -2,11 +2,7 @@
 
 #include "common/Constants.h"
 
-#include <QComboBox>
-#include <QDoubleSpinBox>
 #include <QPointer>
-#include <QPushButton>
-#include <QSpinBox>
 #include <QStringList>
 
 class AnimationParameter : public QObject
@@ -21,21 +17,10 @@ public:
     AnimationParameter(QString name, unsigned *unsignedInt);
     AnimationParameter(QString name, float *floatValue);
 
-    QWidget *createParameterWidget();
-
-    QString getName() { return this->name; }
-
     bool appendProperty(QDomElement &plist) const;
     bool loadFromElement(QDomElement &plist);
 
-private slots:
-    void onColorButtonPressed(bool checked);
-    void onEnumComboBoxIndexChanged(int index);
-    void onIntSpinBoxValueChanged(int value);
-    void onDoubleSpinBoxValueChanged(double value);
-
-private:
-    enum Type_t
+    enum class Type
     {
         Color,
         Enum,
@@ -44,9 +29,8 @@ private:
         Float
     };
 
-    Type_t type;
-
     QString name;
+    Type type;
 
     QColor *color{ nullptr };
     int *enumInt{ nullptr };
@@ -55,10 +39,9 @@ private:
     unsigned *unsignedInt{ nullptr };
     float *floatValue{ nullptr };
 
-    QComboBox *enumComboBox{ nullptr };
-    QPushButton *colorPushButton{ nullptr };
-    QSpinBox *intSpinBox{ nullptr };
-    QDoubleSpinBox *doubleSpinBox{ nullptr };
-
-    void setColorForButton();
+private slots:
+    void onColorButtonPressed(bool checked);
+    void onEnumComboBoxIndexChanged(int index);
+    void onIntSpinBoxValueChanged(int value);
+    void onDoubleSpinBoxValueChanged(double value);
 };

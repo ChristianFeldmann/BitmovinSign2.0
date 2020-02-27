@@ -3,6 +3,7 @@
 #include "animation/AnimationTreeModel.h"
 
 #include <QCloseEvent>
+#include <QComboBox>
 #include <QDebug>
 #include <QFile>
 #include <QFileDialog>
@@ -343,7 +344,62 @@ QWidget *DebuggerMainWindow::createPropertiesWidgetForTreeItem(AnimationTreeBase
         QFormLayout *form = new QFormLayout(propertiesWidget);
         for (auto parameter : animations)
         {
-            form->addRow(parameter->getName(), parameter->createParameterWidget());
+            QWidget *newParameterWidget = nullptr;
+            if (parameter->type == AnimationParameter::Type::Enum)
+            {
+                auto enumComboBox = new QComboBox();
+                for (auto &enumItem : parameter->enumValues)
+                {
+                    enumComboBox->addItem(enumItem);
+                }
+                //connect(this->enumComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &AnimationParameter::onEnumComboBoxIndexChanged);
+                newParameterWidget = enumComboBox;
+            }
+            else if (parameter->type == AnimationParameter::Type::Int || parameter->type == AnimationParameter::Type::UInt)
+            {
+                auto intSpinBox = new QSpinBox();
+                if (parameter->type == AnimationParameter::Type::Int)
+                {
+                    intSpinBox->setValue(*parameter->integer);
+                    intSpinBox->setRange(0, 10000);
+                }
+                else
+                {
+                    intSpinBox->setValue(*parameter->unsignedInt);
+                    intSpinBox->setRange(-10000, 10000);
+                }
+                //connect(this->intSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &AnimationParameter::onIntSpinBoxValueChanged);
+                newParameterWidget = intSpinBox;
+            }
+            else if (parameter->type == AnimationParameter::Type::Float)
+            {
+                auto doubleSpinBox = new QDoubleSpinBox();
+                doubleSpinBox->setValue(*parameter->floatValue);
+                doubleSpinBox->setRange(-1000.0, 1000.0);
+                //connect(this->doubleSpinBox, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &AnimationParameter::onDoubleSpinBoxValueChanged);
+                newParameterWidget = doubleSpinBox;
+            }
+            else if (parameter->type == AnimationParameter::Type::Color)
+            {
+                auto colorPushButton = new QPushButton();
+                
+                QImage image(50, 50, QImage::Format_ARGB32);
+                QPainter painter(&image);
+                painter.fillRect(0, 0, 50, 50, *parameter->color);
+                QPixmap pixmap;
+                pixmap.convertFromImage(image);
+                QIcon ico(pixmap);
+                colorPushButton->setIcon(ico);
+
+                //connect(this->colorPushButton, &QPushButton::clicked, this, &AnimationParameter::onColorButtonPressed);
+                newParameterWidget = colorPushButton;
+            }
+            else
+            {
+                newParameterWidget = new QLabel("Error");
+            }
+
+            form->addRow(parameter->name, newParameterWidget);
         }
     }
     
