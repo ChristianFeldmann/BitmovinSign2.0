@@ -1,5 +1,5 @@
 
-#include <QApplication>
+#include <QCoreApplication>
 #include <QDebug>
 
 #include <iostream>
@@ -10,7 +10,7 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
+    QCoreApplication app(argc, argv);
 
     qDebug() << "Hello from the Bitmovin Sign Demon";
     

@@ -9,6 +9,7 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QFormLayout>
+#include <QInputDialog>
 #include <QMessageBox>
 #include <QSettings>
 #include <QVBoxLayout>
@@ -195,6 +196,28 @@ void DebuggerMainWindow::addItem()
     {
         row = this->player->getAnimationTreeMode()->rowCount();
     }
+
+    auto parentItem = this->player->getAnimationTreeMode()->getItemNonConst(this->currentItemContextMenu);
+    auto stack = dynamic_cast<AnimationStack*>(parentItem);
+    if (stack)
+    {
+        auto animationList = AnimationStack::getAnimationList();
+        QString selection = QInputDialog::getItem(nullptr, "Add animation", "Please choose the type of animation", animationList);
+        if (!animationList.contains(selection))
+        {
+            return;
+        }
+        this->player->getAnimationTreeMode()->insertNewAnimation(int(row), 1, selection, this->currentItemContextMenu);
+        return;
+    }
+
+    AnimationPlaylist *playlist = dynamic_cast<AnimationPlaylist*>(parentItem);
+    if (playlist)
+    {
+        this->player->getAnimationTreeMode()->insertNewStack(int(row), 1, this->currentItemContextMenu);
+        return;
+    }
+
     this->ui.animationStacksView->model()->insertRow(int(row), this->currentItemContextMenu);
 }
 

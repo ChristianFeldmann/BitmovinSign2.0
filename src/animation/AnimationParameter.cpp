@@ -2,7 +2,6 @@
 
 #include <cassert>
 #include <QColor>
-#include <QColorDialog>
 #include <QDebug>
 #include <QPainter>
 #include <QVariant>

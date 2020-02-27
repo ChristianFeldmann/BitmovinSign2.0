@@ -38,9 +38,13 @@ public:
     bool insertRows(int position, int rows, const QModelIndex &parent = QModelIndex()) override;
     bool removeRows(int position, int rows, const QModelIndex &parent = QModelIndex()) override;
 
+    bool insertNewAnimation(int position, int rows, QString animationType, const QModelIndex &parent = QModelIndex());
+    bool insertNewStack(int position, int rows, const QModelIndex &parent = QModelIndex());
+
+    AnimationTreeBase *getItemNonConst(const QModelIndex &index);
+
 private:
     const AnimationTreeBase *getItem(const QModelIndex &index) const;
-    AnimationTreeBase *getItemNonConst(const QModelIndex &index);
 
     AnimationPlaylist playlist;
 };

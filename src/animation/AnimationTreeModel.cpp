@@ -7,7 +7,6 @@
 #include <QBuffer>
 #include <QColor>
 #include <QDebug>
-#include <QInputDialog>
 
 const QString signMimeType = "application / bitmovinSignTreeModelItem";
 
@@ -308,37 +307,46 @@ bool AnimationTreeModel::loadPlaylistFile(QString filePath)
 bool AnimationTreeModel::insertRows(int position, int rows, const QModelIndex &parent)
 {
     auto parentItem = getItemNonConst(parent);
-    if (position == -1)
-    {
-        parentItem->childCount();
-    }
+    
+    return false;
+}
+
+bool AnimationTreeModel::insertNewAnimation(int position, int rows, QString animationType, const QModelIndex &parent)
+{
+    auto parentItem = getItemNonConst(parent);
     
     auto stack = dynamic_cast<AnimationStack*>(parentItem);
-    if (stack)
+    if (!stack)
     {
-        auto animationList = AnimationStack::getAnimationList();
-        QString selection = QInputDialog::getItem(nullptr, "Add animation", "Please choose the type of animation", animationList);
-        if (!animationList.contains(selection))
-        {
-            return false;
-        }
-        beginInsertRows(parent, position, position + rows - 1);
-        bool success = stack->insertAnimation(position, selection);
-        endInsertRows();
-        return success;
-    }
-    
-    AnimationPlaylist *playlist = dynamic_cast<AnimationPlaylist*>(parentItem);
-    if (playlist)
-    {
-        
-        beginInsertRows(parent, position, position + rows - 1);
-        bool success = playlist->insertStack(position);
-        endInsertRows();
-        return success;
+        return false;
     }
 
-    return false;
+    auto animationList = AnimationStack::getAnimationList();
+    
+    if (!animationList.contains(animationType))
+    {
+        return false;
+    }
+    beginInsertRows(parent, position, position + rows - 1);
+    bool success = stack->insertAnimation(position, animationType);
+    endInsertRows();
+    return success;
+}
+
+bool AnimationTreeModel::insertNewStack(int position, int rows, const QModelIndex &parent)
+{
+    auto parentItem = getItemNonConst(parent);
+    
+    AnimationPlaylist *playlist = dynamic_cast<AnimationPlaylist*>(parentItem);
+    if (!playlist)
+    {
+        return false;
+    }
+
+    beginInsertRows(parent, position, position + rows - 1);
+    bool success = playlist->insertStack(position);
+    endInsertRows();
+    return success;
 }
 
 bool AnimationTreeModel::removeRows(int position, int rows, const QModelIndex &parent)

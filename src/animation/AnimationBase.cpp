@@ -2,7 +2,6 @@
 
 #include <cassert>
 #include <QDebug>
-#include <QFormLayout>
 
 AnimationBase::AnimationBase(AnimationTreeBase *parentStack) : 
     AnimationTreeBase(parentStack)
