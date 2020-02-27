@@ -20,6 +20,8 @@ SOURCES += $$files(src/common/*.cpp, true)
 
 SOURCES += "src/Main.cpp"
 
+RESOURCES = resources.qrc
+
 macx {
     HEADERS -= $$files(lib/ws2811/*.h, true)
     SOURCES -= $$files(lib/ws2811/*.c, true)
