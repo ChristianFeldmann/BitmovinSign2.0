@@ -34,6 +34,8 @@ public:
     virtual QString getWidgetName() const { return "AnimationTreeBase"; }
     virtual QList<QPointer<AnimationParameter>> getAnimationParameters() { return {}; }
 
+    int propertiesWidgetIndex {-1};
+
 protected:
     AnimationTreeBase *parent{ nullptr };
 

@@ -39,9 +39,8 @@ public:
     unsigned *unsignedInt{ nullptr };
     float *floatValue{ nullptr };
 
-private slots:
-    void onColorButtonPressed(bool checked);
-    void onEnumComboBoxIndexChanged(int index);
-    void onIntSpinBoxValueChanged(int value);
-    void onDoubleSpinBoxValueChanged(double value);
+    void setEnumIndex(int index);
+    void setColor(QColor value);
+    void setInt(int value);
+    void setFloat(float value);
 };

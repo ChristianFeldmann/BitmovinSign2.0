@@ -4,6 +4,7 @@
 
 #include <QCloseEvent>
 #include <QComboBox>
+#include <QColorDialog>
 #include <QDebug>
 #include <QFile>
 #include <QFileDialog>
@@ -111,12 +112,12 @@ void DebuggerMainWindow::viewSelectionChanged(const QItemSelection &selected, co
         if (item)
         {
             this->player->setCurrentAnimation(item);
-            QWidget *propertiesWidget = createPropertiesWidgetForTreeItem(item);
-            if (this->ui.stackedWidgetProperties->indexOf(propertiesWidget) == -1)
+            if (item->propertiesWidgetIndex == -1)
             {
-                this->ui.stackedWidgetProperties->addWidget(propertiesWidget);
+                QWidget *propertiesWidget = createPropertiesWidgetForTreeItem(item);
+                item->propertiesWidgetIndex = this->ui.stackedWidgetProperties->addWidget(propertiesWidget);
             }
-            this->ui.stackedWidgetProperties->setCurrentWidget(propertiesWidget);
+            this->ui.stackedWidgetProperties->setCurrentIndex(item->propertiesWidgetIndex);
             return;
         }
     }
@@ -352,7 +353,8 @@ QWidget *DebuggerMainWindow::createPropertiesWidgetForTreeItem(AnimationTreeBase
                 {
                     enumComboBox->addItem(enumItem);
                 }
-                //connect(this->enumComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &AnimationParameter::onEnumComboBoxIndexChanged);
+                connect(enumComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &DebuggerMainWindow::onEnumComboBoxIndexChanged);
+                controlToParameterMap[enumComboBox] = parameter;
                 newParameterWidget = enumComboBox;
             }
             else if (parameter->type == AnimationParameter::Type::Int || parameter->type == AnimationParameter::Type::UInt)
@@ -368,7 +370,8 @@ QWidget *DebuggerMainWindow::createPropertiesWidgetForTreeItem(AnimationTreeBase
                     intSpinBox->setValue(*parameter->unsignedInt);
                     intSpinBox->setRange(-10000, 10000);
                 }
-                //connect(this->intSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &AnimationParameter::onIntSpinBoxValueChanged);
+                connect(intSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &DebuggerMainWindow::onIntSpinBoxValueChanged);
+                controlToParameterMap[intSpinBox] = parameter;
                 newParameterWidget = intSpinBox;
             }
             else if (parameter->type == AnimationParameter::Type::Float)
@@ -376,22 +379,16 @@ QWidget *DebuggerMainWindow::createPropertiesWidgetForTreeItem(AnimationTreeBase
                 auto doubleSpinBox = new QDoubleSpinBox();
                 doubleSpinBox->setValue(*parameter->floatValue);
                 doubleSpinBox->setRange(-1000.0, 1000.0);
-                //connect(this->doubleSpinBox, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &AnimationParameter::onDoubleSpinBoxValueChanged);
+                connect(doubleSpinBox, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &DebuggerMainWindow::onDoubleSpinBoxValueChanged);
+                controlToParameterMap[doubleSpinBox] = parameter;
                 newParameterWidget = doubleSpinBox;
             }
             else if (parameter->type == AnimationParameter::Type::Color)
             {
                 auto colorPushButton = new QPushButton();
-                
-                QImage image(50, 50, QImage::Format_ARGB32);
-                QPainter painter(&image);
-                painter.fillRect(0, 0, 50, 50, *parameter->color);
-                QPixmap pixmap;
-                pixmap.convertFromImage(image);
-                QIcon ico(pixmap);
-                colorPushButton->setIcon(ico);
-
-                //connect(this->colorPushButton, &QPushButton::clicked, this, &AnimationParameter::onColorButtonPressed);
+                setColorForButton(colorPushButton, *parameter->color);
+                connect(colorPushButton, &QPushButton::clicked, this, &DebuggerMainWindow::onColorButtonPressed);
+                controlToParameterMap[colorPushButton] = parameter;
                 newParameterWidget = colorPushButton;
             }
             else
@@ -404,4 +401,65 @@ QWidget *DebuggerMainWindow::createPropertiesWidgetForTreeItem(AnimationTreeBase
     }
     
     return propertiesWidget;
+}
+
+void DebuggerMainWindow::onEnumComboBoxIndexChanged(int index)
+{
+    QObject *sender = QObject::sender();
+    if (this->controlToParameterMap.contains(sender))
+    {
+        auto parameter = this->controlToParameterMap[sender];
+        parameter->setEnumIndex(index);
+    }
+}
+
+void DebuggerMainWindow::onColorButtonPressed(bool checked)
+{
+    Q_UNUSED(checked);
+    QObject *sender = QObject::sender();
+    if (this->controlToParameterMap.contains(sender))
+    {
+        auto parameter = this->controlToParameterMap[sender];
+        QColor newColor = QColorDialog::getColor(*parameter->color, nullptr, "Please choose a new color", QColorDialog::ShowAlphaChannel);
+        if (newColor.isValid())
+        {
+            parameter->setColor(newColor);
+            QPushButton *button = dynamic_cast<QPushButton*>(sender);
+            if (button)
+            {
+                setColorForButton(button, newColor);
+            }
+        }
+    }
+}
+
+void DebuggerMainWindow::onIntSpinBoxValueChanged(int value)
+{
+    QObject *sender = QObject::sender();
+    if (this->controlToParameterMap.contains(sender))
+    {
+        auto parameter = this->controlToParameterMap[sender];
+        parameter->setInt(value);
+    }
+}
+
+void DebuggerMainWindow::onDoubleSpinBoxValueChanged(double value)
+{
+    QObject *sender = QObject::sender();
+    if (this->controlToParameterMap.contains(sender))
+    {
+        auto parameter = this->controlToParameterMap[sender];
+        parameter->setFloat(float(value));
+    }
+}
+
+void DebuggerMainWindow::setColorForButton(QPushButton *button, QColor newColor)
+{
+    QImage image(50, 50, QImage::Format_ARGB32);
+    QPainter painter(&image);
+    painter.fillRect(0, 0, 50, 50, newColor);
+    QPixmap pixmap;
+    pixmap.convertFromImage(image);
+    QIcon ico(pixmap);
+    button->setIcon(ico);
 }

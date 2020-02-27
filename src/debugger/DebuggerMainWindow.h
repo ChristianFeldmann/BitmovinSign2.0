@@ -49,4 +49,14 @@ private:
     void loadFiles(QStringList files);
 
     QWidget *createPropertiesWidgetForTreeItem(AnimationTreeBase *item);
+
+    QMap<QPointer<QObject>, QPointer<AnimationParameter>> controlToParameterMap;
+
+    static void setColorForButton(QPushButton *button, QColor newColor);
+
+private slots:
+    void onEnumComboBoxIndexChanged(int index);
+    void onColorButtonPressed(bool checked);
+    void onIntSpinBoxValueChanged(int value);
+    void onDoubleSpinBoxValueChanged(double value);
 };

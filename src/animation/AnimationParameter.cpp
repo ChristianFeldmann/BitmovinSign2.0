@@ -46,18 +46,15 @@ AnimationParameter::AnimationParameter(QString name, float *floatValue) : QObjec
     this->floatValue = floatValue;
 }
 
-void AnimationParameter::onColorButtonPressed(bool checked)
+void AnimationParameter::setColor(QColor value)
 {
-    Q_UNUSED(checked);
-    QColor newColor = QColorDialog::getColor(*this->color, nullptr, "Please choose a new color", QColorDialog::ShowAlphaChannel);
-    if (newColor.isValid())
+    if (value.isValid())
     {
-        *this->color = newColor;
-        //setColorForButton();
+        *this->color = value;
     }
 }
 
-void AnimationParameter::onEnumComboBoxIndexChanged(int index)
+void AnimationParameter::setEnumIndex(int index)
 {
     if (index >= 0 && index < enumValues.count())
     {
@@ -65,7 +62,7 @@ void AnimationParameter::onEnumComboBoxIndexChanged(int index)
     }
 }
 
-void AnimationParameter::onIntSpinBoxValueChanged(int value)
+void AnimationParameter::setInt(int value)
 {
     if (this->type == Type::Int)
     {
@@ -81,9 +78,9 @@ void AnimationParameter::onIntSpinBoxValueChanged(int value)
     }
 }
 
-void AnimationParameter::onDoubleSpinBoxValueChanged(double value)
+void AnimationParameter::setFloat(float value)
 {
-    *this->floatValue = float(value);
+    *this->floatValue = value;
 }
 
 bool AnimationParameter::appendProperty(QDomElement &plist) const
