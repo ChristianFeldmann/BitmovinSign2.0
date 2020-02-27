@@ -31,6 +31,7 @@ private slots:
     void showFileOpenDialog();
     void savePlaylistToFile();
     void openRecentFile();
+    void createDefaultPlaylist();
 
 private:
     Ui::DebuggerMainWindow ui;

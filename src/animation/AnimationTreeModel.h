@@ -32,8 +32,8 @@ public:
     std::shared_ptr<AnimationStack> getAnimationStack(unsigned index) const { return this->playlist.getAnimationStack(index); }
     
     bool loadPlaylistFile(QString filePath);
+    bool createDefaultPlaylist();
     QString getPlaylistString() const { return this->playlist.getPlaylistString(); }
-    bool createDefaultPlaylist() { return this->playlist.createDefaultPlaylist(); }
     
     bool insertRows(int position, int rows, const QModelIndex &parent = QModelIndex()) override;
     bool removeRows(int position, int rows, const QModelIndex &parent = QModelIndex()) override;

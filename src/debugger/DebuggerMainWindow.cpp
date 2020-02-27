@@ -48,6 +48,7 @@ DebuggerMainWindow::DebuggerMainWindow(Player *player, QWidget *parent) :
     // Create the menu
     QMenu* fileMenu = menuBar()->addMenu(tr("&File"));
     fileMenu->addAction("&Open File...", this, &DebuggerMainWindow::showFileOpenDialog, Qt::CTRL + Qt::Key_O);
+    fileMenu->addAction("Create Default Playlist", this, &DebuggerMainWindow::createDefaultPlaylist);
     QMenu *recentFileMenu = fileMenu->addMenu("Recent Files");
     for (int i = 0; i < MAX_RECENT_FILES; i++)
     {
@@ -290,6 +291,11 @@ void DebuggerMainWindow::openRecentFile()
         QStringList fileList = QStringList(action->data().toString());
         this->loadFiles(fileList);
     }
+}
+
+void DebuggerMainWindow::createDefaultPlaylist()
+{
+    this->player->createDefaultPlaylist();
 }
 
 void DebuggerMainWindow::updateRecentFileActions()

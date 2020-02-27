@@ -304,6 +304,14 @@ bool AnimationTreeModel::loadPlaylistFile(QString filePath)
     return success;
 }
 
+bool AnimationTreeModel::createDefaultPlaylist() 
+{ 
+    beginResetModel();
+    bool success = this->playlist.createDefaultPlaylist();
+    endResetModel();
+    return success;
+}
+
 bool AnimationTreeModel::insertRows(int position, int rows, const QModelIndex &parent)
 {
     Q_UNUSED(position);

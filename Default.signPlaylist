@@ -23,12 +23,12 @@
   </stack>
   <stack>
    <ConstantColor>
-    <Color Name="color">#157da3</Color>
+    <Color Name="color">#1ba6d8</Color>
    </ConstantColor>
    <HighlightSparkling>
-    <Color Name="color">#ffffff</Color>
+    <Color Name="color">#000000</Color>
     <Float Name="speed">1</Float>
-    <Float Name="rate">20</Float>
+    <Float Name="rate">40</Float>
    </HighlightSparkling>
   </stack>
   <stack>
@@ -37,12 +37,12 @@
    </ConstantColor>
    <Alarm>
     <Float Name="speed">1</Float>
-    <Color Name="color">#000000</Color>
+    <Color Name="color">#ff0000</Color>
     <Float Name="span">30</Float>
    </Alarm>
    <Alarm>
     <Float Name="speed">-1</Float>
-    <Color Name="color">#000000</Color>
+    <Color Name="color">#ff0000</Color>
     <Float Name="span">40</Float>
    </Alarm>
   </stack>
@@ -53,6 +53,98 @@
     <Int Name="timeOffsetBetweenSegments">50</Int>
     <Int Name="timeToWaitFullColor">50</Int>
    </SegmentsFlashing>
+  </stack>
+  <stack>
+   <HighlightSparkling>
+    <Color Name="color">#1ba6d8</Color>
+    <Float Name="speed">0.5</Float>
+    <Float Name="rate">40</Float>
+   </HighlightSparkling>
+   <HighlightSparkling>
+    <Color Name="color">#ffffff</Color>
+    <Float Name="speed">0.5</Float>
+    <Float Name="rate">20</Float>
+   </HighlightSparkling>
+  </stack>
+  <stack>
+   <Rainbow>
+    <Float Name="speed">0.5</Float>
+   </Rainbow>
+  </stack>
+  <stack>
+   <CircleWipe>
+    <Color Name="color">#1eabe2</Color>
+    <Float Name="speed">0.5</Float>
+   </CircleWipe>
+  </stack>
+  <stack>
+   <Ullas>
+    <Float Name="speed">0.5</Float>
+    <Color Name="Color 0">#ff9600</Color>
+    <Color Name="Color 1">#ff0064</Color>
+    <Color Name="Color 2">#9600ff</Color>
+    <Color Name="Color 3">#0096ff</Color>
+    <Color Name="Color 4">#000000</Color>
+   </Ullas>
+  </stack>
+  <stack>
+   <Fire/>
+  </stack>
+  <stack>
+   <HighlightRotation>
+    <Float Name="speedBackground">1</Float>
+    <Color Name="color Background">#1ba6d8</Color>
+    <UInt Name="stripes Background">2</UInt>
+    <Float Name="length Background">5</Float>
+    <Float Name="speedLeft">1</Float>
+    <Color Name="color Left">#ffffff</Color>
+    <UInt Name="stripes Left">1</UInt>
+    <Float Name="length Left">5</Float>
+    <Float Name="speedMiddle">1</Float>
+    <Color Name="color Middle">#1ba6d8</Color>
+    <UInt Name="stripes Middle">1</UInt>
+    <Float Name="length Middle">5</Float>
+    <Float Name="speedRight">1</Float>
+    <Color Name="color Right">#ffffff</Color>
+    <UInt Name="stripes Right">1</UInt>
+    <Float Name="length Right">5</Float>
+   </HighlightRotation>
+   <HighlightRotation>
+    <Float Name="speedBackground">0.5</Float>
+    <Color Name="color Background">#ffffff</Color>
+    <UInt Name="stripes Background">3</UInt>
+    <Float Name="length Background">5</Float>
+    <Float Name="speedLeft">1</Float>
+    <Color Name="color Left">#1ba6d8</Color>
+    <UInt Name="stripes Left">1</UInt>
+    <Float Name="length Left">5</Float>
+    <Float Name="speedMiddle">0.5</Float>
+    <Color Name="color Middle">#ffffff</Color>
+    <UInt Name="stripes Middle">1</UInt>
+    <Float Name="length Middle">5</Float>
+    <Float Name="speedRight">0.5</Float>
+    <Color Name="color Right">#1ba6d8</Color>
+    <UInt Name="stripes Right">1</UInt>
+    <Float Name="length Right">5</Float>
+   </HighlightRotation>
+   <HighlightRotation>
+    <Float Name="speedBackground">-0.5</Float>
+    <Color Name="color Background">#ffffff</Color>
+    <UInt Name="stripes Background">1</UInt>
+    <Float Name="length Background">5</Float>
+    <Float Name="speedLeft">-0.5</Float>
+    <Color Name="color Left">#ffffff</Color>
+    <UInt Name="stripes Left">1</UInt>
+    <Float Name="length Left">5</Float>
+    <Float Name="speedMiddle">-0.5</Float>
+    <Color Name="color Middle">#ffffff</Color>
+    <UInt Name="stripes Middle">1</UInt>
+    <Float Name="length Middle">5</Float>
+    <Float Name="speedRight">-0.5</Float>
+    <Color Name="color Right">#1ba6d8</Color>
+    <UInt Name="stripes Right">2</UInt>
+    <Float Name="length Right">5</Float>
+   </HighlightRotation>
   </stack>
  </playlist>
 </playlistItems>
