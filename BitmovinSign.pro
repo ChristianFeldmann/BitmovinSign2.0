@@ -21,13 +21,15 @@ SOURCES += $$files(src/common/*.cpp, true)
 SOURCES += "src/Main.cpp"
 
 macx {
-HEADERS -= $$files(lib/ws2811/*.h, true)
-SOURCES -= $$files(lib/ws2811/*.c, true)
-INCLUDEPATH -= lib
+    HEADERS -= $$files(lib/ws2811/*.h, true)
+    SOURCES -= $$files(lib/ws2811/*.c, true)
+    INCLUDEPATH -= lib
+    CONFIG += editor
 }
 
 win32 {
-HEADERS -= $$files(lib/ws2811/*.h, true)
-SOURCES -= $$files(lib/ws2811/*.c, true)
-INCLUDEPATH -= lib
+    HEADERS -= $$files(lib/ws2811/*.h, true)
+    SOURCES -= $$files(lib/ws2811/*.c, true)
+    INCLUDEPATH -= lib
+    CONFIG += editor
 }

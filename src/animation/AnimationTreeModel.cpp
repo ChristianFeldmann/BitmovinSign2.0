@@ -306,8 +306,9 @@ bool AnimationTreeModel::loadPlaylistFile(QString filePath)
 
 bool AnimationTreeModel::insertRows(int position, int rows, const QModelIndex &parent)
 {
-    auto parentItem = getItemNonConst(parent);
-    
+    Q_UNUSED(position);
+    Q_UNUSED(rows);
+    Q_UNUSED(parent);
     return false;
 }
 
