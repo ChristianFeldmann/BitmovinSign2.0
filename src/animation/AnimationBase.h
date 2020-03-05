@@ -1,7 +1,6 @@
 #pragma once
 
 #include "AnimationTreeBase.h"
-#include "AnimationParameter.h"
 #include "common/Constants.h"
 #include "common/Frame.h"
 
@@ -36,20 +35,11 @@ public:
     virtual void reset() {};
 
     bool savePlaylist(QDomElement &plist) const override;
-    bool loadProperties(QDomElement &plist);
 
     virtual QString getWidgetName() const override { return "Animation"; }
-    QList<QPointer<AnimationParameter>> getAnimationParameters() override { return this->animationParameters; }
 
 protected:
     void convertImageToFrame(Frame &frame, QImage &image);
-
-    QList<QPointer<AnimationParameter>> animationParameters;
-    void addParameter(QString name, QColor *color);
-    void addParameter(QString name, int *value);
-    void addParameter(QString name, unsigned *value);
-    void addParameter(QString name, float *value);
-    void addParameter(QString name, int *enumInteger, QStringList enumValues);
 
 private:
     std::vector<QPoint> ledsCoord;
@@ -60,5 +50,5 @@ private:
     void draw_lines_from_points(std::vector<QPointF> point_list, std::vector<unsigned> led_list, int factor);
     void draw_dots_line(QPointF start, QPointF end, unsigned num_of_dots);
 
-    virtual ItemType getItemType() const { return Animation; }
+    virtual ItemType getItemType() const { return ItemType::Animation; }
 };

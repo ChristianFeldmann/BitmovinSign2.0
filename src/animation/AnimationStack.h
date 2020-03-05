@@ -42,5 +42,5 @@ private:
 
     std::vector<std::shared_ptr<AnimationBase>> animations;
 
-    virtual ItemType getItemType() const { return Stack; }
+    virtual ItemType getItemType() const { return ItemType::Stack; }
 };

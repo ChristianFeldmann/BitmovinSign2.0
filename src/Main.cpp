@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     qDebug() << "Hello from the Bitmovin Sign Demon";
     
     Player player;
-    player.enableAnimationSwitch(10);
+    player.enableAnimationSwitch();
 
     qDebug() << "Trying to load default playlist file Default.singPlaylist";
     if (!player.loadPlaylistFile("Default.signPlaylist"))

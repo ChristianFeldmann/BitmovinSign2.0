@@ -42,6 +42,7 @@ public:
     bool insertNewStack(int position, int rows, const QModelIndex &parent = QModelIndex());
 
     AnimationTreeBase *getItemNonConst(const QModelIndex &index);
+    std::shared_ptr<GeneralSettings> getGeneralSettings() { return playlist.getGeneralSettings(); }
 
 private:
     const AnimationTreeBase *getItem(const QModelIndex &index) const;

@@ -16,7 +16,7 @@
 
 namespace
 {
-    // For easy creation of ne animations
+    // For easy creation of animations
     struct IFactory { virtual std::shared_ptr<AnimationBase> create(AnimationTreeBase *parent) = 0; };
     template< typename T > struct Factory : public IFactory
     {
@@ -41,8 +41,8 @@ namespace
     });
 }
 
-AnimationStack::AnimationStack(AnimationTreeBase *rootPlaylist) :
-    AnimationTreeBase(rootPlaylist)
+AnimationStack::AnimationStack(AnimationTreeBase *rootPlaylist) 
+  : AnimationTreeBase(rootPlaylist)
 {
 }
 
@@ -219,7 +219,7 @@ void AnimationStack::addAnimationFromDomElement(QDomElement &elem, int position)
     auto newAnimation = this->createNewAnimation(animationName);
     if (newAnimation)
     {
-        newAnimation->loadProperties(elem);
+        newAnimation->loadParameters(elem);
     }
     if (position >= 0)
     {

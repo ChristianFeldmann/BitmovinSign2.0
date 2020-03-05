@@ -3,7 +3,6 @@
 #include <QBasicTimer>
 #include <QTimer>
 
-#include "animation/AnimationPlaylist.h"
 #include "animation/AnimationTreeModel.h"
 #include "common/Frame.h"
 #include "common/Output.h"
@@ -35,7 +34,7 @@ public:
     bool createDefaultPlaylist() { return this->model.createDefaultPlaylist(); }
 
     AnimationTreeModel *getAnimationTreeMode() { return &this->model; }
-    void enableAnimationSwitch(unsigned timeoutSeconds = 60);
+    void enableAnimationSwitch();
 
 public slots:
     void setTargetFPS(int value);
@@ -57,7 +56,7 @@ private:
 
     unsigned currentAnimationStackIndex{ 0 };
     unsigned currentAnimationRuntime{ 0 };
-    unsigned animationSwitchFrames{ 0 };
+    bool animationSwitchEnabled{ false };
 
     Frame outputFrame;
     RenderMemory renderMemory;

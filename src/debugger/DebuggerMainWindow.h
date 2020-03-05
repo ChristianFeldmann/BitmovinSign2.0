@@ -51,7 +51,7 @@ private:
 
     QWidget *createPropertiesWidgetForTreeItem(AnimationTreeBase *item);
 
-    QMap<QPointer<QObject>, QPointer<AnimationParameter>> controlToParameterMap;
+    QMap<QPointer<QObject>, QPointer<Parameter>> controlToParameterMap;
 
     static void setColorForButton(QPushButton *button, QColor newColor);
 

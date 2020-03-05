@@ -1,4 +1,4 @@
-#include "AnimationParameter.h"
+#include "Parameter.h"
 
 #include <cassert>
 #include <QColor>
@@ -6,14 +6,14 @@
 #include <QPainter>
 #include <QVariant>
 
-AnimationParameter::AnimationParameter(QString name, QColor *color) : QObject()
+Parameter::Parameter(QString name, QColor *color) : QObject()
 {
     this->name = name;
     this->type = Type::Color;
     this->color = color;
 };
 
-AnimationParameter::AnimationParameter(QString name, int *enumInt, QStringList enumValues) : QObject()
+Parameter::Parameter(QString name, int *enumInt, QStringList enumValues) : QObject()
 {
     this->name = name;
     this->type = Type::Enum;
@@ -24,28 +24,28 @@ AnimationParameter::AnimationParameter(QString name, int *enumInt, QStringList e
     this->enumInt = enumInt;
 };
 
-AnimationParameter::AnimationParameter(QString name, int *integer) : QObject()
+Parameter::Parameter(QString name, int *integer) : QObject()
 {
     this->name = name;
     this->type = Type::Int;
     this->integer = integer;
 };
 
-AnimationParameter::AnimationParameter(QString name, unsigned *unsignedInt) : QObject()
+Parameter::Parameter(QString name, unsigned *unsignedInt) : QObject()
 {
     this->name = name;
     this->type = Type::UInt;
     this->unsignedInt = unsignedInt;
 };
 
-AnimationParameter::AnimationParameter(QString name, float *floatValue) : QObject()
+Parameter::Parameter(QString name, float *floatValue) : QObject()
 {
     this->name = name;
     this->type = Type::Float;
     this->floatValue = floatValue;
 }
 
-void AnimationParameter::setColor(QColor value)
+void Parameter::setColor(QColor value)
 {
     if (value.isValid())
     {
@@ -53,7 +53,7 @@ void AnimationParameter::setColor(QColor value)
     }
 }
 
-void AnimationParameter::setEnumIndex(int index)
+void Parameter::setEnumIndex(int index)
 {
     if (index >= 0 && index < enumValues.count())
     {
@@ -61,7 +61,7 @@ void AnimationParameter::setEnumIndex(int index)
     }
 }
 
-void AnimationParameter::setInt(int value)
+void Parameter::setInt(int value)
 {
     if (this->type == Type::Int)
     {
@@ -77,12 +77,12 @@ void AnimationParameter::setInt(int value)
     }
 }
 
-void AnimationParameter::setFloat(float value)
+void Parameter::setFloat(float value)
 {
     *this->floatValue = value;
 }
 
-bool AnimationParameter::appendProperty(QDomElement &plist) const
+bool Parameter::appendProperty(QDomElement &plist) const
 {
     QString typeName = this->type == Type::Enum ? "Enum" : (this->type == Type::Int) ? "Int" : "Color";
     QString valueString;
@@ -125,7 +125,7 @@ bool AnimationParameter::appendProperty(QDomElement &plist) const
     return true;
 }
 
-bool AnimationParameter::loadFromElement(QDomElement &plist)
+bool Parameter::loadFromElement(QDomElement &plist)
 {
     if (this->name.isEmpty() || this->name != plist.attribute("Name"))
     {

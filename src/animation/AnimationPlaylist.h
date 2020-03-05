@@ -4,6 +4,7 @@
 
 #include "AnimationStack.h"
 #include "AnimationTreeBase.h"
+#include "common/GeneralSettings.h"
 
 #include <QDomElement>
 
@@ -12,7 +13,7 @@
 class AnimationPlaylist : public AnimationTreeBase
 {
 public:
-    AnimationPlaylist() : AnimationTreeBase(nullptr) {};
+    AnimationPlaylist();
     ~AnimationPlaylist() = default;
 
     bool loadPlaylistFile(QString filename);
@@ -35,10 +36,13 @@ public:
     bool savePlaylist(QDomElement &root) const override;
     void addStackFromDomElement(QDomElement &elem, int position = -1);
 
+    std::shared_ptr<GeneralSettings> getGeneralSettings() { return generalSettings; }
+
 private:
     bool loadPlaylistFromByteArray(QByteArray byteArray);
 
     std::vector<std::shared_ptr<AnimationStack>> animationStackList;
+    std::shared_ptr<GeneralSettings> generalSettings;
 
-    virtual ItemType getItemType() const { return Playlist; }
+    virtual ItemType getItemType() const { return ItemType::Playlist; }
 };

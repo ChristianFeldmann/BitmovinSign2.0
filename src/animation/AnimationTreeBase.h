@@ -4,7 +4,7 @@
 #include <QVariant>
 #include <QDomElement>
 
-#include "AnimationParameter.h"
+#include "Parameter.h"
 
 /* This base adds the ability for a hierarchical structure where
  * each item in the tree knows his parents and can have children.
@@ -32,7 +32,15 @@ public:
     virtual bool canDropItem(QDomElement &root) const;
 
     virtual QString getWidgetName() const { return "AnimationTreeBase"; }
-    virtual QList<QPointer<AnimationParameter>> getAnimationParameters() { return {}; }
+
+    void addParameter(QString name, QColor *color);
+    void addParameter(QString name, int *value);
+    void addParameter(QString name, unsigned *value);
+    void addParameter(QString name, float *value);
+    void addParameter(QString name, int *enumInteger, QStringList enumValues);
+    virtual QList<QPointer<Parameter>> getParameters() { return this->parameters; }
+    bool saveParameters(QDomElement &plist) const;
+    bool loadParameters(QDomElement &plist);
 
     int propertiesWidgetIndex {-1};
 
@@ -41,11 +49,14 @@ protected:
 
     QWidget *propertiesWidget{ nullptr };
 
-    enum ItemType
+    enum class ItemType
     {
         Playlist,
         Stack,
-        Animation
+        Animation,
+        GeneralSettings
     };
     virtual ItemType getItemType() const = 0;
+
+    QList<QPointer<Parameter>> parameters;
 };

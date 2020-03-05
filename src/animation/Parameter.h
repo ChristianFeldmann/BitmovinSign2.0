@@ -5,17 +5,17 @@
 #include <QPointer>
 #include <QStringList>
 
-class AnimationParameter : public QObject
+class Parameter : public QObject
 {
     Q_OBJECT
 
 public:
-    AnimationParameter(QObject *parent=nullptr) : QObject(parent) {};
-    AnimationParameter(QString name, QColor *color);
-    AnimationParameter(QString name, int *enumInt, QStringList enumValues);
-    AnimationParameter(QString name, int *integer);
-    AnimationParameter(QString name, unsigned *unsignedInt);
-    AnimationParameter(QString name, float *floatValue);
+    Parameter(QObject *parent=nullptr) : QObject(parent) {};
+    Parameter(QString name, QColor *color);
+    Parameter(QString name, int *enumInt, QStringList enumValues);
+    Parameter(QString name, int *integer);
+    Parameter(QString name, unsigned *unsignedInt);
+    Parameter(QString name, float *floatValue);
 
     bool appendProperty(QDomElement &plist) const;
     bool loadFromElement(QDomElement &plist);

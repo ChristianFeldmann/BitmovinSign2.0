@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
     }
     else
     {
-        player.enableAnimationSwitch(10);
+        player.enableAnimationSwitch();
     }
 
     std::unique_ptr<DebuggerWidget> output;

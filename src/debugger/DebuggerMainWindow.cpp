@@ -360,7 +360,7 @@ QWidget *DebuggerMainWindow::createPropertiesWidgetForTreeItem(AnimationTreeBase
     QWidget *propertiesWidget = new QWidget;
     propertiesWidget->setObjectName(item->getWidgetName());
 
-    auto animations = item->getAnimationParameters();
+    auto animations = item->getParameters();
     if (animations.empty())
     {
         QVBoxLayout *vAllLaout = new QVBoxLayout(propertiesWidget);
@@ -375,7 +375,7 @@ QWidget *DebuggerMainWindow::createPropertiesWidgetForTreeItem(AnimationTreeBase
         for (auto parameter : animations)
         {
             QWidget *newParameterWidget = nullptr;
-            if (parameter->type == AnimationParameter::Type::Enum)
+            if (parameter->type == Parameter::Type::Enum)
             {
                 auto enumComboBox = new QComboBox();
                 for (auto &enumItem : parameter->enumValues)
@@ -386,10 +386,10 @@ QWidget *DebuggerMainWindow::createPropertiesWidgetForTreeItem(AnimationTreeBase
                 controlToParameterMap[enumComboBox] = parameter;
                 newParameterWidget = enumComboBox;
             }
-            else if (parameter->type == AnimationParameter::Type::Int || parameter->type == AnimationParameter::Type::UInt)
+            else if (parameter->type == Parameter::Type::Int || parameter->type == Parameter::Type::UInt)
             {
                 auto intSpinBox = new QSpinBox();
-                if (parameter->type == AnimationParameter::Type::Int)
+                if (parameter->type == Parameter::Type::Int)
                 {
                     intSpinBox->setValue(*parameter->integer);
                     intSpinBox->setRange(0, 10000);
@@ -403,7 +403,7 @@ QWidget *DebuggerMainWindow::createPropertiesWidgetForTreeItem(AnimationTreeBase
                 controlToParameterMap[intSpinBox] = parameter;
                 newParameterWidget = intSpinBox;
             }
-            else if (parameter->type == AnimationParameter::Type::Float)
+            else if (parameter->type == Parameter::Type::Float)
             {
                 auto doubleSpinBox = new QDoubleSpinBox();
                 doubleSpinBox->setValue(*parameter->floatValue);
@@ -412,7 +412,7 @@ QWidget *DebuggerMainWindow::createPropertiesWidgetForTreeItem(AnimationTreeBase
                 controlToParameterMap[doubleSpinBox] = parameter;
                 newParameterWidget = doubleSpinBox;
             }
-            else if (parameter->type == AnimationParameter::Type::Color)
+            else if (parameter->type == Parameter::Type::Color)
             {
                 auto colorPushButton = new QPushButton();
                 setColorForButton(colorPushButton, *parameter->color);

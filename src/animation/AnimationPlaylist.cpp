@@ -6,6 +6,11 @@
 #include <QFileInfo>
 #include <QDebug>
 
+AnimationPlaylist::AnimationPlaylist() : AnimationTreeBase(nullptr)
+{
+    this->generalSettings = std::make_shared<GeneralSettings>(this);
+}
+
 bool AnimationPlaylist::loadPlaylistFile(QString filename)
 {
     QFile file(filename);
@@ -74,6 +79,10 @@ bool AnimationPlaylist::insertStack(int pos)
 
 AnimationTreeBase *AnimationPlaylist::child(int number) const
 {
+    if (number == 0)
+    {
+        return generalSettings.get();
+    }
     if (number >= 0 && number < this->animationStackList.size())
     {
         return this->animationStackList.at(number).get();
@@ -81,13 +90,17 @@ AnimationTreeBase *AnimationPlaylist::child(int number) const
     return nullptr;
 }
 
-size_t AnimationPlaylist::childCount() const 
+size_t AnimationPlaylist::childCount() const
 { 
-    return this->animationStackList.size(); 
+    return this->animationStackList.size() + 1;
 }
 
 int AnimationPlaylist::childNumber(AnimationTreeBase *child) const
 {
+    if (child == this->generalSettings.get())
+    {
+        return 0;
+    }
     for (size_t i = 0; i < this->animationStackList.size(); i++)
     {
         if (this->animationStackList[i].get() == child)
@@ -106,6 +119,10 @@ QVariant AnimationPlaylist::data(int column) const
 
 bool AnimationPlaylist::removeChildren(int pos, int count)
 {
+    if (pos == 0)
+    {
+        return false;
+    }
     if (pos < 0 || pos > int(this->animationStackList.size()))
     {
         return false;
@@ -161,6 +178,11 @@ bool AnimationPlaylist::loadPlaylistFromByteArray(QByteArray data)
     }
 
     QDomElement playlistElement = playlistNode.toElement();
+    if (playlistElement.tagName() == "general")
+    {
+        
+    }
+
     if (playlistElement.tagName() != "playlist")
     {
         qDebug() << "Error loading playlist - The 'playlist' node could not be found.";

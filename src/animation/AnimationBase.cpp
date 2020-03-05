@@ -52,31 +52,6 @@ void AnimationBase::convertImageToFrame(Frame &frame, QImage &image)
     this->imageUsed = true;
 }
 
-void AnimationBase::addParameter(QString name, QColor *color)
-{
-    this->animationParameters.push_back(new AnimationParameter(name, color));
-}
-
-void AnimationBase::addParameter(QString name, int *value)
-{
-    this->animationParameters.push_back(new AnimationParameter(name, value));
-}
-
-void AnimationBase::addParameter(QString name, unsigned *value)
-{
-    this->animationParameters.push_back(new AnimationParameter(name, value));
-}
-
-void AnimationBase::addParameter(QString name, float *value)
-{
-    this->animationParameters.push_back(new AnimationParameter(name, value));
-}
-
-void AnimationBase::addParameter(QString name, int *enumInteger, QStringList enumValues)
-{
-    this->animationParameters.push_back(new AnimationParameter(name, enumInteger, enumValues));
-}
-
 void AnimationBase::calculateLedsCoord()
 {
     this->draw_lines_from_points(POINTS_BASE, LED_PARTS_BACKGROUND, 120);
@@ -112,44 +87,7 @@ void AnimationBase::draw_dots_line(QPointF start, QPointF end, unsigned num_of_d
 bool AnimationBase::savePlaylist(QDomElement &root) const
 {
     QDomElement d = root.ownerDocument().createElement(this->getName());
-    bool success = true;
-    for (auto &parameter : this->animationParameters)
-    {
-        success &= parameter->appendProperty(d);
-    }
+    bool success = saveParameters(d);
     root.appendChild(d);
-    return success;
-}
-
-bool AnimationBase::loadProperties(QDomElement &root)
-{
-    QDomNodeList children = root.childNodes();
-    bool success = true;
-    for (int i = 0; i < children.length(); i++)
-    {
-        QDomElement childElem = children.item(i).toElement();
-        QString paramName = childElem.attribute("Name");
-        if (paramName.isEmpty())
-        {
-            return false;
-        }
-        
-        bool paramFound = false;
-        for (auto param : this->animationParameters)
-        {
-            if (param->name == paramName)
-            {
-                success &= param->loadFromElement(childElem);
-                paramFound = true;
-                break;
-            }
-        }
-        if (!paramFound)
-        {
-            qDebug() << "Unable to find parameter " << paramName;
-            success = false;
-        }
-    }
-
     return success;
 }
