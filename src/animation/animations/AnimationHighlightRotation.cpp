@@ -55,7 +55,7 @@ void AnimationHighlightRotation::renderFrame(Frame &frame, QImage &image)
                     float factor;
                     if (i == 0)
                     {
-                        factor = std::ceil(startPos + eps) - startPos;
+                        factor = std::ceil(startPos + eps * 2) - startPos;
                     }
                     else
                     {
