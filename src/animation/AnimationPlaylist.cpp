@@ -83,9 +83,9 @@ AnimationTreeBase *AnimationPlaylist::child(int number) const
     {
         return generalSettings.get();
     }
-    if (number >= 0 && number < this->animationStackList.size())
+    if (number > 0 && number <= this->animationStackList.size())
     {
-        return this->animationStackList.at(number).get();
+        return this->animationStackList.at(number - 1).get();
     }
     return nullptr;
 }

@@ -353,7 +353,7 @@ bool AnimationTreeModel::insertNewStack(int position, int rows, const QModelInde
     }
 
     beginInsertRows(parent, position, position + rows - 1);
-    bool success = playlist->insertStack(position);
+    bool success = playlist->insertStack(position - 1);
     endInsertRows();
     return success;
 }
