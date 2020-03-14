@@ -8,6 +8,7 @@
 #include "animations/AnimationRunningDot.h"
 #include "animations/AnimationHighlightSparkling.h"
 #include "animations/AnimationRainbow.h"
+#include "animations/AnimationRotatingBar.h"
 #include "animations/AnimationSegmentsFlashing.h"
 #include "animations/AnimationUllas.h"
 #include "animations/AnimationImageFire.h"
@@ -27,12 +28,13 @@ namespace
     };
 
     const std::vector<IFactory*> factoryList({
-        new Factory< AnimationAlarm>,
+        new Factory<AnimationAlarm>,
         new Factory<AnimationConstantColor>,
         new Factory<AnimationHighlightRotation>,
         new Factory<AnimationRunningDot>,
         new Factory<AnimationHighlightSparkling>,
         new Factory<AnimationRainbow>,
+        new Factory<AnimationRotatingBar>,
         new Factory<AnimationSegmentsFlashing>,
         new Factory<AnimationUllas>,
         new Factory<AnimationImageFire>,
