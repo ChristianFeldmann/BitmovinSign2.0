@@ -42,7 +42,7 @@ protected:
     void convertImageToFrame(Frame &frame, QImage &image);
 
 private:
-    std::vector<QPoint> ledsCoord;
+    std::vector<QPointF> ledsCoord;
     bool imageUsed{ false };
 
     void calculateLedsCoord();

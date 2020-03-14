@@ -43,11 +43,38 @@ bool AnimationBase::removeChildren(int pos, int rows)
     return false;
 }
 
+QColor linearInterpolateColors(QColor c1, QColor c2, double ratio)
+{
+    int r = std::round(double(c1.red()) * (1 - ratio) + double(c2.red()) * ratio);
+    int g = std::round(double(c1.green()) * (1 - ratio) + double(c2.green()) * ratio);
+    int b = std::round(double(c1.blue()) * (1 - ratio) + double(c2.blue()) * ratio);
+    int a = std::round(double(c1.alpha()) * (1 - ratio) + double(c2.alpha()) * ratio);
+    
+    return QColor (r, g, b, a);
+}
+
 void AnimationBase::convertImageToFrame(Frame &frame, QImage &image)
 {
     for (unsigned i = 0; i < frame.data.size(); ++i)
     {
-        frame.data[i] = image.pixelColor(this->ledsCoord[i]);
+        auto pos = this->ledsCoord[i];
+        // Linear interpolate from the four surrounding pixels
+        int xLeft = std::floor(pos.x());
+        int yTop  = std::floor(pos.y());
+
+        auto tl = image.pixelColor(xLeft    , yTop);
+        auto tr = image.pixelColor(xLeft + 1, yTop);
+        auto bl = image.pixelColor(xLeft    , yTop + 1);
+        auto br = image.pixelColor(xLeft + 1, yTop + 1);
+
+        double ratioVertical = pos.y() - yTop;
+        double ratioHorizontal = pos.x() - xLeft;
+
+        auto l = linearInterpolateColors(tl, bl, ratioVertical);
+        auto r = linearInterpolateColors(tr, br, ratioVertical);
+        auto final = linearInterpolateColors(l, r, ratioHorizontal);
+
+        frame.data[i] = final;
     }
     this->imageUsed = true;
 }
@@ -77,7 +104,7 @@ void AnimationBase::draw_dots_line(QPointF start, QPointF end, unsigned num_of_d
     for (unsigned i = 0; i < num_of_dots; i++)
     {
         float s = float(i + 1) / (num_of_dots + 1);
-        QPoint point;
+        QPointF point;
         point.setX(start.x() + (end.x() - start.x()) * s);
         point.setY(start.y() + (end.y() - start.y()) * s);
         this->ledsCoord.push_back(point);
